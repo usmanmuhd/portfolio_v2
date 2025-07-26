@@ -4,7 +4,7 @@ Welcome to my corner of the internet! This is where I showcase my journey as a S
 
 ## 🚀 What's This About?
 
-A sleek, dark-themed portfolio that doesn't hurt your eyes at 2 AM (you're welcome, fellow night owls). Built with love and caffeine.
+A sleek portfolio with both dark and light themes - perfect for 2 AM coding sessions AND professional daytime meetings. Built with love, caffeine, and pure **vibe coding** energy.
 
 **Live at:** [musman.dev](https://musman.dev) ✨
 
@@ -16,17 +16,23 @@ A sleek, dark-themed portfolio that doesn't hurt your eyes at 2 AM (you're welco
 
 ## 🎨 Features That Make Me Proud
 
-- 🌙 **Dark theme** (because light themes are so 2010)
+- � **Theme switcher** (dark for night owls, light for day birds - everyone wins!)
+- �🌙 **Dark theme default** (because we're developers, obviously)
+- ☀️ **Light theme option** (for when you need to look professional)
 - 📱 **Mobile-friendly** (yes, it works on your ancient phone too)
 - ⚡ **Fast loading** (faster than your microwave heating leftovers)
 - 🎭 **Smooth animations** (smoother than my dance moves)
+- 💾 **Theme memory** (remembers your preference like a good friend)
 
 ## 🤓 Fun Facts
 
 - This portfolio has been through more iterations than my morning alarm
+- The theme switcher was added because I couldn't decide between dark and light
 - The color scheme was chosen after rejecting 47 other combinations
+- Built entirely through **vibe coding** - no planning, just pure creative flow
 - No CSS frameworks were harmed in the making of this website
 - Tested on more devices than a tech store employee
+- The sun/moon toggle is more satisfying to click than bubble wrap
 
 ## � What You'll Find
 
@@ -52,6 +58,6 @@ Drop me a line at [usman@musman.dev](mailto:usman@musman.dev) - I'd love to chat
 
 ---
 
-**Made with 💙 and probably too much coffee**
+**Made with 💙, probably too much coffee, and the magic of vibe coding**
 
 *P.S. If you find any bugs, they're not bugs - they're undocumented features! 🐛→✨*

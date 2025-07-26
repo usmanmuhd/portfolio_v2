@@ -15,6 +15,24 @@
     --gradient-secondary: linear-gradient(135deg, #19ca31 0%, #2a2a2e 100%);
 }
 
+/* Light Theme Variables */
+[data-theme="light"] {
+    --primary-color: #06a628;
+    --secondary-color: #0088bb;
+    --accent-color: #e85a1f;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #6a6a6a;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #f1f3f4;
+    --bg-card: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(6, 166, 40, 0.15);
+    --gradient-primary: linear-gradient(135deg, #06a628 0%, #04b82a 100%);
+    --gradient-secondary: linear-gradient(135deg, #f1f3f4 0%, #e0e0e0 100%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -118,6 +136,90 @@ body {
     background-color: var(--text-primary);
     margin: 3px 0;
     transition: 0.3s;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    margin-left: 1rem;
+}
+
+.theme-toggle {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Theme transition for smooth switching */
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+}
+
+/* Light theme specific adjustments */
+[data-theme="light"] .code-block {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .experience-card,
+[data-theme="light"] .skill-category,
+[data-theme="light"] .education-card {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .experience-card:hover,
+[data-theme="light"] .skill-category:hover,
+[data-theme="light"] .education-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .floating-element {
+    opacity: 0.03;
+}
+
+[data-theme="light"] .navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .nav-menu {
+    background-color: var(--bg-secondary);
+}
+
+[data-theme="light"] .achievement {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--primary-color);
+}
+
+[data-theme="light"] .skill-tag:hover {
+    background: var(--primary-color);
+    color: var(--bg-primary);
+}
+
+[data-theme="light"] .contact-item:hover {
+    background: var(--bg-secondary);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero Section */
@@ -680,6 +782,17 @@ section {
 
     .nav-toggle {
         display: flex;
+    }
+
+    .theme-switcher {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .theme-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
 
     .nav-toggle.active .bar:nth-child(2) {

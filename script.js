@@ -1,3 +1,61 @@
+// Theme Switcher
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+const themeIcon = themeToggle.querySelector('i');
+
+// Check for saved theme preference or default to dark mode
+const currentTheme = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+// Update icon based on current theme
+function updateThemeIcon(theme) {
+    if (theme === 'light') {
+        themeIcon.className = 'fas fa-moon';
+    } else {
+        themeIcon.className = 'fas fa-sun';
+    }
+}
+
+// Initialize icon
+updateThemeIcon(currentTheme);
+
+// Theme toggle functionality
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+    
+    // Update navbar background for light theme
+    updateNavbarForTheme(newTheme);
+});
+
+// Update navbar background based on theme
+function updateNavbarForTheme(theme) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const navbar = document.querySelector('.navbar');
+    
+    if (theme === 'light') {
+        if (scrollTop > 50) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    } else {
+        if (scrollTop > 50) {
+            navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+            navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    }
+}
+
 // Mobile Navigation Toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
@@ -38,17 +96,10 @@ const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const currentTheme = document.documentElement.getAttribute('data-theme');
     
-    // Add backdrop blur when scrolled
-    if (scrollTop > 50) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-        navbar.style.backdropFilter = 'blur(15px)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
-    } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
-        navbar.style.boxShadow = 'none';
-    }
+    // Update navbar background based on theme and scroll position
+    updateNavbarForTheme(currentTheme);
     
     lastScrollTop = scrollTop;
 });
@@ -318,3 +369,14 @@ style.textContent = `
 `;
 
 document.head.appendChild(style);
+
+// Initialize theme on page load
+window.addEventListener('load', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    updateNavbarForTheme(currentTheme);
+    
+    // Add smooth theme transition after page load
+    setTimeout(() => {
+        document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    }, 100);
+});
