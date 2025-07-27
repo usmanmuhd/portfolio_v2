@@ -1,9 +1,17 @@
-// Theme Switcher
+// Theme Switcher - Auto-detect device preference
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
-// Check for saved theme preference or default to light mode
-const currentTheme = localStorage.getItem('theme') || 'light';
+// Function to detect system theme preference
+function getSystemTheme() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+    }
+    return 'light';
+}
+
+// Initialize theme based on system preference
+let currentTheme = getSystemTheme();
 document.documentElement.setAttribute('data-theme', currentTheme);
 
 // Update icon based on current theme - Feng Shui symbols
@@ -18,14 +26,23 @@ function updateThemeIcon(theme) {
 // Initialize icon
 updateThemeIcon(currentTheme);
 
-// Theme toggle functionality
+// Listen for system theme changes and update automatically
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        currentTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+    });
+}
+
+// Theme toggle functionality - toggles but doesn't save preference
 themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
     updateThemeIcon(newTheme);
+    // Note: Not saving to localStorage - theme will reset on page reload
 });
 
 // Mobile Navigation Toggle
