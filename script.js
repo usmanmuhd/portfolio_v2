@@ -6,12 +6,12 @@ const body = document.body;
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);
 
-// Update icon based on current theme
+// Update icon based on current theme - Feng Shui symbols
 function updateThemeIcon(theme) {
     if (theme === 'light') {
-        themeToggle.textContent = '☾';
+        themeToggle.textContent = '🌙'; // Moon for night/yin energy
     } else {
-        themeToggle.textContent = '☀';
+        themeToggle.textContent = '🌞'; // Sun for day/yang energy
     }
 }
 
