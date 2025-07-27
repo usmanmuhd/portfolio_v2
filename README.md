@@ -1,63 +1,64 @@
-# 👨‍💻 Muhammad Usman's Digital Playground
+# Muhammad Usman - Portfolio
 
-Welcome to my corner of the internet! This is where I showcase my journey as a Software Engineer who enjoys turning coffee into code and bugs into features. ☕→💻
+A clean, minimalistic portfolio website showcasing my work as a Software Engineer III at Cisco Systems.
 
-## 🚀 What's This About?
+## About
 
-A sleek portfolio with both dark and light themes - perfect for 2 AM coding sessions AND professional daytime meetings. Built with love, caffeine, and pure **vibe coding** energy.
+This portfolio follows minimalist design principles with a focus on typography, readability, and content. Built with semantic HTML, modern CSS, and minimal JavaScript for optimal performance and accessibility.
 
-**Live at:** [musman.dev](https://musman.dev) ✨
+**Live at:** [musman.dev](https://musman.dev)
 
-## 🛠️ Built With
+## Design Philosophy
 
-- **HTML/CSS/JavaScript** - The holy trinity
-- **GitHub Pages** - Because free hosting is best hosting
-- **Lots of patience** - Debug tears not included
+- **Content-first approach** - Clean typography and generous whitespace
+- **Minimal color palette** - Black, white, and subtle grays
+- **System fonts** - Using native fonts for better performance and readability
+- **Accessibility focused** - Proper contrast ratios and semantic markup
+- **Performance optimized** - No external dependencies or heavy assets
 
-## 🎨 Features That Make Me Proud
+## Features
 
-- � **Theme switcher** (dark for night owls, light for day birds - everyone wins!)
-- �🌙 **Dark theme default** (because we're developers, obviously)
-- ☀️ **Light theme option** (for when you need to look professional)
-- 📱 **Mobile-friendly** (yes, it works on your ancient phone too)
-- ⚡ **Fast loading** (faster than your microwave heating leftovers)
-- 🎭 **Smooth animations** (smoother than my dance moves)
-- 💾 **Theme memory** (remembers your preference like a good friend)
+- **Light/Dark theme toggle** - Seamless theme switching with preference memory
+- **Responsive design** - Works perfectly on all devices
+- **Fast loading** - Minimal CSS and JavaScript
+- **Clean navigation** - Simple, intuitive user experience
+- **Professional typography** - System font stack for optimal readability
+- **Keyboard accessible** - Full keyboard navigation support
 
-## 🤓 Fun Facts
+## Technology Stack
 
-- This portfolio has been through more iterations than my morning alarm
-- The theme switcher was added because I couldn't decide between dark and light
-- The color scheme was chosen after rejecting 47 other combinations
-- Built entirely through **vibe coding** - no planning, just pure creative flow
-- No CSS frameworks were harmed in the making of this website
-- Tested on more devices than a tech store employee
-- The sun/moon toggle is more satisfying to click than bubble wrap
+- **HTML5** - Semantic markup
+- **CSS3** - Modern CSS with CSS custom properties
+- **Vanilla JavaScript** - No frameworks, minimal JS
+- **GitHub Pages** - Static hosting
 
-## � What You'll Find
+## Sections
 
-- My professional journey (the highlights reel)
-- Cool projects I've worked on (the ones that actually work)
-- Skills I've collected like Pokémon cards
-- Ways to reach out (I promise I'm friendly)
+- **Experience** - Professional work history and achievements
+- **Skills** - Technical expertise organized by category
+- **Education** - Academic background and certifications
+- **Contact** - Ways to get in touch
 
-## � Quick Start
-
-Want to run this locally? It's easier than making instant noodles:
+## Local Development
 
 ```bash
 git clone https://github.com/usmanmuhd/portfolio_v2.git
 cd portfolio_v2
 # Open index.html in your browser
-# That's it! No npm install needed 🎉
+# That's it! No build process needed.
 ```
 
-## 🤝 Want to Say Hi?
+## Browser Support
 
-Drop me a line at [usman@musman.dev](mailto:usman@musman.dev) - I'd love to chat about code, tech, or why tabs are better than spaces (fight me 😄).
+- Chrome/Edge 88+
+- Firefox 85+
+- Safari 14+
+- Mobile browsers with CSS custom properties support
+
+## Contact
+
+Feel free to reach out at [usman@musman.dev](mailto:usman@musman.dev) for opportunities, collaborations, or just to say hi.
 
 ---
 
-**Made with 💙, probably too much coffee, and the magic of vibe coding**
-
-*P.S. If you find any bugs, they're not bugs - they're undocumented features! 🐛→✨*
+**Built with focus on simplicity, performance, and accessibility.**

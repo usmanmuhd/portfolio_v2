@@ -34,12 +34,8 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 </head>
 <body>
@@ -47,7 +43,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="logo-text">MU</span>
+                Muhammad Usman
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -66,11 +62,9 @@
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
             </ul>
-            <div class="theme-switcher">
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                    <i class="fas fa-sun"></i>
-                </button>
-            </div>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                ☀
+            </button>
             <div class="nav-toggle">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -83,153 +77,90 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="title-line">Muhammad</span>
-                        <span class="title-line accent">Usman</span>
-                    </h1>
-                    <p class="hero-subtitle">Software Engineer III</p>
-                    <p class="hero-description">
-                        Passionate about building scalable enterprise solutions, microservices architecture, 
-                        and AI-driven applications. Currently leading development of unified enterprise portals 
-                        and ML-powered diagnostic systems at Cisco Systems.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#experience" class="btn btn-primary">View My Work</a>
-                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-dots">
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
-                            <span class="code-title">software_engineer.py</span>
-                        </div>
-                        <div class="code-content">
-                            <div class="code-line">
-                                <span class="keyword">class</span> 
-                                <span class="class-name">SoftwareEngineer</span>:
-                            </div>
-                            <div class="code-line indent">
-                                <span class="keyword">def</span> 
-                                <span class="function">__init__</span>(self):
-                            </div>
-                            <div class="code-line indent-2">
-                                self.name = <span class="string">"Muhammad Usman"</span>
-                            </div>
-                            <div class="code-line indent-2">
-                                self.role = <span class="string">"Software Engineer III"</span>
-                            </div>
-                            <div class="code-line indent-2">
-                                self.skills = [<span class="string">"Python"</span>, <span class="string">"JavaScript"</span>, <span class="string">"Kubernetes"</span>]
-                            </div>
-                            <div class="code-line indent-2">
-                                self.focus = <span class="string">"Enterprise Solutions & AI"</span>
-                            </div>
-                        </div>
-                    </div>
+                <h1 class="hero-title">Muhammad Usman</h1>
+                <p class="hero-subtitle">Software Engineer III</p>
+                <p class="hero-description">
+                    I build scalable enterprise solutions, microservices architecture, 
+                    and AI-driven applications. Currently leading development at Cisco Systems 
+                    in Bangalore, India.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#experience" class="btn btn-primary">View Work</a>
+                    <a href="#contact" class="btn btn-secondary">Contact</a>
                 </div>
             </div>
-        </div>
-        <div class="hero-bg-elements">
-            <div class="floating-element element-1"></div>
-            <div class="floating-element element-2"></div>
-            <div class="floating-element element-3"></div>
         </div>
     </section>
 
     <!-- Experience Section -->
     <section id="experience" class="experience">
         <div class="container">
-            <h2 class="section-title">Work Experience</h2>
+            <h2 class="section-title">Experience</h2>
             
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="experience-card">
-                            <div class="card-header">
-                                <h3 class="job-title">Software Engineering III</h3>
-                                <span class="company">Cisco Systems</span>
-                                <span class="duration">August 2020 – Present</span>
-                                <span class="location">Bangalore, India</span>
+                    <div class="experience-card">
+                        <div class="card-header">
+                            <h3 class="job-title">Software Engineering III</h3>
+                            <span class="company">Cisco Systems</span>
+                            <span class="duration">August 2020 – Present</span>
+                            <span class="location">Bangalore, India</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="achievement">
+                                <p>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</p>
                             </div>
-                            <div class="card-content">
-                                <div class="achievement">
-                                    <i class="fas fa-rocket"></i>
-                                    <p>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-robot"></i>
-                                    <p>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-search"></i>
-                                    <p>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-cloud"></i>
-                                    <p>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong> and accelerating deployments from monthly to twice-weekly.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-cogs"></i>
-                                    <p>Redesigned CI/CD deployment system for 800+ machines across 15 global factories, reducing production issues by <strong>80%</strong>.</p>
-                                </div>
+                            <div class="achievement">
+                                <p>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</p>
+                            </div>
+                            <div class="achievement">
+                                <p>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</p>
+                            </div>
+                            <div class="achievement">
+                                <p>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong> and accelerating deployments from monthly to twice-weekly.</p>
+                            </div>
+                            <div class="achievement">
+                                <p>Redesigned CI/CD deployment system for 800+ machines across 15 global factories, reducing production issues by <strong>80%</strong>.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="experience-card">
-                            <div class="card-header">
-                                <h3 class="job-title">Technical Undergraduate Intern</h3>
-                                <span class="company">Cisco Systems</span>
-                                <span class="duration">January 2020 – June 2020</span>
-                                <span class="location">Bangalore, India</span>
+                    <div class="experience-card">
+                        <div class="card-header">
+                            <h3 class="job-title">Technical Undergraduate Intern</h3>
+                            <span class="company">Cisco Systems</span>
+                            <span class="duration">January 2020 – June 2020</span>
+                            <span class="location">Bangalore, India</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="achievement">
+                                <p>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</p>
                             </div>
-                            <div class="card-content">
-                                <div class="achievement">
-                                    <i class="fas fa-chart-line"></i>
-                                    <p>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <p>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code for improved product quality.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-book"></i>
-                                    <p>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</p>
-                                </div>
+                            <div class="achievement">
+                                <p>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code for improved product quality.</p>
+                            </div>
+                            <div class="achievement">
+                                <p>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="experience-card">
-                            <div class="card-header">
-                                <h3 class="job-title">Google Summer of Code</h3>
-                                <span class="company">Wikimedia Foundation</span>
-                                <span class="duration">May 2019 – August 2019</span>
+                    <div class="experience-card">
+                        <div class="card-header">
+                            <h3 class="job-title">Google Summer of Code</h3>
+                            <span class="company">Wikimedia Foundation</span>
+                            <span class="duration">May 2019 – August 2019</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="achievement">
+                                <p>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</p>
                             </div>
-                            <div class="card-content">
-                                <div class="achievement">
-                                    <i class="fas fa-globe"></i>
-                                    <p>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</p>
-                                </div>
-                                <div class="achievement">
-                                    <i class="fas fa-users"></i>
-                                    <p>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</p>
-                                </div>
+                            <div class="achievement">
+                                <p>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</p>
                             </div>
                         </div>
                     </div>
@@ -241,7 +172,7 @@
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
+            <h2 class="section-title">Skills</h2>
             
             <div class="skills-grid">
                 <div class="skill-category">
@@ -298,24 +229,18 @@
     <!-- Education Section -->
     <section id="education" class="education">
         <div class="container">
-            <h2 class="section-title">Education & Certifications</h2>
+            <h2 class="section-title">Education</h2>
             
             <div class="education-grid">
                 <div class="education-card">
-                    <div class="card-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
                     <h3>Bachelor of Technology</h3>
                     <p class="institution">PES University</p>
                     <p class="location">Bangalore, India</p>
                     <p class="duration">August 2016 - July 2020</p>
-                    <p class="details">Major in Computer Science and Engineering<br>Minors in Data Science</p>
+                    <p class="details">Computer Science and Engineering<br>Minor in Data Science</p>
                 </div>
                 
                 <div class="education-card">
-                    <div class="card-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
                     <h3>AI & Machine Learning</h3>
                     <p class="institution">Arizona State University</p>
                     <p class="details">Certification & Training Program</p>
@@ -327,19 +252,19 @@
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
+            <h2 class="section-title">Contact</h2>
             <div class="contact-content">
                 <p class="contact-description">
-                    I'm always interested in discussing new opportunities, innovative projects, 
+                    Let's discuss new opportunities, innovative projects, 
                     and collaborations in software engineering and AI.
                 </p>
                 <div class="contact-info">
                     <a href="mailto:usman@musman.dev" class="contact-item">
-                        <i class="fas fa-envelope"></i>
+                        <span>✉</span>
                         <span>usman@musman.dev</span>
                     </a>
                     <a href="https://musman.dev" target="_blank" class="contact-item">
-                        <i class="fas fa-globe"></i>
+                        <span>🌐</span>
                         <span>musman.dev</span>
                     </a>
                 </div>
