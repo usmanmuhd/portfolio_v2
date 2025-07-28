@@ -56,26 +56,26 @@
     </header>
 
     <main>
-        <section id="home">
-            <h1>Muhammad Usman</h1>
-            <h2>Software Engineer III</h2>
-            <p>
+        <section id="home" class="parallax-bg">
+            <h1 class="fade-in">Muhammad Usman</h1>
+            <h2 class="fade-in stagger-delay-1">Software Engineer III</h2>
+            <p class="fade-in stagger-delay-2">
                 I build scalable enterprise solutions, microservices architecture, 
                 and AI-driven applications. Currently leading development at Cisco Systems 
                 in Bangalore, India.
             </p>
-            <div>
+            <div class="fade-in stagger-delay-3">
                 <a href="#experience" class="pinterest-cta">View My Work</a>
                 <a href="#contact" class="pinterest-cta secondary">Get In Touch</a>
             </div>
         </section>
 
         <div class="pinterest-grid">
-            <section id="experience">
-                <h2>Experience</h2>
-                <p><em>Building enterprise solutions at scale</em></p>
+            <section id="experience" class="slide-up">
+                <h2 class="parallax-element">Experience</h2>
+                <p class="parallax-element stagger-delay-1"><em>Building enterprise solutions at scale</em></p>
                 
-                <article>
+                <article class="scale-in stagger-delay-1">
                     <h3>Software Engineering III</h3>
                     <h4>Cisco Systems • August 2020 – Present</h4>
                     <p><em>Bangalore, India</em></p>
@@ -87,7 +87,7 @@
                     </ul>
                 </article>
                 
-                <article>
+                <article class="scale-in stagger-delay-2">
                     <h3>Technical Undergraduate Intern</h3>
                     <h4>Cisco Systems • January 2020 – June 2020</h4>
                     <p><em>Bangalore, India</em></p>
@@ -98,7 +98,7 @@
                     </ul>
                 </article>
                 
-                <article>
+                <article class="scale-in stagger-delay-3">
                     <h3>Google Summer of Code</h3>
                     <h4>Wikimedia Foundation • May 2019 – August 2019</h4>
                     <ul>
@@ -108,11 +108,11 @@
                 </article>
             </section>
 
-            <section id="skills">
-                <h2>Skills</h2>
-                <p><em>Technologies and expertise</em></p>
+            <section id="skills" class="slide-left">
+                <h2 class="parallax-element">Skills</h2>
+                <p class="parallax-element stagger-delay-1"><em>Technologies and expertise</em></p>
                 
-                <dl>
+                <dl class="slide-right stagger-delay-2">
                     <dt>Programming Languages</dt>
                     <dd>Python, JavaScript</dd>
                     
@@ -130,29 +130,29 @@
                 </dl>
             </section>
 
-            <section id="education">
-                <h2>Education</h2>
-                <p><em>Academic foundation</em></p>
+            <section id="education" class="slide-up">
+                <h2 class="parallax-element">Education</h2>
+                <p class="parallax-element stagger-delay-1"><em>Academic foundation</em></p>
                 
-                <article>
+                <article class="scale-in stagger-delay-1">
                     <h3>Bachelor of Technology</h3>
                     <h4>PES University • August 2016 - July 2020</h4>
                     <p><em>Bangalore, India</em></p>
                     <p>Computer Science and Engineering<br>Minor in Data Science</p>
                 </article>
                 
-                <article>
+                <article class="scale-in stagger-delay-2">
                     <h3>AI & Machine Learning</h3>
                     <h4>Arizona State University</h4>
                     <p>Certification & Training Program</p>
                 </article>
             </section>
 
-            <section id="contact">
-                <h2>Get in Touch</h2>
-                <p>Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
+            <section id="contact" class="fade-in">
+                <h2 class="parallax-element">Get in Touch</h2>
+                <p class="parallax-element stagger-delay-1">Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
                 
-                <div style="text-align: center; margin-top: 24px;">
+                <div style="text-align: center; margin-top: 24px;" class="scale-in stagger-delay-2">
                     <a href="mailto:usman@musman.dev" class="pinterest-cta">Email Me</a>
                 </div>
             </section>
@@ -267,6 +267,134 @@
         
         // Initialize active navigation on page load
         document.addEventListener('DOMContentLoaded', updateActiveNavigation);
+
+        // Apple-style Parallax Animations
+        class AppleParallax {
+            constructor() {
+                this.animatedElements = document.querySelectorAll('.fade-in, .slide-up, .slide-left, .slide-right, .scale-in, .parallax-element');
+                this.parallaxBgs = document.querySelectorAll('.parallax-bg');
+                this.init();
+            }
+
+            init() {
+                this.observeElements();
+                this.handleParallaxBg();
+                this.addScrollListener();
+                
+                // Initial check for elements already in view
+                this.checkElementsInView();
+            }
+
+            observeElements() {
+                const options = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -10% 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const delay = this.getStaggerDelay(entry.target);
+                            
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                        }
+                    });
+                }, options);
+
+                this.animatedElements.forEach(element => {
+                    observer.observe(element);
+                });
+            }
+
+            getStaggerDelay(element) {
+                if (element.classList.contains('stagger-delay-1')) return 200;
+                if (element.classList.contains('stagger-delay-2')) return 400;
+                if (element.classList.contains('stagger-delay-3')) return 600;
+                if (element.classList.contains('stagger-delay-4')) return 800;
+                if (element.classList.contains('stagger-delay-5')) return 1000;
+                return 0;
+            }
+
+            handleParallaxBg() {
+                this.parallaxBgs.forEach(element => {
+                    const speed = element.dataset.speed || 0.5;
+                    const rect = element.getBoundingClientRect();
+                    const scrolled = window.scrollY;
+                    const rate = scrolled * -speed;
+                    
+                    // Only apply transform if element is in viewport
+                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+                        element.style.transform = `translateY(${rate}px)`;
+                    }
+                });
+            }
+
+            checkElementsInView() {
+                this.animatedElements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    if (rect.top < windowHeight * 0.8) {
+                        const delay = this.getStaggerDelay(element);
+                        setTimeout(() => {
+                            element.classList.add('visible');
+                        }, delay);
+                    }
+                });
+            }
+
+            addScrollListener() {
+                let ticking = false;
+
+                const updateAnimations = () => {
+                    this.handleParallaxBg();
+                    this.updateNavbar();
+                    ticking = false;
+                };
+
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        requestAnimationFrame(updateAnimations);
+                        ticking = true;
+                    }
+                });
+            }
+
+            updateNavbar() {
+                const header = document.querySelector('header');
+                const scrollY = window.scrollY;
+
+                if (scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                    header.style.backdropFilter = 'saturate(180%) blur(20px)';
+                } else {
+                    header.style.backgroundColor = 'var(--pinterest-white)';
+                    header.style.backdropFilter = 'none';
+                }
+            }
+        }
+
+        // Initialize Apple-style parallax animations
+        document.addEventListener('DOMContentLoaded', () => {
+            new AppleParallax();
+            
+            // Add enhanced hover effects similar to Apple's cards
+            document.querySelectorAll('article, section').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (window.innerWidth > 768) { // Only on desktop
+                        this.style.transform = 'translateY(-8px) scale(1.02)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (window.innerWidth > 768) {
+                        this.style.transform = 'translateY(0) scale(1)';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>

@@ -23,6 +23,112 @@ body {
     font-size: 16px;
     background-color: var(--pinterest-white);
     color: var(--pinterest-dark-gray);
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Apple-style Parallax Animations */
+.parallax-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.parallax-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-up {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.stagger-delay-1 {
+    transition-delay: 0.2s;
+}
+
+.stagger-delay-2 {
+    transition-delay: 0.4s;
+}
+
+.stagger-delay-3 {
+    transition-delay: 0.6s;
+}
+
+.stagger-delay-4 {
+    transition-delay: 0.8s;
+}
+
+.stagger-delay-5 {
+    transition-delay: 1s;
+}
+
+/* Parallax Background Movement */
+.parallax-bg {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+/* Apple-style smooth reveal on scroll */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Pinterest-style Header */
