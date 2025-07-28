@@ -32,185 +32,299 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Stylesheets -->
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                Muhammad Usman
+    <header>
+        <nav>
+            <h1>Muhammad Usman</h1>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#experience" class="nav-link">Experience</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#skills" class="nav-link">Skills</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#education" class="nav-link">Education</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
+            <ul id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                ☀
-            </button>
-            <div class="nav-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Muhammad Usman</h1>
-                    <p class="hero-subtitle">Software Engineer III</p>
-                    <p class="hero-description">
-                        I build scalable enterprise solutions, microservices architecture, 
-                        and AI-driven applications. Currently leading development at Cisco Systems 
-                        in Bangalore, India.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#experience" class="btn btn-primary">View Work</a>
-                        <a href="#contact" class="btn btn-secondary">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main>
+        <section id="home" class="parallax">
+            <h1 class="fade-in">Muhammad Usman</h1>
+            <h2 class="fade-in stagger-delay-1">Software Engineer III</h2>
+            <p class="fade-in stagger-delay-2">
+                I build scalable enterprise solutions, microservices architecture, 
+                and AI-driven applications. Currently leading development at Cisco Systems 
+                in Bangalore, India.
+            </p>
+            <p class="fade-in stagger-delay-3">
+                <a href="#experience">View Work</a> | 
+                <a href="#contact">Contact</a>
+            </p>
+        </section>
 
-    <!-- Experience Section -->
-    <section id="experience">
-        <div class="container">
-            <h2 class="section-title fade-in-element">Experience</h2>
-            <p class="section-subtitle fade-in-element">Building enterprise solutions at scale</p>
+        <section id="experience">
+            <h2 class="slide-up">Experience</h2>
+            <p class="slide-up stagger-delay-1"><em>Building enterprise solutions at scale</em></p>
             
-            <div class="grid grid-2">
-                <div class="card fade-in-element">
-                    <h3>Software Engineering III</h3>
-                    <p><strong>Cisco Systems</strong> • August 2020 – Present</p>
-                    <p><em>Bangalore, India</em></p>
-                    <br>
-                    <p>• Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</p>
-                    <p>• Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</p>
-                    <p>• Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</p>
-                    <p>• Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</p>
-                </div>
-                
-                <div class="card fade-in-element">
-                    <h3>Technical Undergraduate Intern</h3>
-                    <p><strong>Cisco Systems</strong> • January 2020 – June 2020</p>
-                    <p><em>Bangalore, India</em></p>
-                    <br>
-                    <p>• Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</p>
-                    <p>• Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</p>
-                    <p>• Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</p>
-                </div>
-                
-                <div class="card fade-in-element">
-                    <h3>Google Summer of Code</h3>
-                    <p><strong>Wikimedia Foundation</strong> • May 2019 – August 2019</p>
-                    <br>
-
-                    <p>• Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</p>
-                    <p>• Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-title fade-in-element">Skills</h2>
-            <p class="section-subtitle fade-in-element">Technologies and expertise</p>
+            <article class="scale-in stagger-delay-1">
+                <h3>Software Engineering III</h3>
+                <p><strong>Cisco Systems</strong> • August 2020 – Present</p>
+                <p><em>Bangalore, India</em></p>
+                <ul>
+                    <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
+                    <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
+                    <li>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</li>
+                    <li>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</li>
+                </ul>
+            </article>
             
-            <div class="grid grid-3">
-                <div class="card scale-in-element">
-                    <h3>Programming Languages</h3>
-                    <p>Python, JavaScript</p>
-                </div>
-                
-                <div class="card scale-in-element">
-                    <h3>Frameworks & Libraries</h3>
-                    <p>Flask, Falcon, Angular, React</p>
-                </div>
-                
-                <div class="card scale-in-element">
-                    <h3>Databases</h3>
-                    <p>MSSQL, MongoDB, PostgreSQL</p>
-                </div>
-                
-                <div class="card scale-in-element">
-                    <h3>DevOps & Tools</h3>
-                    <p>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</p>
-                </div>
-                
-                <div class="card scale-in-element">
-                    <h3>Specializations</h3>
-                    <p>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education">
-        <div class="container">
-            <h2 class="section-title fade-in-element">Education</h2>
-            <p class="section-subtitle fade-in-element">Academic foundation</p>
+            <article class="scale-in stagger-delay-2">
+                <h3>Technical Undergraduate Intern</h3>
+                <p><strong>Cisco Systems</strong> • January 2020 – June 2020</p>
+                <p><em>Bangalore, India</em></p>
+                <ul>
+                    <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
+                    <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
+                    <li>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</li>
+                </ul>
+            </article>
             
-            <div class="grid grid-2">
-                <div class="card slide-in-left">
-                    <h3>Bachelor of Technology</h3>
-                    <p><strong>PES University</strong> • August 2016 - July 2020</p>
-                    <p><em>Bangalore, India</em></p>
-                    <p>Computer Science and Engineering<br>Minor in Data Science</p>
-                </div>
-                
-                <div class="card slide-in-right">
-                    <h3>AI & Machine Learning</h3>
-                    <p><strong>Arizona State University</strong></p>
-                    <p>Certification & Training Program</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <article class="scale-in stagger-delay-3">
+                <h3>Google Summer of Code</h3>
+                <p><strong>Wikimedia Foundation</strong> • May 2019 – August 2019</p>
+                <ul>
+                    <li>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</li>
+                    <li>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</li>
+                </ul>
+            </article>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title fade-in-element">Get in Touch</h2>
-            <p class="section-subtitle fade-in-element">Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
+        <section id="skills">
+            <h2 class="slide-left">Skills</h2>
+            <p class="slide-left stagger-delay-1"><em>Technologies and expertise</em></p>
             
-            <div class="hero-buttons" style="justify-content: center;">
-                <a href="mailto:usman@musman.dev" class="btn btn-primary">Email Me</a>
-            </div>
-        </div>
-    </section>
+            <dl class="slide-right stagger-delay-2">
+                <dt><strong>Programming Languages</strong></dt>
+                <dd>Python, JavaScript</dd>
+                
+                <dt><strong>Frameworks & Libraries</strong></dt>
+                <dd>Flask, Falcon, Angular, React</dd>
+                
+                <dt><strong>Databases</strong></dt>
+                <dd>MSSQL, MongoDB, PostgreSQL</dd>
+                
+                <dt><strong>DevOps & Tools</strong></dt>
+                <dd>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</dd>
+                
+                <dt><strong>Specializations</strong></dt>
+                <dd>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</dd>
+            </dl>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Muhammad Usman. All rights reserved.</p>
-        </div>
+        <section id="education">
+            <h2 class="fade-in">Education</h2>
+            <p class="fade-in stagger-delay-1"><em>Academic foundation</em></p>
+            
+            <article class="slide-up stagger-delay-1">
+                <h3>Bachelor of Technology</h3>
+                <p><strong>PES University</strong> • August 2016 - July 2020</p>
+                <p><em>Bangalore, India</em></p>
+                <p>Computer Science and Engineering<br>Minor in Data Science</p>
+            </article>
+            
+            <article class="slide-up stagger-delay-2">
+                <h3>AI & Machine Learning</h3>
+                <p><strong>Arizona State University</strong></p>
+                <p>Certification & Training Program</p>
+            </article>
+        </section>
+
+        <section id="contact">
+            <h2 class="scale-in">Get in Touch</h2>
+            <p class="scale-in stagger-delay-1">Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
+            
+            <p class="scale-in stagger-delay-2">
+                <a href="mailto:usman@musman.dev">Email Me</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Muhammad Usman. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.getElementById('navMenu');
+                
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Scroll Animations - Apple-style
+        class ScrollAnimations {
+            constructor() {
+                this.animatedElements = document.querySelectorAll('.fade-in, .slide-up, .slide-left, .slide-right, .scale-in');
+                this.parallaxElements = document.querySelectorAll('.parallax');
+                this.init();
+            }
+
+            init() {
+                this.observeElements();
+                this.handleParallax();
+                this.addScrollListener();
+            }
+
+            observeElements() {
+                const options = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Add staggered delay for elements
+                            const delay = entry.target.classList.contains('stagger-delay-1') ? 100 :
+                                         entry.target.classList.contains('stagger-delay-2') ? 200 :
+                                         entry.target.classList.contains('stagger-delay-3') ? 300 :
+                                         entry.target.classList.contains('stagger-delay-4') ? 400 :
+                                         entry.target.classList.contains('stagger-delay-5') ? 500 : 0;
+
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                        }
+                    });
+                }, options);
+
+                this.animatedElements.forEach(element => {
+                    observer.observe(element);
+                });
+            }
+
+            handleParallax() {
+                this.parallaxElements.forEach(element => {
+                    const speed = element.dataset.speed || 0.5;
+                    const yPos = -(window.scrollY * speed);
+                    element.style.transform = `translateY(${yPos}px)`;
+                });
+            }
+
+            addScrollListener() {
+                let ticking = false;
+
+                const updateAnimations = () => {
+                    this.handleParallax();
+                    this.updateNavbar();
+                    ticking = false;
+                };
+
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        requestAnimationFrame(updateAnimations);
+                        ticking = true;
+                    }
+                });
+            }
+
+            updateNavbar() {
+                const header = document.querySelector('header');
+                const scrollY = window.scrollY;
+
+                if (scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                    header.style.borderBottom = '1px solid rgba(210, 210, 215, 0.8)';
+                } else {
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                    header.style.borderBottom = '1px solid var(--border-color)';
+                }
+            }
+        }
+
+        // Initialize animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollAnimations();
+            
+            // Add smooth scroll behavior for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Add enhanced hover effects to articles
+            document.querySelectorAll('article').forEach(article => {
+                article.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                article.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add typing animation to the main heading
+            const mainHeading = document.querySelector('#home h1');
+            if (mainHeading) {
+                const text = mainHeading.textContent;
+                mainHeading.textContent = '';
+                let i = 0;
+                
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        mainHeading.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+                
+                // Start typing animation after a short delay
+                setTimeout(typeWriter, 500);
+            }
+        });
+    </script>
 </body>
 </html>
