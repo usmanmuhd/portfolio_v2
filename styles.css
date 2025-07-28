@@ -30,7 +30,7 @@ body {
 .parallax-element {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .parallax-element.visible {
@@ -41,7 +41,7 @@ body {
 .fade-in {
     opacity: 0;
     transform: translateY(40px);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .fade-in.visible {
@@ -52,7 +52,7 @@ body {
 .slide-up {
     opacity: 0;
     transform: translateY(60px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .slide-up.visible {
@@ -63,7 +63,7 @@ body {
 .slide-left {
     opacity: 0;
     transform: translateX(-60px);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .slide-left.visible {
@@ -74,7 +74,7 @@ body {
 .slide-right {
     opacity: 0;
     transform: translateX(60px);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .slide-right.visible {
@@ -85,7 +85,7 @@ body {
 .scale-in {
     opacity: 0;
     transform: scale(0.8);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .scale-in.visible {
@@ -94,23 +94,23 @@ body {
 }
 
 .stagger-delay-1 {
-    transition-delay: 0.2s;
+    transition-delay: 0.1s;
 }
 
 .stagger-delay-2 {
-    transition-delay: 0.4s;
+    transition-delay: 0.2s;
 }
 
 .stagger-delay-3 {
-    transition-delay: 0.6s;
+    transition-delay: 0.3s;
 }
 
 .stagger-delay-4 {
-    transition-delay: 0.8s;
+    transition-delay: 0.4s;
 }
 
 .stagger-delay-5 {
-    transition-delay: 1s;
+    transition-delay: 0.5s;
 }
 
 /* Parallax Background Movement */
@@ -123,7 +123,7 @@ body {
 .reveal-on-scroll {
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal-on-scroll.revealed {
@@ -726,7 +726,7 @@ footer p {
 
 /* Pinterest-style Loading Animation */
 .pinterest-loading {
-    animation: pinterest-pulse 1.5s ease-in-out infinite;
+    animation: pinterest-pulse 0.8s ease-in-out infinite;
 }
 
 @keyframes pinterest-pulse {
