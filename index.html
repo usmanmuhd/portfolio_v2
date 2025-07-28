@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammad Usman - Software Engineer III | Enterprise Solutions & AI</title>
+    <title>Muhammad Usman — Software Engineer III</title>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Muhammad Usman is a Software Engineer III at Cisco Systems, specializing in enterprise solutions, microservices architecture, and AI-driven applications. Based in Bangalore, India.">
@@ -12,16 +12,16 @@
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Muhammad Usman - Software Engineer III">
+    <meta property="og:title" content="Muhammad Usman — Software Engineer III">
     <meta property="og:description" content="Software Engineer III at Cisco Systems, specializing in enterprise solutions, microservices architecture, and AI-driven applications.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://musman.dev">
     <meta property="og:image" content="https://musman.dev/og-image.jpg">
-    <meta property="og:site_name" content="Muhammad Usman Portfolio">
+    <meta property="og:site_name" content="Muhammad Usman">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Muhammad Usman - Software Engineer III">
+    <meta name="twitter:title" content="Muhammad Usman — Software Engineer III">
     <meta name="twitter:description" content="Software Engineer III at Cisco Systems, specializing in enterprise solutions, microservices architecture, and AI-driven applications.">
     <meta name="twitter:image" content="https://musman.dev/og-image.jpg">
     
@@ -73,12 +73,12 @@
         <div class="pinterest-grid">
             <section id="experience" class="slide-up">
                 <h2 class="parallax-element">Experience</h2>
-                <p class="parallax-element stagger-delay-1"><em>Building enterprise solutions at scale</em></p>
+                <p class="parallax-element stagger-delay-1">Building enterprise solutions at scale</p>
                 
                 <article class="scale-in stagger-delay-1">
-                    <h3>Software Engineering III</h3>
+                    <h3>Software Engineer III</h3>
                     <h4>Cisco Systems • August 2020 – Present</h4>
-                    <p><em>Bangalore, India</em></p>
+                    <p>Bangalore, India</p>
                     <ul>
                         <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
                         <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
@@ -90,7 +90,7 @@
                 <article class="scale-in stagger-delay-2">
                     <h3>Technical Undergraduate Intern</h3>
                     <h4>Cisco Systems • January 2020 – June 2020</h4>
-                    <p><em>Bangalore, India</em></p>
+                    <p>Bangalore, India</p>
                     <ul>
                         <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
                         <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
@@ -110,7 +110,7 @@
 
             <section id="skills" class="slide-left">
                 <h2 class="parallax-element">Skills</h2>
-                <p class="parallax-element stagger-delay-1"><em>Technologies and expertise</em></p>
+                <p class="parallax-element stagger-delay-1">Technologies and expertise</p>
                 
                 <dl class="slide-right stagger-delay-2">
                     <dt>Programming Languages</dt>
@@ -132,12 +132,12 @@
 
             <section id="education" class="slide-up">
                 <h2 class="parallax-element">Education</h2>
-                <p class="parallax-element stagger-delay-1"><em>Academic foundation</em></p>
+                <p class="parallax-element stagger-delay-1">Academic foundation</p>
                 
                 <article class="scale-in stagger-delay-1">
                     <h3>Bachelor of Technology</h3>
                     <h4>PES University • August 2016 - July 2020</h4>
-                    <p><em>Bangalore, India</em></p>
+                    <p>Bangalore, India</p>
                     <p>Computer Science and Engineering<br>Minor in Data Science</p>
                 </article>
                 
@@ -152,7 +152,7 @@
                 <h2 class="parallax-element">Get in Touch</h2>
                 <p class="parallax-element stagger-delay-1">Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
                 
-                <div style="text-align: center; margin-top: 24px;" class="scale-in stagger-delay-2">
+                <div style="text-align: center; margin-top: 32px;" class="scale-in stagger-delay-2">
                     <a href="mailto:usman@musman.dev" class="pinterest-cta">Email Me</a>
                 </div>
             </section>
@@ -309,11 +309,11 @@
             }
 
             getStaggerDelay(element) {
-                if (element.classList.contains('stagger-delay-1')) return 200;
-                if (element.classList.contains('stagger-delay-2')) return 400;
-                if (element.classList.contains('stagger-delay-3')) return 600;
-                if (element.classList.contains('stagger-delay-4')) return 800;
-                if (element.classList.contains('stagger-delay-5')) return 1000;
+                if (element.classList.contains('stagger-delay-1')) return 150;
+                if (element.classList.contains('stagger-delay-2')) return 300;
+                if (element.classList.contains('stagger-delay-3')) return 450;
+                if (element.classList.contains('stagger-delay-4')) return 600;
+                if (element.classList.contains('stagger-delay-5')) return 750;
                 return 0;
             }
 
@@ -367,11 +367,13 @@
                 const scrollY = window.scrollY;
 
                 if (scrollY > 50) {
-                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                    header.style.background = 'rgba(255, 255, 255, 0.8)';
                     header.style.backdropFilter = 'saturate(180%) blur(20px)';
+                    header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.18)';
                 } else {
-                    header.style.backgroundColor = 'var(--pinterest-white)';
-                    header.style.backdropFilter = 'none';
+                    header.style.background = 'var(--glass-background)';
+                    header.style.backdropFilter = 'saturate(180%) blur(20px)';
+                    header.style.borderBottom = '1px solid var(--glass-border)';
                 }
             }
         }
@@ -380,17 +382,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             new AppleParallax();
             
-            // Add enhanced hover effects similar to Apple's cards
+            // Add Apple-style enhanced hover effects
             document.querySelectorAll('article, section').forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    if (window.innerWidth > 768) { // Only on desktop
-                        this.style.transform = 'translateY(-8px) scale(1.02)';
+                    if (window.innerWidth > 768) { 
+                        this.style.transform = 'translateY(-6px) scale(1.01)';
+                        this.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
                     }
                 });
                 
                 card.addEventListener('mouseleave', function() {
                     if (window.innerWidth > 768) {
                         this.style.transform = 'translateY(0) scale(1)';
+                        this.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
                     }
                 });
             });
