@@ -39,14 +39,20 @@
     <header>
         <nav>
             <h1>Muhammad Usman</h1>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
+                <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+                <li><a href="#education" onclick="closeMenu()">Education</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             </ul>
         </nav>
+        <div class="nav-overlay" onclick="closeMenu()"></div>
     </header>
 
     <main>
@@ -58,102 +64,212 @@
                 and AI-driven applications. Currently leading development at Cisco Systems 
                 in Bangalore, India.
             </p>
-            <p>
-                <a href="#experience">View Work</a> | 
-                <a href="#contact">Contact</a>
-            </p>
+            <div>
+                <a href="#experience" class="pinterest-cta">View My Work</a>
+                <a href="#contact" class="pinterest-cta secondary">Get In Touch</a>
+            </div>
         </section>
 
-        <section id="experience">
-            <h2>Experience</h2>
-            <p><em>Building enterprise solutions at scale</em></p>
-            
-            <article>
-                <h3>Software Engineering III</h3>
-                <p><strong>Cisco Systems</strong> • August 2020 – Present</p>
-                <p><em>Bangalore, India</em></p>
-                <ul>
-                    <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
-                    <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
-                    <li>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</li>
-                    <li>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</li>
-                </ul>
-            </article>
-            
-            <article>
-                <h3>Technical Undergraduate Intern</h3>
-                <p><strong>Cisco Systems</strong> • January 2020 – June 2020</p>
-                <p><em>Bangalore, India</em></p>
-                <ul>
-                    <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
-                    <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
-                    <li>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</li>
-                </ul>
-            </article>
-            
-            <article>
-                <h3>Google Summer of Code</h3>
-                <p><strong>Wikimedia Foundation</strong> • May 2019 – August 2019</p>
-                <ul>
-                    <li>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</li>
-                    <li>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</li>
-                </ul>
-            </article>
-        </section>
+        <div class="pinterest-grid">
+            <section id="experience">
+                <h2>Experience</h2>
+                <p><em>Building enterprise solutions at scale</em></p>
+                
+                <article>
+                    <h3>Software Engineering III</h3>
+                    <h4>Cisco Systems • August 2020 – Present</h4>
+                    <p><em>Bangalore, India</em></p>
+                    <ul>
+                        <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
+                        <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
+                        <li>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</li>
+                        <li>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</li>
+                    </ul>
+                </article>
+                
+                <article>
+                    <h3>Technical Undergraduate Intern</h3>
+                    <h4>Cisco Systems • January 2020 – June 2020</h4>
+                    <p><em>Bangalore, India</em></p>
+                    <ul>
+                        <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
+                        <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
+                        <li>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</li>
+                    </ul>
+                </article>
+                
+                <article>
+                    <h3>Google Summer of Code</h3>
+                    <h4>Wikimedia Foundation • May 2019 – August 2019</h4>
+                    <ul>
+                        <li>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</li>
+                        <li>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</li>
+                    </ul>
+                </article>
+            </section>
 
-        <section id="skills">
-            <h2>Skills</h2>
-            <p><em>Technologies and expertise</em></p>
-            
-            <dl>
-                <dt><strong>Programming Languages</strong></dt>
-                <dd>Python, JavaScript</dd>
+            <section id="skills">
+                <h2>Skills</h2>
+                <p><em>Technologies and expertise</em></p>
                 
-                <dt><strong>Frameworks & Libraries</strong></dt>
-                <dd>Flask, Falcon, Angular, React</dd>
-                
-                <dt><strong>Databases</strong></dt>
-                <dd>MSSQL, MongoDB, PostgreSQL</dd>
-                
-                <dt><strong>DevOps & Tools</strong></dt>
-                <dd>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</dd>
-                
-                <dt><strong>Specializations</strong></dt>
-                <dd>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</dd>
-            </dl>
-        </section>
+                <dl>
+                    <dt>Programming Languages</dt>
+                    <dd>Python, JavaScript</dd>
+                    
+                    <dt>Frameworks & Libraries</dt>
+                    <dd>Flask, Falcon, Angular, React</dd>
+                    
+                    <dt>Databases</dt>
+                    <dd>MSSQL, MongoDB, PostgreSQL</dd>
+                    
+                    <dt>DevOps & Tools</dt>
+                    <dd>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</dd>
+                    
+                    <dt>Specializations</dt>
+                    <dd>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</dd>
+                </dl>
+            </section>
 
-        <section id="education">
-            <h2>Education</h2>
-            <p><em>Academic foundation</em></p>
-            
-            <article>
-                <h3>Bachelor of Technology</h3>
-                <p><strong>PES University</strong> • August 2016 - July 2020</p>
-                <p><em>Bangalore, India</em></p>
-                <p>Computer Science and Engineering<br>Minor in Data Science</p>
-            </article>
-            
-            <article>
-                <h3>AI & Machine Learning</h3>
-                <p><strong>Arizona State University</strong></p>
-                <p>Certification & Training Program</p>
-            </article>
-        </section>
+            <section id="education">
+                <h2>Education</h2>
+                <p><em>Academic foundation</em></p>
+                
+                <article>
+                    <h3>Bachelor of Technology</h3>
+                    <h4>PES University • August 2016 - July 2020</h4>
+                    <p><em>Bangalore, India</em></p>
+                    <p>Computer Science and Engineering<br>Minor in Data Science</p>
+                </article>
+                
+                <article>
+                    <h3>AI & Machine Learning</h3>
+                    <h4>Arizona State University</h4>
+                    <p>Certification & Training Program</p>
+                </article>
+            </section>
 
-        <section id="contact">
-            <h2>Get in Touch</h2>
-            <p>Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
-            
-            <p>
-                <a href="mailto:usman@musman.dev">Email Me</a>
-            </p>
-        </section>
+            <section id="contact">
+                <h2>Get in Touch</h2>
+                <p>Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
+                
+                <div style="text-align: center; margin-top: 24px;">
+                    <a href="mailto:usman@musman.dev" class="pinterest-cta">Email Me</a>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <footer>
+        <footer>
         <p>&copy; 2025 Muhammad Usman. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Modern Pinterest-style Mobile Menu Toggle
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            const navOverlay = document.querySelector('.nav-overlay');
+            
+            const isActive = hamburger.classList.contains('active');
+            
+            if (isActive) {
+                closeMenu();
+            } else {
+                hamburger.classList.add('active');
+                navMenu.classList.add('active');
+                navOverlay.classList.add('active');
+            }
+        }
+
+        function closeMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.getElementById('navMenu');
+            const navOverlay = document.querySelector('.nav-overlay');
+            
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (!nav.contains(e.target) && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on window resize if open
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        // Pinterest-style smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Pinterest-style scroll spy for active navigation
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav ul li a[href^="#"]');
+            const headerHeight = document.querySelector('header').offsetHeight;
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - headerHeight - 50;
+                const sectionHeight = section.offsetHeight;
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            // If we're at the top of the page, highlight home
+            if (window.scrollY < 100) {
+                currentSection = 'home';
+            }
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Update active navigation on scroll
+        window.addEventListener('scroll', updateActiveNavigation);
+        
+        // Initialize active navigation on page load
+        document.addEventListener('DOMContentLoaded', updateActiveNavigation);
+    </script>
+</body>
+</html>
 
 
 </body>
