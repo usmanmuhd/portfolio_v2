@@ -153,7 +153,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 16px 0;
+    padding: 8px 0;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -165,10 +165,11 @@ nav {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    height: 52px;
 }
 
 nav h1 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
     color: var(--apple-dark-gray);
     letter-spacing: -0.025em;
@@ -181,30 +182,30 @@ nav ul {
     gap: 8px;
     margin: 0;
     padding: 0;
+    align-items: center;
 }
 
 nav ul li a {
     text-decoration: none;
     color: var(--apple-gray);
-    font-weight: 400;
-    font-size: 17px;
-    padding: 12px 20px;
-    border-radius: 12px;
+    font-weight: 300;
+    font-size: 14px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     letter-spacing: -0.022em;
+    display: inline-block;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
 }
 
 nav ul li a:hover {
-    background: rgba(0, 122, 255, 0.1);
-    color: var(--apple-blue);
-    transform: translateY(-1px);
+    color: var(--apple-dark-gray);
 }
 
 /* Active navigation state with Apple styling */
 nav ul li a.active {
-    color: var(--apple-blue);
-    background: rgba(0, 122, 255, 0.1);
+    color: var(--apple-dark-gray);
     font-weight: 500;
 }
 
@@ -602,9 +603,9 @@ section > p:first-of-type {
 /* Apple-style Footer */
 footer {
     background: var(--apple-light-gray);
-    padding: 48px 24px;
+    padding: 32px 24px;
     text-align: center;
-    margin-top: 80px;
+    margin-top: 60px;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -618,17 +619,23 @@ footer p {
 
 /* Apple-style Responsive Design */
 @media (max-width: 768px) {
+    /* Compact mobile header */
+    header {
+        padding: 6px 0;
+    }
+    
     /* Mobile Navigation */
     nav {
         flex-direction: row;
-        padding: 16px 20px;
+        padding: 12px 20px;
         gap: 0;
         justify-content: space-between;
         align-items: center;
+        height: 52px;
     }
     
     nav h1 {
-        font-size: 24px;
+        font-size: 22px;
     }
     
     /* Show hamburger on mobile */
@@ -683,28 +690,26 @@ footer p {
     
     nav ul li a {
         display: block;
-        padding: 20px 24px;
+        padding: 0;
         font-size: 17px;
-        font-weight: 400;
-        border-radius: 12px;
+        font-weight: 300;
+        border-radius: 0;
         text-align: left;
-        color: var(--apple-dark-gray);
+        color: var(--apple-gray);
         background: transparent;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        margin: 4px 0;
+        margin: 16px 0;
         letter-spacing: -0.022em;
+        line-height: 1;
     }
     
     nav ul li a:hover {
-        background: rgba(0, 122, 255, 0.1);
-        color: var(--apple-blue);
-        transform: translateX(8px);
+        color: var(--apple-dark-gray);
     }
     
     /* Active state for mobile navigation */
     nav ul li a.active {
-        background: rgba(0, 122, 255, 0.1);
-        color: var(--apple-blue);
+        color: var(--apple-dark-gray);
         font-weight: 500;
     }
     
@@ -767,8 +772,8 @@ footer p {
     }
     
     footer {
-        padding: 40px 20px;
-        margin-top: 60px;
+        padding: 28px 20px;
+        margin-top: 40px;
     }
 }
 
