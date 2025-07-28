@@ -216,10 +216,15 @@ nav ul li a.active {
     padding: 12px;
     border-radius: 8px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--apple-white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hamburger:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--apple-light-gray);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
 }
 
 .hamburger span {
@@ -229,6 +234,11 @@ nav ul li a.active {
     margin: 3px 0;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 1px;
+}
+
+.hamburger.active {
+    background: var(--apple-white);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.2);
 }
 
 .hamburger.active span:nth-child(1) {
@@ -632,7 +642,7 @@ footer p {
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--glass-background);
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         flex-direction: column;
@@ -640,8 +650,9 @@ footer p {
         align-items: stretch;
         padding: 24px;
         gap: 0;
-        border: 1px solid var(--glass-border);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 0 0 16px 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         transform: translateY(-20px);
         opacity: 0;
         visibility: hidden;
