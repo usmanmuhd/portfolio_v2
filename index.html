@@ -31,12 +31,20 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
             <h1>Muhammad Usman</h1>
-            <ul>
+            <button class="hamburger" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -47,103 +55,127 @@
     </header>
 
     <main>
+        <!-- Hero Section -->
         <section id="home">
-            <h1>Muhammad Usman</h1>
-            <h2>Software Engineer III</h2>
-            <p>
-                I build scalable enterprise solutions, microservices architecture, 
-                and AI-driven applications. Currently leading development at Cisco Systems 
-                in Bangalore, India.
-            </p>
-            <div>
-                <a href="#experience">View My Work</a>
-                <a href="#contact">Get In Touch</a>
+            <div class="card hero-card">
+                <h1>Muhammad Usman</h1>
+                <h2>Software Engineer III</h2>
+                <p>
+                    I build scalable enterprise solutions, microservices architecture, 
+                    and AI-driven applications. Currently leading development at Cisco Systems 
+                    in Bangalore, India.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#experience">View My Work</a>
+                    <a href="#contact">Get In Touch</a>
+                </div>
             </div>
         </section>
 
+        <!-- Experience Section -->
         <section id="experience">
-            <h2>Experience</h2>
-            <p>Building enterprise solutions at scale</p>
+            <div class="section-header">
+                <h2>Experience</h2>
+                <p>Building enterprise solutions at scale</p>
+            </div>
             
-            <article>
-                <h3>Software Engineer III</h3>
-                <h4>Cisco Systems • August 2020 – Present</h4>
-                <p>Bangalore, India</p>
-                <ul>
-                    <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
-                    <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
-                    <li>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</li>
-                    <li>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</li>
-                </ul>
-            </article>
-            
-            <article>
-                <h3>Technical Undergraduate Intern</h3>
-                <h4>Cisco Systems • January 2020 – June 2020</h4>
-                <p>Bangalore, India</p>
-                <ul>
-                    <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
-                    <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
-                    <li>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</li>
-                </ul>
-            </article>
-            
-            <article>
-                <h3>Google Summer of Code</h3>
-                <h4>Wikimedia Foundation • May 2019 – August 2019</h4>
-                <ul>
-                    <li>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</li>
-                    <li>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</li>
-                </ul>
-            </article>
+            <div class="cards-container">
+                <div class="card experience-card">
+                    <h3>Software Engineer III</h3>
+                    <h4>Cisco Systems • August 2020 – Present</h4>
+                    <p>Bangalore, India</p>
+                    <ul>
+                        <li>Leading development of unified enterprise portal for reverse logistics operations, serving executives, engineers, and factory-floor operators with AI-driven anomaly detection reducing manual resolution steps.</li>
+                        <li>Developing chatbot interface for ML-powered PCB fault diagnosis, achieving <strong>50% reduction in repair time</strong> across two pilot factories.</li>
+                        <li>Enhanced Knowledge-Based Search system integrating Service Requests, RMAs, and failure reports, achieving <strong>30% reduction in failure analysis time</strong>.</li>
+                        <li>Led migration of 10+ monolithic applications to Kubernetes microservices, improving scalability by <strong>10× load handling</strong>.</li>
+                    </ul>
+                </div>
+                
+                <div class="card experience-card">
+                    <h3>Technical Undergraduate Intern</h3>
+                    <h4>Cisco Systems • January 2020 – June 2020</h4>
+                    <p>Bangalore, India</p>
+                    <ul>
+                        <li>Built Grafana dashboards monitoring CI/CD tool adoption across hardware manufacturing pipelines, achieving <strong>100% adoption</strong>.</li>
+                        <li>Enhanced backend logic to enforce pipeline-only deployments, ensuring consistent hardware testing with latest code.</li>
+                        <li>Created comprehensive user documentation with Sphinx to streamline onboarding and enable independent usage.</li>
+                    </ul>
+                </div>
+                
+                <div class="card experience-card">
+                    <h3>Google Summer of Code</h3>
+                    <h4>Wikimedia Foundation • May 2019 – August 2019</h4>
+                    <ul>
+                        <li>Improved Wikipedia's cross-language article recommendation pipeline by integrating user engagement metrics, achieving <strong>50% latency reduction</strong>.</li>
+                        <li>Contributed to <strong>2× increase in editor engagement</strong> and <strong>3.2× increase in article creation rates</strong> through enhanced recommendation quality.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
+        <!-- Skills Section -->
         <section id="skills">
-            <h2>Skills</h2>
-            <p>Technologies and expertise</p>
+            <div class="section-header">
+                <h2>Skills</h2>
+                <p>Technologies and expertise</p>
+            </div>
             
-            <dl>
-                <dt>Programming Languages</dt>
-                <dd>Python, JavaScript</dd>
-                
-                <dt>Frameworks & Libraries</dt>
-                <dd>Flask, Falcon, Angular, React</dd>
-                
-                <dt>Databases</dt>
-                <dd>MSSQL, MongoDB, PostgreSQL</dd>
-                
-                <dt>DevOps & Tools</dt>
-                <dd>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</dd>
-                
-                <dt>Specializations</dt>
-                <dd>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</dd>
-            </dl>
+            <div class="cards-container">
+                <div class="card skills-card">
+                    <dl>
+                        <dt>Programming Languages</dt>
+                        <dd>Python, JavaScript</dd>
+                        
+                        <dt>Frameworks & Libraries</dt>
+                        <dd>Flask, Falcon, Angular, React</dd>
+                        
+                        <dt>Databases</dt>
+                        <dd>MSSQL, MongoDB, PostgreSQL</dd>
+                        
+                        <dt>DevOps & Tools</dt>
+                        <dd>Kubernetes, Docker, Jenkins, Ansible, Elasticsearch</dd>
+                        
+                        <dt>Specializations</dt>
+                        <dd>Microservices Architecture, CI/CD Pipelines, Machine Learning Integration, Enterprise Solutions</dd>
+                    </dl>
+                </div>
+            </div>
         </section>
 
+        <!-- Education Section -->
         <section id="education">
-            <h2>Education</h2>
-            <p>Academic foundation</p>
+            <div class="section-header">
+                <h2>Education</h2>
+                <p>Academic foundation</p>
+            </div>
             
-            <article>
-                <h3>Bachelor of Technology</h3>
-                <h4>PES University • August 2016 - July 2020</h4>
-                <p>Bangalore, India</p>
-                <p>Computer Science and Engineering<br>Minor in Data Science</p>
-            </article>
-            
-            <article>
-                <h3>AI & Machine Learning</h3>
-                <h4>Arizona State University</h4>
-                <p>Certification & Training Program</p>
-            </article>
+            <div class="cards-container">
+                <div class="card education-card">
+                    <h3>Bachelor of Technology</h3>
+                    <h4>PES University • August 2016 - July 2020</h4>
+                    <p>Bangalore, India</p>
+                    <p>Computer Science and Engineering<br>Minor in Data Science</p>
+                </div>
+                
+                <div class="card education-card">
+                    <h3>AI & Machine Learning</h3>
+                    <h4>Arizona State University</h4>
+                    <p>Certification & Training Program</p>
+                </div>
+            </div>
         </section>
 
+        <!-- Contact Section -->
         <section id="contact">
-            <h2>Get in Touch</h2>
-            <p>Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
-            
-            <div>
-                <a href="mailto:usman@musman.dev">Email Me</a>
+            <div class="cards-container">
+                <div class="card contact-card">
+                    <h2>Get in Touch</h2>
+                    <p>Let's discuss new opportunities, innovative projects, and collaborations in software engineering and AI.</p>
+                    <div>
+                        <a href="mailto:usman@musman.dev">Email Me</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -151,5 +183,32 @@
     <footer>
         <p>&copy; 2025 Muhammad Usman. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a nav link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
