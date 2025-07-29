@@ -113,11 +113,16 @@ nav ul li a:hover {
 
 /* Main Content */
 main {
-    margin-top: 80px;
+    margin-top: 100px; /* Increased to account for sticky navbar */
     padding: 20px;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Section spacing to account for sticky navbar */
+section {
+    scroll-margin-top: 100px; /* Ensures proper scrolling offset */
 }
 
 /* Pinterest-style Cards Container */
@@ -361,7 +366,7 @@ footer {
     nav ul {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: 84px; /* Adjusted for proper navbar height */
         flex-direction: column;
         background-color: var(--white);
         width: 100%;
@@ -370,6 +375,7 @@ footer {
         box-shadow: var(--shadow);
         gap: 0;
         padding: 20px 0;
+        z-index: 999;
     }
     
     nav ul.active {
@@ -392,7 +398,7 @@ footer {
     }
     
     main {
-        margin-top: 80px;
+        margin-top: 100px; /* Consistent with desktop */
         padding: 16px;
     }
     
@@ -433,7 +439,7 @@ footer {
     }
     
     nav ul {
-        top: 65px;
+        top: 80px; /* Adjusted for smaller screens */
     }
     
     .hero-card h1 {
@@ -463,11 +469,6 @@ footer {
     .skills-card dt {
         font-size: 1.1rem;
     }
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
 }
 
 /* Focus styles for accessibility */
