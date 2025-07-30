@@ -16,6 +16,44 @@ html {
     padding: 0 20px;
 }
 
+/* Disclaimer Banner */
+.disclaimer-banner {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: var(--white);
+    padding: 16px 0;
+    border-bottom: 3px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.disclaimer-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.disclaimer-content i {
+    font-size: 1.2rem;
+    color: #ffc107;
+    flex-shrink: 0;
+}
+
+.disclaimer-text {
+    flex: 1;
+}
+
+.disclaimer-text a {
+    color: #ffc107;
+    text-decoration: underline;
+    transition: var(--transition);
+}
+
+.disclaimer-text a:hover {
+    color: var(--white);
+    text-decoration: none;
+}
+
 /* Hero Section */
 .leetcode-hero {
     background: linear-gradient(135deg, var(--primary-color), #ff4757);
@@ -398,6 +436,16 @@ html {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .disclaimer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .disclaimer-text {
+        font-size: 0.85rem;
+    }
+    
     .leetcode-hero h1 {
         font-size: 2rem;
     }
@@ -440,6 +488,14 @@ html {
 @media (max-width: 480px) {
     .container {
         padding: 0 16px;
+    }
+    
+    .disclaimer-banner {
+        padding: 12px 0;
+    }
+    
+    .disclaimer-text {
+        font-size: 0.8rem;
     }
     
     .progress-stats,
