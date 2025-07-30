@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Problems Tracker</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Track your LeetCode problem solving progress with categories, bookmarks, and solved status.">
+    <meta name="keywords" content="LeetCode, Algorithm, Data Structures, Problem Solving, Programming, Coding">
+    <meta name="author" content="Muhammad Usman">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="leetcode-styles.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1><a href="../index.html">Muhammad Usman</a></h1>
+            <button class="hamburger" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+                <li><a href="/leetcode" class="active">LeetCode</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="leetcode-main">
+        <!-- Hero Section -->
+        <section class="leetcode-hero">
+            <div class="container">
+                <h1><i class="fas fa-code"></i> LeetCode Problems Tracker</h1>
+                <p>Track your progress through algorithmic problems organized by data structure patterns</p>
+                
+                <!-- Progress Stats -->
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-problems">0</div>
+                        <div class="stat-label">Total Problems</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="solved-problems">0</div>
+                        <div class="stat-label">Solved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bookmarked-problems">0</div>
+                        <div class="stat-label">Bookmarked</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="completion-percentage">0%</div>
+                        <div class="stat-label">Completion</div>
+                    </div>
+                </div>
+
+                <!-- Filter Options -->
+                <div class="filter-options">
+                    <button class="filter-btn active" data-filter="all">All Problems</button>
+                    <button class="filter-btn" data-filter="solved">Solved</button>
+                    <button class="filter-btn" data-filter="unsolved">Unsolved</button>
+                    <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                </div>
+
+                <!-- Search Box -->
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search problems by name or topic...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problems Section -->
+        <section class="problems-section">
+            <div class="container">
+                <div id="problems-container">
+                    <!-- Problems will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading problems...</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="leetcode-script.js"></script>
+</body>
+</html>

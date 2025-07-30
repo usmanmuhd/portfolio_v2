@@ -90,13 +90,15 @@ nav h1 {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-nav ul {
+nav ul,
+.nav-menu {
     display: flex;
     list-style: none;
     gap: 32px;
 }
 
-nav ul li a {
+nav ul li a,
+.nav-menu li a {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
@@ -106,7 +108,8 @@ nav ul li a {
     position: relative;
 }
 
-nav ul li a:hover {
+nav ul li a:hover,
+.nav-menu li a:hover {
     background-color: var(--light-gray);
     color: var(--primary-color);
 }
@@ -363,7 +366,8 @@ footer {
         display: flex;
     }
     
-    nav ul {
+    nav ul,
+    .nav-menu {
         position: fixed;
         left: -100%;
         top: 84px; /* Adjusted for proper navbar height */
@@ -378,21 +382,25 @@ footer {
         z-index: 999;
     }
     
-    nav ul.active {
+    nav ul.active,
+    .nav-menu.active {
         left: 0;
     }
     
-    nav ul li {
+    nav ul li,
+    .nav-menu li {
         margin: 8px 0;
     }
     
-    nav ul li a {
+    nav ul li a,
+    .nav-menu li a {
         padding: 12px 20px;
         display: block;
         border-radius: 0;
     }
     
-    nav ul li a:hover {
+    nav ul li a:hover,
+    .nav-menu li a:hover {
         background-color: var(--light-gray);
         color: var(--primary-color);
     }
