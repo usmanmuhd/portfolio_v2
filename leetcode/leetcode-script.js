@@ -5,6 +5,7 @@ class LeetCodeTracker {
         this.problems = [];
         this.groupedProblems = {};
         this.currentFilter = 'all';
+        this.currentDifficulty = 'all';
         this.searchQuery = '';
         
         this.init();
@@ -41,7 +42,7 @@ class LeetCodeTracker {
         // Skip header lines and find the actual data start
         let dataStartIndex = 0;
         for (let i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith('Topic,Title,LeetCode Link')) {
+            if (lines[i].startsWith('Topic,Title,LeetCode Link,Problem,Difficulty')) {
                 dataStartIndex = i + 1;
                 break;
             }
@@ -55,12 +56,13 @@ class LeetCodeTracker {
             if (!line) continue;
             
             const columns = this.parseCSVLine(line);
-            if (columns.length >= 4 && columns[0] && columns[1]) {
+            if (columns.length >= 5 && columns[0] && columns[1]) {
                 const problem = {
                     topic: columns[0],
                     title: columns[1],
                     url: columns[2],
                     problem: columns[3],
+                    difficulty: columns[4] || 'Medium',
                     id: this.generateId(columns[1])
                 };
                 
@@ -122,6 +124,17 @@ class LeetCodeTracker {
         searchInput.addEventListener('input', (e) => {
             this.searchQuery = e.target.value.toLowerCase();
             this.renderProblems();
+        });
+        
+        // Difficulty filter buttons
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.currentDifficulty = e.target.dataset.difficulty;
+                this.renderProblems();
+                this.updateStats();
+            });
         });
         
         // Hamburger menu (from main site)
@@ -186,7 +199,10 @@ class LeetCodeTracker {
                     (this.currentFilter === 'unsolved' && !this.isSolved(problem.id)) ||
                     (this.currentFilter === 'bookmarked' && this.isBookmarked(problem.id));
                 
-                return matchesSearch && matchesFilter;
+                const matchesDifficulty = this.currentDifficulty === 'all' ||
+                    problem.difficulty.toLowerCase() === this.currentDifficulty.toLowerCase();
+                
+                return matchesSearch && matchesFilter && matchesDifficulty;
             });
             
             if (filteredProblems.length > 0) {
@@ -231,6 +247,7 @@ class LeetCodeTracker {
                     <a href="${problem.url}" target="_blank" class="problem-title">
                         ${problem.title}
                     </a>
+                    <span class="difficulty-badge difficulty-${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
                 </div>
                 <div class="problem-actions">
                     <button 
@@ -335,7 +352,8 @@ class LeetCodeTracker {
     
     updateStats() {
         const totalProblems = this.problems.length;
-        const solvedProblems = this.getSolvedProblems().length;
+        const solvedProblemsIds = this.getSolvedProblems();
+        const solvedProblems = solvedProblemsIds.length;
         const bookmarkedProblems = this.getBookmarkedProblems().length;
         const completionPercentage = totalProblems > 0 ? Math.round((solvedProblems / totalProblems) * 100) : 0;
         
@@ -343,6 +361,19 @@ class LeetCodeTracker {
         document.getElementById('solved-problems').textContent = solvedProblems;
         document.getElementById('bookmarked-problems').textContent = bookmarkedProblems;
         document.getElementById('completion-percentage').textContent = `${completionPercentage}%`;
+        
+        // Calculate difficulty-specific stats
+        const easyTotal = this.problems.filter(p => p.difficulty === 'Easy').length;
+        const mediumTotal = this.problems.filter(p => p.difficulty === 'Medium').length;
+        const hardTotal = this.problems.filter(p => p.difficulty === 'Hard').length;
+        
+        const easySolved = this.problems.filter(p => p.difficulty === 'Easy' && this.isSolved(p.id)).length;
+        const mediumSolved = this.problems.filter(p => p.difficulty === 'Medium' && this.isSolved(p.id)).length;
+        const hardSolved = this.problems.filter(p => p.difficulty === 'Hard' && this.isSolved(p.id)).length;
+        
+        document.getElementById('easy-solved').textContent = `${easySolved}/${easyTotal}`;
+        document.getElementById('medium-solved').textContent = `${mediumSolved}/${mediumTotal}`;
+        document.getElementById('hard-solved').textContent = `${hardSolved}/${hardTotal}`;
     }
     
     getSolvedProblems() {

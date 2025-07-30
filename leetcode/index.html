@@ -28,11 +28,6 @@
                 <span></span>
             </button>
             <ul class="nav-menu">
-                <li><a href="../index.html#home">Home</a></li>
-                <li><a href="../index.html#experience">Experience</a></li>
-                <li><a href="../index.html#skills">Skills</a></li>
-                <li><a href="../index.html#education">Education</a></li>
-                <li><a href="../index.html#contact">Contact</a></li>
                 <li><a href="/leetcode" class="active">LeetCode</a></li>
             </ul>
         </nav>
@@ -65,12 +60,39 @@
                     </div>
                 </div>
 
+                <!-- Difficulty Stats -->
+                <div class="difficulty-stats">
+                    <div class="stat-card difficulty-easy-card">
+                        <div class="stat-number" id="easy-solved">0/0</div>
+                        <div class="stat-label">Easy</div>
+                    </div>
+                    <div class="stat-card difficulty-medium-card">
+                        <div class="stat-number" id="medium-solved">0/0</div>
+                        <div class="stat-label">Medium</div>
+                    </div>
+                    <div class="stat-card difficulty-hard-card">
+                        <div class="stat-number" id="hard-solved">0/0</div>
+                        <div class="stat-label">Hard</div>
+                    </div>
+                </div>
+
                 <!-- Filter Options -->
                 <div class="filter-options">
                     <button class="filter-btn active" data-filter="all">All Problems</button>
                     <button class="filter-btn" data-filter="solved">Solved</button>
                     <button class="filter-btn" data-filter="unsolved">Unsolved</button>
                     <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                </div>
+
+                <!-- Difficulty Filter -->
+                <div class="difficulty-filter">
+                    <h3>Filter by Difficulty:</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn active" data-difficulty="all">All</button>
+                        <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                    </div>
                 </div>
 
                 <!-- Search Box -->
