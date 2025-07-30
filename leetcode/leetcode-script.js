@@ -133,7 +133,26 @@ class LeetCodeTracker {
                 hamburger.classList.toggle('active');
                 navMenu.classList.toggle('active');
             });
+            
+            // Close menu when clicking on a nav link
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
         }
+        
+        // Add smooth scrolling for any anchor links
+        this.setupSmoothScrolling();
     }
     
     renderProblems() {
@@ -359,6 +378,32 @@ class LeetCodeTracker {
                 <p>${message}</p>
             </div>
         `;
+    }
+    
+    setupSmoothScrolling() {
+        // Add smooth scrolling behavior to the html element
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Handle anchor links with offset for fixed header
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.offsetHeight : 80;
+                    const targetPosition = targetSection.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     }
 }
 
