@@ -108,7 +108,7 @@ Bucket Sort,Sort Characters By Frequency,https://leetcode.com/problems/sort-char
 Bucket Sort,Top K Frequent Words,https://leetcode.com/problems/top-k-frequent-words,Top K Frequent Words,Medium,,
 Bucket Sort,Maximum Gap,https://leetcode.com/problems/maximum-gap,Maximum Gap,Medium,,
 Recursion,Merge Two Sorted Lists,https://leetcode.com/problems/merge-two-sorted-lists,Merge Two Sorted Lists,Easy,,
-Recursion,Pow(x, n),https://leetcode.com/problems/powx-n,Pow(x, n),Medium,,
+Recursion,"Pow(x, n)",https://leetcode.com/problems/powx-n,"Pow(x, n)",Medium,,
 Recursion,Decode String,https://leetcode.com/problems/decode-string,Decode String,Medium,,
 Divide and Conquer,Convert Sorted List to Binary Search Tree,https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree,Convert Sorted List to Binary Search Tree,Medium,,
 Divide and Conquer,Construct Quad Tree,https://leetcode.com/problems/construct-quad-tree,Construct Quad Tree,Medium,,
