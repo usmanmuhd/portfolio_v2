@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Maskable icons need safe zone - content should be in center 80% -->
+  <rect width="512" height="512" fill="#6366f1"/>
+  <g transform="translate(256, 256)">
+    <!-- Scale/Weight icon - smaller for safe zone -->
+    <rect x="-100" y="-70" width="200" height="140" rx="16" fill="white"/>
+    <rect x="-84" y="-54" width="168" height="84" rx="8" fill="#0f172a"/>
+    <!-- Display showing weight -->
+    <text x="0" y="5" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#22c55e" text-anchor="middle">75.0</text>
+    <text x="0" y="38" font-family="Arial, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">kg</text>
+    <!-- Base of scale -->
+    <ellipse cx="0" cy="85" rx="116" ry="25" fill="white"/>
+    <!-- Trend arrow going down -->
+    <path d="M130 -85 L162 -53 L146 -53 L146 -5 L114 -5 L114 -53 L98 -53 Z" fill="#22c55e"/>
+  </g>
+</svg>

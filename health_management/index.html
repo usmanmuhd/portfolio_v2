@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Loss Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Track your weight loss journey to a healthier you">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Weight Tracker">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+<body>
+    <!-- PWA Install Banner -->
+    <div id="installBanner" class="install-banner hidden">
+        <div class="install-content">
+            <span class="install-icon">📲</span>
+            <div class="install-text">
+                <strong>Install Weight Tracker</strong>
+                <span>Add to home screen for quick access</span>
+            </div>
+        </div>
+        <div class="install-actions">
+            <button id="installBtn" class="install-btn">Install</button>
+            <button id="installDismiss" class="install-dismiss" aria-label="Dismiss">✕</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Fixed Navigation Menu -->
+        <nav class="nav-fixed">
+            <button class="hamburger" id="navToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-dropdown" id="navMenu">
+                <button class="nav-item active" data-tab="dashboard">📊 Dashboard</button>
+                <button class="nav-item" data-tab="target">🎯 Target</button>
+                <button class="nav-item" data-tab="history">📅 History</button>
+                <button class="nav-item" data-tab="profile">👤 Profile</button>
+            </div>
+        </nav>
+
+        <header>
+            <h1>🏋️ Weight Loss Tracker</h1>
+            <p class="subtitle">Track your journey to a healthier you</p>
+        </header>
+
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <!-- Current Stats -->
+                <div class="stat-card current-weight">
+                    <h3>Current Weight</h3>
+                    <div class="stat-value" id="currentWeight">--</div>
+                    <div class="stat-unit">kg</div>
+                </div>
+                <div class="stat-card target-weight">
+                    <h3>Target Weight</h3>
+                    <div class="stat-value" id="targetWeight">--</div>
+                    <div class="stat-unit">kg</div>
+                </div>
+                <div class="stat-card progress-card">
+                    <h3>Progress</h3>
+                    <div class="progress-ring-container">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+                            <circle class="progress-ring-circle" id="progressCircle" cx="60" cy="60" r="52"/>
+                        </svg>
+                        <div class="progress-text" id="progressPercent">0%</div>
+                    </div>
+                </div>
+                <div class="stat-card track-status">
+                    <h3>Status</h3>
+                    <div class="status-indicator" id="trackStatus">
+                        <span class="status-icon">📊</span>
+                        <span class="status-text">Set your target</span>
+                    </div>
+                    <div class="days-left" id="daysLeft"></div>
+                </div>
+            </div>
+
+            <!-- BMI & Health Stats -->
+            <div class="health-stats">
+                <div class="health-card">
+                    <h3>📏 BMI</h3>
+                    <div class="bmi-display">
+                        <span class="bmi-value" id="bmiValue">--</span>
+                        <span class="bmi-category" id="bmiCategory">--</span>
+                    </div>
+                    <div class="bmi-scale">
+                        <div class="bmi-bar">
+                            <div class="bmi-indicator" id="bmiIndicator"></div>
+                        </div>
+                        <div class="bmi-labels">
+                            <span>Underweight</span>
+                            <span>Normal</span>
+                            <span>Overweight</span>
+                            <span>Obese</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="health-card">
+                    <h3>🔥 Daily Calories</h3>
+                    <div class="calorie-assumption" id="calorieAssumption">
+                        Based on: Moderate activity (3-5 days/week)
+                    </div>
+                    <div class="calorie-display">
+                        <div class="calorie-item">
+                            <span class="calorie-label">Maintenance (TDEE)</span>
+                            <span class="calorie-value" id="tdeeValue">--</span>
+                        </div>
+                    </div>
+                    <div class="weight-loss-options">
+                        <h4>To lose per week:</h4>
+                        <div class="loss-option">
+                            <span class="loss-label">0.5 kg/week</span>
+                            <span class="loss-value" id="loss05">--</span>
+                        </div>
+                        <div class="loss-option">
+                            <span class="loss-label">1 kg/week</span>
+                            <span class="loss-value" id="loss10">--</span>
+                        </div>
+                        <div class="loss-option">
+                            <span class="loss-label">1.5 kg/week</span>
+                            <span class="loss-value" id="loss15">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>📈 Weight Trend (Last 30 Days)</h3>
+                    <canvas id="weightChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>📈 BMI Trend (Last 30 Days)</h3>
+                    <canvas id="bmiChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>🏃 Activity Stats (Last 30 Days)</h3>
+                    <canvas id="activityChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>📊 Habits Overview (Last 30 Days)</h3>
+                    <canvas id="habitsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Weekly Summary -->
+            <div class="weekly-summary">
+                <h3>📅 This Week's Summary</h3>
+                <div class="summary-grid" id="weeklySummary">
+                    <div class="summary-item">
+                        <span class="summary-icon">⚖️</span>
+                        <span class="summary-label">Weight Change</span>
+                        <span class="summary-value" id="weeklyWeightChange">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-icon">🏋️</span>
+                        <span class="summary-label">Gym Days</span>
+                        <span class="summary-value" id="weeklyGym">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-icon">🚶</span>
+                        <span class="summary-label">Walk Days</span>
+                        <span class="summary-value" id="weeklyWalk">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-icon">😴</span>
+                        <span class="summary-label">Good Sleep</span>
+                        <span class="summary-value" id="weeklySleep">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-icon">🥗</span>
+                        <span class="summary-label">No Junk Days</span>
+                        <span class="summary-value" id="weeklyNoJunk">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Target Tab -->
+        <section id="target" class="tab-content">
+            <div class="target-page">
+                <!-- Current Target Status -->
+                <div class="current-target-card" id="currentTargetCard">
+                    <h2>🎯 Current Target</h2>
+                    <div id="currentTargetStatus" class="target-status">
+                        <p class="no-target">No target set yet. Set one below!</p>
+                    </div>
+                </div>
+
+                <!-- Target Progress -->
+                <div class="target-progress-card" id="targetProgressCard" style="display: none;">
+                    <h2>📈 Progress</h2>
+                    <div class="target-progress-content">
+                        <div class="progress-visual">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="targetProgressBar"></div>
+                            </div>
+                            <div class="progress-labels">
+                                <span id="startWeightLabel">Start: --</span>
+                                <span id="currentWeightLabel">Current: --</span>
+                                <span id="targetWeightLabel">Target: --</span>
+                            </div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <span class="stat-number" id="weightLost">--</span>
+                                <span class="stat-label">kg lost</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="stat-number" id="weightRemaining">--</span>
+                                <span class="stat-label">kg to go</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="stat-number" id="targetDaysLeft">--</span>
+                                <span class="stat-label">days left</span>
+                            </div>
+                            <div class="progress-stat">
+                                <span class="stat-number" id="requiredRate">--</span>
+                                <span class="stat-label">kg/week needed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="completeTargetBtn" class="btn-success" style="display: none;">🎉 Complete Target</button>
+                    <button id="cancelTargetBtn" class="btn-danger-outline">✗ Cancel Target</button>
+                </div>
+
+                <!-- Set New Target -->
+                <div class="set-target-card">
+                    <h2>🆕 Set New Target</h2>
+                    <form id="targetForm" class="target-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="targetWeightInput">🎯 Target Weight (kg)</label>
+                                <input type="number" id="targetWeightInput" step="0.1" min="20" max="300" placeholder="Enter target weight" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="targetDate">📅 Target Date</label>
+                                <input type="date" id="targetDate" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">🎯 Set Target</button>
+                    </form>
+                </div>
+
+                <!-- Past Targets -->
+                <div class="past-targets-card">
+                    <h2>📜 Target History</h2>
+                    <div id="pastTargetsList" class="past-targets-list">
+                        <p class="no-targets">No completed targets yet.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Tab -->
+        <section id="history" class="tab-content">
+            <h2>📅 Log History</h2>
+            <div class="history-controls">
+                <input type="text" id="historySearch" placeholder="🔍 Search by date or notes...">
+                <select id="historyFilter">
+                    <option value="all">All Entries</option>
+                    <option value="week">Last 7 Days</option>
+                    <option value="month">Last 30 Days</option>
+                    <option value="gym">Gym Days</option>
+                    <option value="walk">Walk Days</option>
+                </select>
+            </div>
+            <div class="history-table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Weight</th>
+                            <th>Activity</th>
+                            <th>Sleep</th>
+                            <th>No Junk</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="export-section">
+                <button id="exportBtn" class="btn-secondary">📥 Export Data (CSV)</button>
+                <button id="clearDataBtn" class="btn-danger">🗑️ Clear All Data</button>
+            </div>
+        </section>
+
+        <!-- Profile Tab -->
+        <section id="profile" class="tab-content">
+            <h2>👤 Your Profile</h2>
+            <form id="profileForm" class="profile-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userName">👤 Name</label>
+                        <input type="text" id="userName" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="userAge">🎂 Age</label>
+                        <input type="number" id="userAge" min="10" max="120" placeholder="Years">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userHeight">📏 Height (cm)</label>
+                        <input type="number" id="userHeight" min="50" max="300" placeholder="Height in cm">
+                    </div>
+                    <div class="form-group">
+                        <label for="userGender">⚧ Gender</label>
+                        <select id="userGender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="activityLevel">🏃 Activity Level</label>
+                    <select id="activityLevel">
+                        <option value="1.2">Sedentary (little or no exercise)</option>
+                        <option value="1.375">Light (exercise 1-3 days/week)</option>
+                        <option value="1.55" selected>Moderate (exercise 3-5 days/week)</option>
+                        <option value="1.725">Active (exercise 6-7 days/week)</option>
+                        <option value="1.9">Very Active (hard exercise daily)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startingWeight">⚖️ Starting Weight (kg)</label>
+                    <input type="number" id="startingWeight" step="0.1" min="20" max="300" placeholder="Your starting weight">
+                </div>
+                <button type="submit" class="btn-primary">💾 Save Profile</button>
+            </form>
+
+            <div class="profile-summary" id="profileSummary">
+                <!-- Profile summary will be displayed here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button id="fabButton" class="fab" title="Quick Log">
+        <span class="fab-icon">+</span>
+    </button>
+
+    <!-- Quick Log Modal -->
+    <div id="quickLogModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Quick Log</h2>
+                <button id="closeModal" class="modal-close">&times;</button>
+            </div>
+            
+            <!-- Time of Day Tabs -->
+            <div class="time-tabs">
+                <button class="time-tab active" data-time="morning">🌅 Morning</button>
+                <button class="time-tab" data-time="evening">🌙 Evening</button>
+            </div>
+            
+            <!-- Morning Form -->
+            <form id="morningLogForm" class="quick-log-form time-form active">
+                <p class="form-hint">Log your weight and last night's sleep</p>
+                <div class="form-group">
+                    <label for="morningLogDate">📅 Date</label>
+                    <input type="date" id="morningLogDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="quickWeight">⚖️ Weight (kg)</label>
+                    <input type="number" id="quickWeight" step="0.1" min="20" max="300" placeholder="Enter weight" required>
+                </div>
+                <div class="quick-toggle-item full-width">
+                    <span>😴 Slept >6 hours last night?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="quickSleep" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="morningNotes">📝 Notes (optional)</label>
+                    <input type="text" id="morningNotes" placeholder="Any notes..." class="notes-input">
+                </div>
+                <div class="morning-status" id="morningStatus"></div>
+                <button type="submit" class="btn-primary btn-full">🌅 Save Morning Log</button>
+            </form>
+            
+            <!-- Evening Form -->
+            <form id="eveningLogForm" class="quick-log-form time-form">
+                <p class="form-hint">Log today's activity and eating habits</p>
+                <div class="form-group">
+                    <label for="eveningLogDate">📅 Date</label>
+                    <input type="date" id="eveningLogDate" required>
+                </div>
+                <div class="form-group">
+                    <label>🏃 Today's Activity</label>
+                    <div class="quick-activity-options">
+                        <label class="activity-option">
+                            <input type="radio" name="quickActivity" value="none" checked>
+                            <span class="option-btn">❌ None</span>
+                        </label>
+                        <label class="activity-option">
+                            <input type="radio" name="quickActivity" value="gym">
+                            <span class="option-btn">🏋️ Gym</span>
+                        </label>
+                        <label class="activity-option">
+                            <input type="radio" name="quickActivity" value="walk">
+                            <span class="option-btn">🚶 Walk</span>
+                        </label>
+                        <label class="activity-option">
+                            <input type="radio" name="quickActivity" value="both">
+                            <span class="option-btn">💪 Both</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="quick-toggle-item full-width">
+                    <span>🥗 No junk food today?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="quickNoJunk" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="eveningNotes">📝 Notes (optional)</label>
+                    <input type="text" id="eveningNotes" placeholder="Any notes..." class="notes-input">
+                </div>
+                <div class="evening-status" id="eveningStatus"></div>
+                <button type="submit" class="btn-primary btn-full">🌙 Save Evening Log</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal-overlay confirm-modal">
+        <div class="confirm-dialog">
+            <div class="confirm-icon" id="confirmIcon">⚠️</div>
+            <h3 id="confirmTitle">Are you sure?</h3>
+            <p id="confirmMessage">This action cannot be undone.</p>
+            <div class="confirm-buttons">
+                <button id="confirmCancel" class="btn-secondary">Cancel</button>
+                <button id="confirmOk" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+    
+    <!-- Service Worker Registration & PWA Install -->
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const installDismiss = document.getElementById('installDismiss');
+
+        // Check if already dismissed recently (24 hours)
+        const dismissedTime = localStorage.getItem('installDismissed');
+        const showBanner = !dismissedTime || (Date.now() - parseInt(dismissedTime)) > 24 * 60 * 60 * 1000;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install banner if not recently dismissed
+            if (showBanner && !window.matchMedia('(display-mode: standalone)').matches) {
+                installBanner.classList.remove('hidden');
+            }
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log('Install prompt outcome:', outcome);
+            deferredPrompt = null;
+            installBanner.classList.add('hidden');
+        });
+
+        installDismiss.addEventListener('click', () => {
+            installBanner.classList.add('hidden');
+            localStorage.setItem('installDismissed', Date.now().toString());
+        });
+
+        // Hide banner if app is installed
+        window.addEventListener('appinstalled', () => {
+            installBanner.classList.add('hidden');
+            deferredPrompt = null;
+            console.log('PWA installed successfully');
+        });
+    </script>
+</body>
+</html>
