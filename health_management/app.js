@@ -652,9 +652,13 @@ class WeightTracker {
 
     // ========== PROFILE ==========
     saveProfile() {
+        const dobMonth = document.getElementById('dobMonth').value;
+        const dobYear = document.getElementById('dobYear').value;
+        
         this.profile = {
             name: document.getElementById('userName').value,
-            age: parseInt(document.getElementById('userAge').value),
+            dobMonth: dobMonth !== '' ? parseInt(dobMonth) : null,
+            dobYear: dobYear !== '' ? parseInt(dobYear) : null,
             height: parseInt(document.getElementById('userHeight').value),
             gender: document.getElementById('userGender').value,
             activityLevel: parseFloat(document.getElementById('activityLevel').value),
@@ -668,15 +672,47 @@ class WeightTracker {
     }
 
     loadProfile() {
+        // Populate year dropdown
+        this.populateDobYears();
+        
         if (this.profile.name) {
             document.getElementById('userName').value = this.profile.name || '';
-            document.getElementById('userAge').value = this.profile.age || '';
+            document.getElementById('dobMonth').value = this.profile.dobMonth !== null ? this.profile.dobMonth : '';
+            document.getElementById('dobYear').value = this.profile.dobYear || '';
             document.getElementById('userHeight').value = this.profile.height || '';
             document.getElementById('userGender').value = this.profile.gender || 'male';
             document.getElementById('activityLevel').value = this.profile.activityLevel || 1.55;
             document.getElementById('startingWeight').value = this.profile.startingWeight || '';
             this.updateProfileSummary();
         }
+    }
+
+    populateDobYears() {
+        const yearSelect = document.getElementById('dobYear');
+        const currentYear = new Date().getFullYear();
+        yearSelect.innerHTML = '<option value="">Year</option>';
+        
+        for (let year = currentYear; year >= currentYear - 100; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+    }
+
+    calculateAge() {
+        if (this.profile.dobMonth === null || !this.profile.dobYear) return null;
+        
+        const today = new Date();
+        const birthDate = new Date(this.profile.dobYear, this.profile.dobMonth, 1);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0) {
+            age--;
+        }
+        
+        return age;
     }
 
     updateProfileSummary() {
@@ -690,6 +726,7 @@ class WeightTracker {
         const bmi = this.calculateBMI(currentWeight);
         const bmr = this.calculateBMR(currentWeight);
         const tdee = this.calculateTDEE(bmr);
+        const age = this.calculateAge();
 
         container.innerHTML = `
             <h3>📊 Your Health Summary</h3>
@@ -700,7 +737,7 @@ class WeightTracker {
                 </div>
                 <div class="profile-info-item">
                     <label>Age</label>
-                    <span>${this.profile.age || '--'} years</span>
+                    <span>${age !== null ? age + ' years' : '--'}</span>
                 </div>
                 <div class="profile-info-item">
                     <label>Height</label>
@@ -744,13 +781,14 @@ class WeightTracker {
     }
 
     calculateBMR(weight) {
-        if (!weight || !this.profile.height || !this.profile.age) return null;
+        const age = this.calculateAge();
+        if (!weight || !this.profile.height || age === null) return null;
         
         // Mifflin-St Jeor Equation
         if (this.profile.gender === 'male') {
-            return (10 * weight) + (6.25 * this.profile.height) - (5 * this.profile.age) + 5;
+            return (10 * weight) + (6.25 * this.profile.height) - (5 * age) + 5;
         } else {
-            return (10 * weight) + (6.25 * this.profile.height) - (5 * this.profile.age) - 161;
+            return (10 * weight) + (6.25 * this.profile.height) - (5 * age) - 161;
         }
     }
 
