@@ -39,6 +39,18 @@
         </div>
     </div>
 
+    <!-- PWA Update Banner -->
+    <div id="updateBanner" class="update-banner hidden">
+        <div class="update-content">
+            <span class="update-icon">✨</span>
+            <div class="update-text">
+                <strong>Update Available</strong>
+                <span>Tap to get the latest version</span>
+            </div>
+        </div>
+        <button id="updateBtn" class="update-btn">Update Now</button>
+    </div>
+
     <div class="container">
         <!-- Fixed Navigation Menu -->
         <nav class="nav-fixed">
@@ -488,18 +500,53 @@
     
     <!-- Service Worker Registration & PWA Install -->
     <script>
-        // Service Worker Registration
+        // Service Worker Registration with Update Detection
+        let newWorker;
+        const updateBanner = document.getElementById('updateBanner');
+        const updateBtn = document.getElementById('updateBtn');
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then((registration) => {
                         console.log('ServiceWorker registered:', registration.scope);
+
+                        // Check for updates immediately
+                        registration.update();
+
+                        // Listen for new service worker installing
+                        registration.addEventListener('updatefound', () => {
+                            newWorker = registration.installing;
+                            console.log('New service worker installing...');
+
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available
+                                    console.log('New version available!');
+                                    updateBanner.classList.remove('hidden');
+                                }
+                            });
+                        });
                     })
                     .catch((error) => {
                         console.log('ServiceWorker registration failed:', error);
                     });
+
+                // Handle controller change (when new SW takes over)
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    window.location.reload();
+                });
             });
         }
+
+        // Update button click handler
+        updateBtn.addEventListener('click', () => {
+            if (newWorker) {
+                // Tell the new service worker to skip waiting
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+            updateBanner.classList.add('hidden');
+        });
 
         // PWA Install Prompt
         let deferredPrompt;
