@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '1.6';
+const APP_VERSION = '1.7';
 
 class WeightTracker {
     constructor() {
