@@ -1,4 +1,4 @@
-/* CSS Variables - Dark Theme (Default) */
+/* CSS Variables - Dark Theme (Default) - AMOLED Black */
 :root {
     --primary-color: #6366f1;
     --primary-dark: #4f46e5;
@@ -8,18 +8,18 @@
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
     --danger-light: #fca5a5;
-    --bg-color: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-card: #1e293b;
+    --bg-color: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-card: #121212;
     --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border-color: #334155;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --text-secondary: #9ca3af;
+    --border-color: #1f1f1f;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
     --radius: 12px;
     --radius-lg: 16px;
-    --chart-grid: rgba(148, 163, 184, 0.1);
-    --input-bg: #1e293b;
+    --chart-grid: rgba(156, 163, 175, 0.1);
+    --input-bg: #121212;
 }
 
 /* Light Theme */

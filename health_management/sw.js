@@ -1,5 +1,5 @@
 // Service Worker for Weight Loss Tracker PWA
-const CACHE_NAME = 'weight-tracker-v9';
+const CACHE_NAME = 'weight-tracker-v10';
 const STATIC_ASSETS = [
   './',
   './index.html',
