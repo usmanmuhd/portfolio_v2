@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '1.7';
+const APP_VERSION = '1.8';
 
 class WeightTracker {
     constructor() {
@@ -14,6 +14,7 @@ class WeightTracker {
     }
 
     init() {
+        this.setupTheme();
         this.setupTabs();
         this.setupForms();
         this.setupHistoryControls();
@@ -33,6 +34,42 @@ class WeightTracker {
         if (versionEl) {
             versionEl.textContent = APP_VERSION;
         }
+    }
+
+    // ========== THEME TOGGLE ==========
+    setupTheme() {
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        
+        // Apply saved theme
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.checked = savedTheme === 'light';
+        
+        // Handle toggle change
+        themeToggle.addEventListener('change', () => {
+            const newTheme = themeToggle.checked ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Refresh charts with new theme colors
+            this.updateCharts();
+        });
+    }
+
+    getChartColors() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+        if (theme === 'light') {
+            return {
+                text: '#64748b',
+                grid: 'rgba(100, 116, 139, 0.15)',
+                emptyText: '#64748b'
+            };
+        }
+        return {
+            text: '#94a3b8',
+            grid: 'rgba(148, 163, 184, 0.1)',
+            emptyText: '#94a3b8'
+        };
     }
 
     // ========== TAB NAVIGATION ==========
@@ -926,7 +963,7 @@ class WeightTracker {
             container.innerHTML = `
                 <div class="todays-log-empty">
                     <p>No log for today yet</p>
-                    <button class="btn-primary btn-small" onclick="tracker.openQuickLog()">+ Add Log</button>
+                    <button class="btn-primary btn-small" onclick="tracker.openQuickLogModal()">+ Add Log</button>
                 </div>
             `;
             return;
@@ -977,7 +1014,7 @@ class WeightTracker {
                 </div>
             </div>
             ${(!morningDone || !eveningDone) ? `
-                <button class="btn-primary btn-small todays-log-btn" onclick="tracker.openQuickLog()">
+                <button class="btn-primary btn-small todays-log-btn" onclick="tracker.openQuickLogModal()">
                     ${!morningDone ? '☀️ Log Morning' : '🌙 Log Evening'}
                 </button>
             ` : `
@@ -1095,6 +1132,7 @@ class WeightTracker {
     updateWeightChart() {
         const ctx = document.getElementById('weightChart').getContext('2d');
         const logs = this.getLast30DaysLogs();
+        const colors = this.getChartColors();
 
         if (this.charts.weight) {
             this.charts.weight.destroy();
@@ -1102,7 +1140,7 @@ class WeightTracker {
 
         if (logs.length === 0) {
             ctx.font = '16px sans-serif';
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = colors.emptyText;
             ctx.textAlign = 'center';
             ctx.fillText('No data yet. Start logging!', ctx.canvas.width / 2, ctx.canvas.height / 2);
             return;
@@ -1138,17 +1176,17 @@ class WeightTracker {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        labels: { color: '#94a3b8' }
+                        labels: { color: colors.text }
                     }
                 },
                 scales: {
                     x: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        ticks: { color: colors.text },
+                        grid: { color: colors.grid }
                     },
                     y: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        ticks: { color: colors.text },
+                        grid: { color: colors.grid }
                     }
                 }
             }
@@ -1158,6 +1196,7 @@ class WeightTracker {
     updateBMIChart() {
         const ctx = document.getElementById('bmiChart').getContext('2d');
         const logs = this.getLast30DaysLogs();
+        const colors = this.getChartColors();
 
         if (this.charts.bmi) {
             this.charts.bmi.destroy();
@@ -1165,7 +1204,7 @@ class WeightTracker {
 
         if (logs.length === 0 || !this.profile.height) {
             ctx.font = '16px sans-serif';
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = colors.emptyText;
             ctx.textAlign = 'center';
             ctx.fillText('Set your height in profile', ctx.canvas.width / 2, ctx.canvas.height / 2);
             return;
@@ -1201,17 +1240,17 @@ class WeightTracker {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        labels: { color: '#94a3b8' }
+                        labels: { color: colors.text }
                     }
                 },
                 scales: {
                     x: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                        ticks: { color: colors.text },
+                        grid: { color: colors.grid }
                     },
                     y: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { color: colors.text },
+                        grid: { color: colors.grid },
                         suggestedMin: 15,
                         suggestedMax: 35
                     }
@@ -1223,6 +1262,7 @@ class WeightTracker {
     updateActivityChart() {
         const ctx = document.getElementById('activityChart').getContext('2d');
         const logs = this.getLast30DaysLogs();
+        const colors = this.getChartColors();
 
         if (this.charts.activity) {
             this.charts.activity.destroy();
@@ -1256,7 +1296,7 @@ class WeightTracker {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: '#94a3b8', padding: 20 }
+                        labels: { color: colors.text, padding: 20 }
                     }
                 }
             }
@@ -1266,6 +1306,7 @@ class WeightTracker {
     updateHabitsChart() {
         const ctx = document.getElementById('habitsChart').getContext('2d');
         const logs = this.getLast30DaysLogs();
+        const colors = this.getChartColors();
 
         if (this.charts.habits) {
             this.charts.habits.destroy();
@@ -1303,12 +1344,12 @@ class WeightTracker {
                 },
                 scales: {
                     x: {
-                        ticks: { color: '#94a3b8' },
+                        ticks: { color: colors.text },
                         grid: { display: false }
                     },
                     y: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { color: colors.text },
+                        grid: { color: colors.grid },
                         beginAtZero: true,
                         max: Math.max(totalDays, 10)
                     }

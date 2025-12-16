@@ -1,4 +1,4 @@
-/* CSS Variables */
+/* CSS Variables - Dark Theme (Default) */
 :root {
     --primary-color: #6366f1;
     --primary-dark: #4f46e5;
@@ -18,6 +18,22 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
     --radius: 12px;
     --radius-lg: 16px;
+    --chart-grid: rgba(148, 163, 184, 0.1);
+    --input-bg: #1e293b;
+}
+
+/* Light Theme */
+[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --bg-secondary: #e2e8f0;
+    --bg-card: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #cbd5e1;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --chart-grid: rgba(100, 116, 139, 0.1);
+    --input-bg: #ffffff;
 }
 
 /* PWA Install Banner */
@@ -343,6 +359,81 @@ header h1 {
 .nav-dropdown .nav-item.active {
     background: var(--primary-color);
     color: white;
+}
+
+/* Theme Toggle */
+.theme-toggle-wrapper {
+    padding: 10px 14px;
+    border-top: 1px solid var(--border-color);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px;
+}
+
+.theme-toggle-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.theme-slider:before {
+    position: absolute;
+    content: "🌙";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background: var(--bg-card);
+    transition: 0.3s;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.theme-switch input:checked + .theme-slider {
+    background: var(--primary-light);
+}
+
+.theme-switch input:checked + .theme-slider:before {
+    transform: translateX(24px);
+    content: "☀️";
+}
+
+[data-theme="light"] .nav-dropdown .nav-item:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 /* Tab Content */
@@ -1052,7 +1143,6 @@ header h1 {
     padding: 16px;
     background: var(--bg-secondary);
     border-radius: var(--radius);
-    border-left: 4px solid var(--success-color);
 }
 
 /* Target Page Styles */
@@ -1318,11 +1408,6 @@ header h1 {
     padding: 16px;
     background: var(--bg-secondary);
     border-radius: var(--radius);
-    border-left: 4px solid var(--success-color);
-}
-
-.past-target-item.failed {
-    border-left-color: var(--danger-color);
 }
 
 .past-target-info h4 {
@@ -1554,15 +1639,15 @@ header h1 {
 }
 
 .toast.success {
-    border-left: 4px solid var(--success-color);
+    background: var(--bg-card);
 }
 
 .toast.error {
-    border-left: 4px solid var(--danger-color);
+    background: var(--bg-card);
 }
 
 .toast.info {
-    border-left: 4px solid var(--primary-color);
+    background: var(--bg-card);
 }
 
 /* Confirm Modal */
@@ -2257,4 +2342,71 @@ input:checked + .slider:before {
     .summary-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Light Theme Adjustments */
+[data-theme="light"] body {
+    background: var(--bg-color);
+}
+
+[data-theme="light"] .stat-card,
+[data-theme="light"] .health-card,
+[data-theme="light"] .chart-container,
+[data-theme="light"] .todays-log-card,
+[data-theme="light"] .card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .hamburger {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .modal-content {
+    background: var(--bg-card);
+}
+
+[data-theme="light"] .fab {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="light"] .table-container {
+    background: var(--bg-card);
+}
+
+[data-theme="light"] .history-table th {
+    background: var(--bg-secondary);
+}
+
+[data-theme="light"] .history-table tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+[data-theme="light"] header h1 {
+    background: linear-gradient(135deg, var(--primary-dark), var(--success-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-theme="light"] .bmi-bar {
+    background: linear-gradient(90deg, #3b82f6, #22c55e, #f59e0b, #ef4444);
+}
+
+[data-theme="light"] .toast {
+    background: var(--bg-card);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .activity-option {
+    background: var(--bg-secondary);
+}
+
+[data-theme="light"] .activity-option:hover {
+    background: var(--border-color);
 }
