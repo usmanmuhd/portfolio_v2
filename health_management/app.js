@@ -1,4 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
+const APP_VERSION = '1.6';
 
 class WeightTracker {
     constructor() {
@@ -24,6 +25,14 @@ class WeightTracker {
         this.updateDashboard();
         this.renderHistory();
         this.setDefaultDate();
+        this.displayVersion();
+    }
+
+    displayVersion() {
+        const versionEl = document.getElementById('appVersion');
+        if (versionEl) {
+            versionEl.textContent = APP_VERSION;
+        }
     }
 
     // ========== TAB NAVIGATION ==========
@@ -43,30 +52,17 @@ class WeightTracker {
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 const tabId = item.dataset.tab;
-                
-                // Update active states
-                navItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
+                this.switchToTab(tabId);
                 
                 // Close the menu
                 hamburger.classList.remove('open');
                 navDropdown.classList.remove('open');
-                
-                // Update tab content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(tabId).classList.add('active');
-
-                // Refresh content when switching
-                if (tabId === 'dashboard') {
-                    this.updateDashboard();
-                }
-                if (tabId === 'target') {
-                    this.updateTargetPage();
-                }
             });
         });
+        
+        // Handle hash-based routing
+        this.handleHashRoute();
+        window.addEventListener('hashchange', () => this.handleHashRoute());
         
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
@@ -75,6 +71,43 @@ class WeightTracker {
                 navDropdown.classList.remove('open');
             }
         });
+    }
+
+    switchToTab(tabId) {
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Update URL hash
+        window.location.hash = tabId;
+        
+        // Update active states
+        navItems.forEach(i => i.classList.remove('active'));
+        document.querySelector(`.nav-item[data-tab="${tabId}"]`).classList.add('active');
+        
+        // Update tab content
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
+
+        // Refresh content when switching
+        if (tabId === 'dashboard') {
+            this.updateDashboard();
+        }
+        if (tabId === 'target') {
+            this.updateTargetPage();
+        }
+        if (tabId === 'history') {
+            this.renderHistory();
+        }
+    }
+
+    handleHashRoute() {
+        const hash = window.location.hash.replace('#', '');
+        const validTabs = ['dashboard', 'target', 'history', 'profile'];
+        
+        if (hash && validTabs.includes(hash)) {
+            this.switchToTab(hash);
+        }
     }
 
     // ========== FORM SETUP ==========
@@ -879,8 +912,78 @@ class WeightTracker {
     updateDashboard() {
         this.updateCurrentStats();
         this.updateHealthStats();
+        this.updateTodaysLog();
         this.updateCharts();
         this.updateWeeklySummary();
+    }
+
+    updateTodaysLog() {
+        const container = document.getElementById('todaysLogContent');
+        const todayStr = this.getLocalDateString(new Date());
+        const todayLog = this.logs.find(l => l.date === todayStr);
+
+        if (!todayLog) {
+            container.innerHTML = `
+                <div class="todays-log-empty">
+                    <p>No log for today yet</p>
+                    <button class="btn-primary btn-small" onclick="tracker.openQuickLog()">+ Add Log</button>
+                </div>
+            `;
+            return;
+        }
+
+        const morningDone = todayLog.weight && todayLog.weight !== '';
+        const eveningDone = todayLog.eveningLogged || (todayLog.activity && todayLog.activity !== '');
+
+        container.innerHTML = `
+            <div class="todays-log-grid">
+                <div class="log-section ${morningDone ? 'done' : 'pending'}">
+                    <div class="log-section-header">
+                        <span class="log-icon">☀️</span>
+                        <span class="log-title">Morning</span>
+                        <span class="log-status">${morningDone ? '✓' : '○'}</span>
+                    </div>
+                    ${morningDone ? `
+                        <div class="log-details">
+                            <div class="log-item">
+                                <span class="log-label">Weight</span>
+                                <span class="log-value">${todayLog.weight} kg</span>
+                            </div>
+                            <div class="log-item">
+                                <span class="log-label">Sleep</span>
+                                <span class="log-value">${todayLog.sleep === 'yes' ? '😴 Good' : todayLog.sleep === 'no' ? '😫 Bad' : '--'}</span>
+                            </div>
+                        </div>
+                    ` : `<p class="log-pending-text">Not logged yet</p>`}
+                </div>
+                <div class="log-section ${eveningDone ? 'done' : 'pending'}">
+                    <div class="log-section-header">
+                        <span class="log-icon">🌙</span>
+                        <span class="log-title">Evening</span>
+                        <span class="log-status">${eveningDone ? '✓' : '○'}</span>
+                    </div>
+                    ${eveningDone ? `
+                        <div class="log-details">
+                            <div class="log-item">
+                                <span class="log-label">Activity</span>
+                                <span class="log-value">${this.getActivityLabel(todayLog.activity)}</span>
+                            </div>
+                            <div class="log-item">
+                                <span class="log-label">No Junk</span>
+                                <span class="log-value">${todayLog.noJunk === 'yes' ? '✓ Yes' : todayLog.noJunk === 'no' ? '✗ No' : '--'}</span>
+                            </div>
+                        </div>
+                    ` : `<p class="log-pending-text">Not logged yet</p>`}
+                </div>
+            </div>
+            ${(!morningDone || !eveningDone) ? `
+                <button class="btn-primary btn-small todays-log-btn" onclick="tracker.openQuickLog()">
+                    ${!morningDone ? '☀️ Log Morning' : '🌙 Log Evening'}
+                </button>
+            ` : `
+                <div class="todays-log-complete">✓ All logged for today!</div>
+            `}
+        `;
     }
 
     updateCurrentStats() {
