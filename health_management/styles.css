@@ -982,6 +982,32 @@ header h1 {
     color: var(--success-color);
 }
 
+.target-weight-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.target-weight-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.target-weight-edit input[type="number"] {
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    width: 100px;
+    text-align: center;
+}
+
 .target-date-display {
     font-size: 1.1rem;
     color: var(--text-secondary);
@@ -994,7 +1020,7 @@ header h1 {
     gap: 8px;
 }
 
-.edit-date-btn {
+.edit-btn {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -1004,7 +1030,7 @@ header h1 {
     transition: background 0.2s ease;
 }
 
-.edit-date-btn:hover {
+.edit-btn:hover {
     background: var(--bg-tertiary);
 }
 

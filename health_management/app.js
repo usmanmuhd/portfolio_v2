@@ -522,10 +522,18 @@ class WeightTracker {
             const daysLeft = this.calculateDaysLeft(this.target.date);
             currentTargetStatus.innerHTML = `
                 <div class="active-target">
-                    <div class="target-weight-display">${this.target.weight} kg</div>
+                    <div class="target-weight-row">
+                        <span class="target-weight-display">${this.target.weight} kg</span>
+                        <button class="edit-btn" id="editTargetWeightBtn" title="Edit weight">✏️</button>
+                    </div>
+                    <div class="target-weight-edit" id="targetWeightEdit" style="display: none;">
+                        <input type="number" id="editTargetWeightInput" value="${this.target.weight}" step="0.1" min="20" max="300">
+                        <button class="btn-small btn-success" id="saveTargetWeightBtn">Save</button>
+                        <button class="btn-small btn-secondary" id="cancelEditWeightBtn">Cancel</button>
+                    </div>
                     <div class="target-date-row">
                         <span class="target-date-display">Target by ${this.formatDateLong(this.target.date)}</span>
-                        <button class="edit-date-btn" id="editTargetDateBtn" title="Edit date">✏️</button>
+                        <button class="edit-btn" id="editTargetDateBtn" title="Edit date">✏️</button>
                     </div>
                     <div class="target-date-edit" id="targetDateEdit" style="display: none;">
                         <input type="date" id="editTargetDateInput" value="${this.target.date}">
@@ -535,6 +543,11 @@ class WeightTracker {
                     <div class="target-days-badge">${daysLeft} days remaining</div>
                 </div>
             `;
+            
+            // Add edit weight listeners
+            document.getElementById('editTargetWeightBtn').addEventListener('click', () => this.showEditTargetWeight());
+            document.getElementById('saveTargetWeightBtn').addEventListener('click', () => this.saveTargetWeight());
+            document.getElementById('cancelEditWeightBtn').addEventListener('click', () => this.hideEditTargetWeight());
             
             // Add edit date listeners
             document.getElementById('editTargetDateBtn').addEventListener('click', () => this.showEditTargetDate());
@@ -615,6 +628,28 @@ class WeightTracker {
             this.updateTargetPage();
             this.updateDashboard();
             this.showToast('Target date updated! 📅', 'success');
+        }
+    }
+
+    showEditTargetWeight() {
+        document.querySelector('.target-weight-row').style.display = 'none';
+        document.getElementById('targetWeightEdit').style.display = 'flex';
+        document.getElementById('editTargetWeightInput').focus();
+    }
+
+    hideEditTargetWeight() {
+        document.querySelector('.target-weight-row').style.display = 'flex';
+        document.getElementById('targetWeightEdit').style.display = 'none';
+    }
+
+    saveTargetWeight() {
+        const newWeight = parseFloat(document.getElementById('editTargetWeightInput').value);
+        if (newWeight && newWeight > 0) {
+            this.target.weight = newWeight;
+            localStorage.setItem('weightTarget', JSON.stringify(this.target));
+            this.updateTargetPage();
+            this.updateDashboard();
+            this.showToast('Target weight updated! 🎯', 'success');
         }
     }
 
