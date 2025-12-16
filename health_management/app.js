@@ -1137,7 +1137,7 @@ class WeightTracker {
         const stats = {
             goodSleep: logs.filter(l => l.sleep === 'yes').length,
             noJunk: logs.filter(l => l.noJunk === 'yes').length,
-            active: logs.filter(l => l.activity !== 'none').length
+            active: logs.filter(l => l.activity && l.activity !== 'none').length
         };
 
         this.charts.habits = new Chart(ctx, {
