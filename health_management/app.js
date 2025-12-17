@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.6';
+const APP_VERSION = '2.7';
 
 class WeightTracker {
     constructor() {
@@ -164,6 +164,11 @@ class WeightTracker {
         // Export Button
         document.getElementById('exportBtn').addEventListener('click', () => {
             this.exportData();
+        });
+
+        // Force Update Button
+        document.getElementById('forceUpdateBtn')?.addEventListener('click', () => {
+            this.forceUpdate();
         });
 
         // Clear Data Button
@@ -1707,6 +1712,38 @@ class WeightTracker {
         this.setDefaultDate();
         
         this.showToast('All data cleared', 'info');
+    }
+
+    async forceUpdate() {
+        this.showToast('Updating app...', 'info');
+        
+        try {
+            // Unregister all service workers
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                }
+            }
+            
+            // Clear all caches
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                }
+            }
+            
+            // Small delay to let things settle
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Force reload from server (bypass cache)
+            window.location.reload(true);
+        } catch (error) {
+            console.error('Force update failed:', error);
+            // Fallback: just reload
+            window.location.reload(true);
+        }
     }
 }
 
