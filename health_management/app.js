@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.5';
+const APP_VERSION = '2.6';
 
 class WeightTracker {
     constructor() {
@@ -925,9 +925,9 @@ class WeightTracker {
         const currentWeight = this.getCurrentWeight();
         if (!currentWeight) return null;
 
-        const startDate = new Date(this.target.setDate || Date.now());
-        const targetDate = new Date(this.target.date);
-        const today = new Date();
+        const startDate = this.target.setDate ? this.parseLocalDate(this.target.setDate) : this.getLocalMidnight();
+        const targetDate = this.parseLocalDate(this.target.date);
+        const today = this.getLocalMidnight();
         
         const totalDays = (targetDate - startDate) / (1000 * 60 * 60 * 24);
         const daysElapsed = (today - startDate) / (1000 * 60 * 60 * 24);
@@ -941,8 +941,8 @@ class WeightTracker {
     }
 
     calculateDaysLeft(targetDate) {
-        const target = new Date(targetDate);
-        const today = new Date();
+        const target = this.parseLocalDate(targetDate);
+        const today = this.getLocalMidnight();
         const diff = target - today;
         return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
     }
@@ -956,9 +956,9 @@ class WeightTracker {
         
         if (!startWeight || !targetWeight || !setDate || !targetDate) return null;
         
-        const start = new Date(setDate);
-        const target = new Date(targetDate);
-        const today = new Date();
+        const start = this.parseLocalDate(setDate);
+        const target = this.parseLocalDate(targetDate);
+        const today = this.getLocalMidnight();
         
         // Total duration in days
         const totalDays = (target - start) / (1000 * 60 * 60 * 24);
@@ -969,6 +969,9 @@ class WeightTracker {
         
         // If past target date, expected weight is target weight
         if (daysElapsed >= totalDays) return targetWeight;
+        
+        // If before start, return start weight
+        if (daysElapsed <= 0) return startWeight;
         
         // Linear interpolation: start + (elapsed/total) * (target - start)
         const weightToLose = startWeight - targetWeight;
@@ -987,9 +990,9 @@ class WeightTracker {
         
         if (!startWeight || !targetWeight || !setDate || !targetDate) return null;
         
-        const start = new Date(setDate);
-        const target = new Date(targetDate);
-        const date = new Date(dateStr);
+        const start = this.parseLocalDate(setDate);
+        const target = this.parseLocalDate(targetDate);
+        const date = this.parseLocalDate(dateStr);
         
         // Total duration in days
         const totalDays = (target - start) / (1000 * 60 * 60 * 24);
@@ -1287,9 +1290,23 @@ class WeightTracker {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
                 plugins: {
                     legend: {
                         labels: { color: colors.text }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.y.toFixed(1)} kg`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -1351,9 +1368,18 @@ class WeightTracker {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
                 plugins: {
                     legend: {
                         labels: { color: colors.text }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false
                     }
                 },
                 scales: {
@@ -1410,6 +1436,14 @@ class WeightTracker {
                     legend: {
                         position: 'bottom',
                         labels: { color: colors.text, padding: 20 }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.parsed} days`;
+                            }
+                        }
                     }
                 }
             }
@@ -1453,6 +1487,14 @@ class WeightTracker {
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y} days`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -1573,13 +1615,33 @@ class WeightTracker {
         return `${year}-${month}-${day}`;
     }
 
+    parseLocalDate(dateStr) {
+        // Parse YYYY-MM-DD or ISO string as local date at midnight
+        // This avoids timezone issues where "2024-12-17" is interpreted as UTC
+        if (!dateStr) return null;
+        
+        // If it's an ISO string with time (from setDate which uses toISOString)
+        if (dateStr.includes('T')) {
+            // Extract just the date part and parse as local
+            dateStr = dateStr.split('T')[0];
+        }
+        
+        const [year, month, day] = dateStr.split('-').map(Number);
+        return new Date(year, month - 1, day); // Local midnight
+    }
+
+    getLocalMidnight(date = new Date()) {
+        // Get a date object set to local midnight
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
     formatDate(dateStr) {
-        const date = new Date(dateStr);
+        const date = this.parseLocalDate(dateStr);
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     }
 
     formatDateLong(dateStr) {
-        const date = new Date(dateStr);
+        const date = this.parseLocalDate(dateStr);
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
