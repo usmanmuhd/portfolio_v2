@@ -5,12 +5,12 @@
 //   2. STATIC_ASSETS file references to match new versioned file names
 //   3. See app-X.X.js for full checklist
 // =============================================================================
-const CACHE_NAME = 'weight-tracker-v19';
+const CACHE_NAME = 'weight-tracker-v20';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './styles-2.9.css',
-  './app-2.9.js',
+  './styles-3.0.css',
+  './app-3.0.js',
   './manifest.json',
   './icons/icon-v2.svg',
   './icons/icon-maskable-v2.svg'
