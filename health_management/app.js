@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.4';
+const APP_VERSION = '2.5';
 
 class WeightTracker {
     constructor() {
@@ -978,6 +978,40 @@ class WeightTracker {
         return expectedWeight;
     }
 
+    calculateExpectedWeightForDate(dateStr) {
+        // Linear reduction from start weight to target weight for a specific date
+        const startWeight = this.target.startWeight || this.profile.startingWeight;
+        const targetWeight = this.target.weight;
+        const setDate = this.target.setDate;
+        const targetDate = this.target.date;
+        
+        if (!startWeight || !targetWeight || !setDate || !targetDate) return null;
+        
+        const start = new Date(setDate);
+        const target = new Date(targetDate);
+        const date = new Date(dateStr);
+        
+        // Total duration in days
+        const totalDays = (target - start) / (1000 * 60 * 60 * 24);
+        if (totalDays <= 0) return null;
+        
+        // Days elapsed since start to the given date
+        const daysElapsed = (date - start) / (1000 * 60 * 60 * 24);
+        
+        // If before start date, return start weight
+        if (daysElapsed <= 0) return startWeight;
+        
+        // If past target date, expected weight is target weight
+        if (daysElapsed >= totalDays) return targetWeight;
+        
+        // Linear interpolation
+        const weightToLose = startWeight - targetWeight;
+        const expectedLoss = (daysElapsed / totalDays) * weightToLose;
+        const expectedWeight = startWeight - expectedLoss;
+        
+        return expectedWeight;
+    }
+
     // ========== DASHBOARD UPDATE ==========
     updateDashboard() {
         this.updateCurrentStats();
@@ -1204,28 +1238,51 @@ class WeightTracker {
 
         const labels = logs.map(log => this.formatDate(log.date));
         const data = logs.map(log => log.weight);
+        
+        // Calculate expected weight for each date (linear reduction)
+        const expectedData = logs.map(log => this.calculateExpectedWeightForDate(log.date));
+
+        const datasets = [{
+            label: 'Weight (kg)',
+            data,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }];
+        
+        // Add expected weight line if target is set
+        if (this.target.weight && this.target.date && this.target.setDate) {
+            datasets.push({
+                label: 'Expected',
+                data: expectedData,
+                borderColor: '#f59e0b',
+                borderDash: [3, 3],
+                pointRadius: 0,
+                fill: false,
+                tension: 0
+            });
+        }
+        
+        // Add target weight line
+        if (this.target.weight) {
+            datasets.push({
+                label: 'Target',
+                data: Array(labels.length).fill(this.target.weight),
+                borderColor: '#22c55e',
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+            });
+        }
 
         this.charts.weight = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
-                datasets: [{
-                    label: 'Weight (kg)',
-                    data,
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }, this.target.weight ? {
-                    label: 'Target',
-                    data: Array(labels.length).fill(this.target.weight),
-                    borderColor: '#22c55e',
-                    borderDash: [5, 5],
-                    pointRadius: 0,
-                    fill: false
-                } : null].filter(Boolean)
+                datasets
             },
             options: {
                 responsive: true,
