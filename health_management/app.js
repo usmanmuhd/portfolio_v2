@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.2';
+const APP_VERSION = '2.3';
 
 class WeightTracker {
     constructor() {
@@ -945,6 +945,37 @@ class WeightTracker {
         return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
     }
 
+    calculateExpectedWeight() {
+        // Linear reduction from start weight to target weight
+        const startWeight = this.target.startWeight || this.profile.startingWeight;
+        const targetWeight = this.target.weight;
+        const setDate = this.target.setDate;
+        const targetDate = this.target.date;
+        
+        if (!startWeight || !targetWeight || !setDate || !targetDate) return null;
+        
+        const start = new Date(setDate);
+        const target = new Date(targetDate);
+        const today = new Date();
+        
+        // Total duration in days
+        const totalDays = (target - start) / (1000 * 60 * 60 * 24);
+        if (totalDays <= 0) return null;
+        
+        // Days elapsed since start
+        const daysElapsed = (today - start) / (1000 * 60 * 60 * 24);
+        
+        // If past target date, expected weight is target weight
+        if (daysElapsed >= totalDays) return targetWeight;
+        
+        // Linear interpolation: start + (elapsed/total) * (target - start)
+        const weightToLose = startWeight - targetWeight;
+        const expectedLoss = (daysElapsed / totalDays) * weightToLose;
+        const expectedWeight = startWeight - expectedLoss;
+        
+        return expectedWeight;
+    }
+
     // ========== DASHBOARD UPDATE ==========
     updateDashboard() {
         this.updateCurrentStats();
@@ -1027,6 +1058,29 @@ class WeightTracker {
         const currentWeight = this.getCurrentWeight();
         document.getElementById('currentWeight').textContent = currentWeight ? currentWeight.toFixed(1) : '--';
         document.getElementById('targetWeight').textContent = this.target.weight ? this.target.weight.toFixed(1) : '--';
+
+        // Expected weight for today
+        const expectedWeight = this.calculateExpectedWeight();
+        document.getElementById('expectedWeight').textContent = expectedWeight ? expectedWeight.toFixed(1) : '--';
+        
+        // Show difference between current and expected
+        const diffEl = document.getElementById('expectedDiff');
+        if (currentWeight && expectedWeight) {
+            const diff = currentWeight - expectedWeight;
+            if (diff > 0.1) {
+                diffEl.textContent = `+${diff.toFixed(1)} kg behind`;
+                diffEl.className = 'expected-diff behind';
+            } else if (diff < -0.1) {
+                diffEl.textContent = `${Math.abs(diff).toFixed(1)} kg ahead`;
+                diffEl.className = 'expected-diff ahead';
+            } else {
+                diffEl.textContent = 'On track!';
+                diffEl.className = 'expected-diff on-track';
+            }
+        } else {
+            diffEl.textContent = '';
+            diffEl.className = 'expected-diff';
+        }
 
         // Progress
         const progress = this.calculateProgress();

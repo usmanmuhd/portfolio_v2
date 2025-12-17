@@ -493,6 +493,28 @@ header h1 {
     font-size: 0.9rem;
 }
 
+.expected-diff {
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+.expected-diff.behind {
+    color: var(--danger-color);
+}
+
+.expected-diff.ahead {
+    color: var(--success-color);
+}
+
+.expected-diff.on-track {
+    color: var(--success-color);
+}
+
+.expected-weight .stat-value {
+    color: var(--warning-color);
+}
+
 .current-weight .stat-value {
     color: var(--primary-light);
 }
