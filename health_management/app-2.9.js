@@ -1,5 +1,18 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.8';
+// =============================================================================
+// VERSION UPDATE CHECKLIST:
+// When bumping version (e.g., 2.9 -> 3.0), update the following:
+//   1. Rename files: app-X.X.js, styles-X.X.css, sw-X.X.js
+//   2. Update APP_VERSION below
+//   3. Update CACHE_NAME in sw-X.X.js
+//   4. Update STATIC_ASSETS in sw-X.X.js to reference new file names
+//   5. Update index.html:
+//      - <link rel="stylesheet" href="styles-X.X.css">
+//      - <script src="app-X.X.js"></script>
+//      - navigator.serviceWorker.register('./sw-X.X.js')
+//   6. git add -A && git commit -m "vX.X: <message>" && git push
+// =============================================================================
+const APP_VERSION = '2.9';
 
 class WeightTracker {
     constructor() {

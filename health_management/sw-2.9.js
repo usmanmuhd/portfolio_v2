@@ -1,10 +1,16 @@
 // Service Worker for Weight Loss Tracker PWA
-const CACHE_NAME = 'weight-tracker-v18';
+// =============================================================================
+// VERSION UPDATE: When bumping version, update:
+//   1. CACHE_NAME below (increment version number)
+//   2. STATIC_ASSETS file references to match new versioned file names
+//   3. See app-X.X.js for full checklist
+// =============================================================================
+const CACHE_NAME = 'weight-tracker-v19';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './styles-2.8.css',
-  './app-2.8.js',
+  './styles-2.9.css',
+  './app-2.9.js',
   './manifest.json',
   './icons/icon-v2.svg',
   './icons/icon-maskable-v2.svg'
