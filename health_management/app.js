@@ -1,5 +1,5 @@
 // Weight Loss Tracker - Main JavaScript
-const APP_VERSION = '2.3';
+const APP_VERSION = '2.4';
 
 class WeightTracker {
     constructor() {
@@ -306,7 +306,7 @@ class WeightTracker {
         this.confirmCallback = null;
     }
 
-    openQuickLogModal() {
+    openQuickLogModal(forceTab = null) {
         const modal = document.getElementById('quickLogModal');
         
         // Set today's date (local timezone)
@@ -317,7 +317,7 @@ class WeightTracker {
         document.getElementById('morningLogDate').value = todayStr;
         document.getElementById('eveningLogDate').value = todayStr;
         
-        // Auto-select morning or evening based on time
+        // Select tab based on forceTab parameter, or auto-select based on time
         const hour = today.getHours();
         const timeTabs = document.querySelectorAll('.time-tab');
         const morningForm = document.getElementById('morningLogForm');
@@ -327,12 +327,14 @@ class WeightTracker {
         morningForm.classList.remove('active');
         eveningForm.classList.remove('active');
         
-        if (hour < 14) { // Before 2 PM, show morning
-            document.querySelector('.time-tab[data-time="morning"]').classList.add('active');
-            morningForm.classList.add('active');
-        } else { // After 2 PM, show evening
+        const showEvening = forceTab === 'evening' || (forceTab !== 'morning' && hour >= 14);
+        
+        if (showEvening) {
             document.querySelector('.time-tab[data-time="evening"]').classList.add('active');
             eveningForm.classList.add('active');
+        } else {
+            document.querySelector('.time-tab[data-time="morning"]').classList.add('active');
+            morningForm.classList.add('active');
         }
         
         // Reset forms
@@ -346,7 +348,7 @@ class WeightTracker {
         
         modal.classList.add('active');
         
-        if (hour < 14) {
+        if (!showEvening) {
             document.getElementById('quickWeight').focus();
         }
     }
@@ -1045,7 +1047,7 @@ class WeightTracker {
                 </div>
             </div>
             ${(!morningDone || !eveningDone) ? `
-                <button class="btn-primary btn-small todays-log-btn" onclick="tracker.openQuickLogModal()">
+                <button class="btn-primary btn-small todays-log-btn" onclick="tracker.openQuickLogModal('${morningDone ? 'evening' : 'morning'}')">
                     ${!morningDone ? '☀️ Log Morning' : '🌙 Log Evening'}
                 </button>
             ` : `
