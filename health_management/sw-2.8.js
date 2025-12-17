@@ -3,8 +3,8 @@ const CACHE_NAME = 'weight-tracker-v18';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './styles.css',
-  './app.js',
+  './styles-2.8.css',
+  './app-2.8.js',
   './manifest.json',
   './icons/icon-v2.svg',
   './icons/icon-maskable-v2.svg'
