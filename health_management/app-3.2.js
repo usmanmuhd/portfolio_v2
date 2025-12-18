@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.1';
+const APP_VERSION = '3.2';
 
 class WeightTracker {
     constructor() {
@@ -1644,7 +1644,7 @@ class WeightTracker {
                     <div class="progress-bar-bg">
                         <div class="progress-bar-fill ${statusClass}" style="width: ${percent}%"></div>
                     </div>
-                    <span class="progress-text">${current}/${goal}</span>
+                    <span class="weekly-progress-text">${current}/${goal}</span>
                 </div>
             </div>
         `;

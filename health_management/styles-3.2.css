@@ -821,7 +821,7 @@ header h1 {
     background: var(--danger-color);
 }
 
-.progress-text {
+.weekly-progress-text {
     font-size: 0.8rem;
     color: var(--text-secondary);
     min-width: 45px;
