@@ -19,7 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
     <link rel="apple-touch-icon" href="icons/icon.svg">
     
-    <link rel="stylesheet" href="styles-1.2.css">
+    <link rel="stylesheet" href="styles-1.3.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
@@ -145,9 +145,18 @@
         </section>
 
         <!-- App Info -->
-        <div class="app-version">
-            <span>Diet Coke Tracker v<span id="appVersion">--</span></span>
-            <button id="forceUpdateBtn" class="btn-small force-update-btn">🔄 Force Update</button>
+        <div class="app-info">
+            <div class="theme-toggle">
+                <span class="theme-label">🎨 Theme</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="theme-slider"></span>
+                </label>
+            </div>
+            <div class="app-version">
+                <span>Diet Coke Tracker v<span id="appVersion">--</span></span>
+                <button id="forceUpdateBtn" class="btn-small force-update-btn">🔄 Force Update</button>
+            </div>
         </div>
     </div>
 
@@ -206,7 +215,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="app-1.2.js"></script>
+    <script src="app-1.3.js"></script>
     
     <!-- Service Worker Registration -->
     <script>
@@ -216,7 +225,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw-1.2.js')
+                navigator.serviceWorker.register('./sw-1.3.js')
                     .then(reg => {
                         console.log('🥤 Service Worker registered!');
                         

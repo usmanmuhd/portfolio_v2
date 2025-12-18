@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '1.2';
+const APP_VERSION = '1.3';
 
 class DietCokeTracker {
     constructor() {
@@ -40,6 +40,7 @@ class DietCokeTracker {
 
     init() {
         this.displayVersion();
+        this.setupTheme();
         this.updateTodayDate();
         this.renderDrinksGrid();
         this.renderDrinksList();
@@ -48,6 +49,25 @@ class DietCokeTracker {
         this.setupEventListeners();
         this.setupModals();
         this.setupForceUpdate();
+    }
+
+    // ========== THEME ==========
+    setupTheme() {
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        
+        // Apply saved theme
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.checked = savedTheme === 'light';
+        }
+        
+        // Listen for toggle changes
+        themeToggle?.addEventListener('change', (e) => {
+            const theme = e.target.checked ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
     }
 
     // ========== UTILITIES ==========

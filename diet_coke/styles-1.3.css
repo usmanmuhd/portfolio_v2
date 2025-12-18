@@ -21,6 +21,18 @@
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
+/* Light Theme */
+[data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #e2e8f0;
+    --bg-tertiary: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #cbd5e1;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -921,12 +933,82 @@ form {
     cursor: pointer;
 }
 
+/* App Info */
+.app-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.theme-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.theme-slider:before {
+    position: absolute;
+    content: "🌙";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background: var(--bg-secondary);
+    transition: 0.3s;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.theme-switch input:checked + .theme-slider {
+    background: var(--primary-light);
+}
+
+.theme-switch input:checked + .theme-slider:before {
+    transform: translateX(24px);
+    content: "☀️";
+}
+
 /* App Version */
 .app-version {
     text-align: center;
     color: var(--text-secondary);
     font-size: 0.85rem;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -942,6 +1024,37 @@ form {
 .force-update-btn:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] body {
+    background: var(--bg-primary);
+}
+
+[data-theme="light"] .stat-card-expanded,
+[data-theme="light"] .drink-card,
+[data-theme="light"] .chart-container,
+[data-theme="light"] .modal-content,
+[data-theme="light"] .confirm-dialog {
+    box-shadow: var(--shadow);
+}
+
+[data-theme="light"] .drink-list-item {
+    background: var(--bg-secondary);
+}
+
+[data-theme="light"] header h1 {
+    -webkit-text-fill-color: initial;
+    background: none;
+    color: var(--primary-color);
+}
+
+[data-theme="light"] .toast {
+    box-shadow: var(--shadow-lg);
+}
+
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
 }
 
 /* Responsive */
