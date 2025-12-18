@@ -1,0 +1,977 @@
+/* Diet Coke Tracker - Styles */
+/* A fun, fizzy theme! 🫧 */
+
+:root {
+    --primary-color: #dc2626;
+    --primary-dark: #b91c1c;
+    --primary-light: #fecaca;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #171717;
+    --bg-tertiary: #262626;
+    --text-primary: #fafafa;
+    --text-secondary: #a3a3a3;
+    --border-color: #404040;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 30px 0;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Section Styling */
+section {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+}
+
+.today-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Drinks Grid */
+.drinks-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.drink-card {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--drink-color, var(--primary-color));
+    transition: transform 0.2s ease;
+}
+
+.drink-card:active {
+    transform: scale(0.98);
+}
+
+.drink-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.drink-emoji {
+    font-size: 1.8rem;
+}
+
+.drink-name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.drink-counter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.counter-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter-btn.increment {
+    background: var(--success-color);
+    color: white;
+}
+
+.counter-btn.increment:hover {
+    background: #16a34a;
+    transform: scale(1.1);
+}
+
+.counter-btn.decrement {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.counter-btn.decrement:hover:not(:disabled) {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.counter-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.drink-count {
+    font-size: 1.8rem;
+    font-weight: 800;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Add Drink Button */
+.add-drink-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 16px;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-drink-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(220, 38, 38, 0.1);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.stats-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+@media (max-width: 500px) {
+    .stats-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat-card {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-card-expanded {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.stat-header .stat-icon {
+    font-size: 1.2rem;
+}
+
+.stat-header .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.stat-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    min-height: 24px;
+}
+
+.breakdown-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 8px;
+    background: color-mix(in srgb, var(--drink-color) 20%, transparent);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid color-mix(in srgb, var(--drink-color) 40%, transparent);
+}
+
+.stat-breakdown .no-drinks {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Chart Section */
+.chart-section {
+    padding-bottom: 24px;
+}
+
+.date-range-controls {
+    margin-bottom: 20px;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.preset-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.preset-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* Custom Date Range */
+.custom-date-range {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.custom-date-range.hidden {
+    display: none;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.date-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.date-input-group label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.date-input-group input[type="date"] {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.date-input-group input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Fix for date picker icon color in dark mode */
+.date-input-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.chart-container {
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.max-day-info {
+    margin-top: 16px;
+}
+
+.max-day-card {
+    background: linear-gradient(135deg, var(--primary-color), #f97316);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+}
+
+.max-day-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.max-day-date {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.max-day-total {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.max-day-breakdown {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.no-data {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px;
+}
+
+/* Manage Drinks List */
+.drinks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.drink-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+.drink-list-item .drink-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.drink-list-item .drink-emoji {
+    font-size: 1.2rem;
+}
+
+.drink-list-item .drink-name {
+    font-weight: 500;
+}
+
+.drink-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.delete-drink-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.delete-drink-btn:hover {
+    background: var(--danger-color);
+}
+
+.no-drinks {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+/* Form Styles */
+form {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="color"] {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-group input[type="color"] {
+    height: 50px;
+    cursor: pointer;
+}
+
+/* Emoji Picker */
+.emoji-picker {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.emoji-option {
+    width: 100%;
+    aspect-ratio: 1;
+    font-size: 1.5rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emoji-option:hover {
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.emoji-option.selected {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    padding: 12px 24px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-danger {
+    padding: 12px 24px;
+    background: var(--danger-color);
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    filter: brightness(1.1);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+/* Confirm Modal */
+.confirm-modal .confirm-dialog {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+}
+
+.confirm-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.confirm-dialog h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.confirm-dialog p {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.confirm-buttons button {
+    flex: 1;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 14px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2000;
+    border: 1px solid var(--border-color);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    border-color: var(--success-color);
+}
+
+.toast.error {
+    border-color: var(--danger-color);
+}
+
+.toast.info {
+    border-color: var(--info-color);
+}
+
+/* Update Banner */
+.update-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary-color), #f97316);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.update-banner:not(.hidden) {
+    transform: translateY(0);
+}
+
+.update-banner.hidden {
+    display: none;
+}
+
+/* Install Banner */
+.install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary-color), #f97316);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+}
+
+.install-banner.hidden {
+    display: none;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.install-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.install-icon {
+    font-size: 28px;
+}
+
+.install-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.install-text strong {
+    font-size: 14px;
+    color: white;
+}
+
+.install-text span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.install-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.install-btn {
+    background: white;
+    color: var(--primary-color);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.install-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.install-btn:active {
+    transform: scale(0.98);
+}
+
+.install-dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+}
+
+.install-dismiss:hover {
+    color: white;
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.update-icon {
+    font-size: 1.5rem;
+}
+
+.update-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-text strong {
+    font-weight: 600;
+}
+
+.update-text span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.update-btn {
+    padding: 8px 16px;
+    background: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* App Version */
+.app-version {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.force-update-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.force-update-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preset-buttons {
+        flex-wrap: wrap;
+    }
+
+    .preset-btn {
+        min-width: 45%;
+        flex: 1 1 45%;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .emoji-picker {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

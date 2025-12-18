@@ -1,0 +1,20 @@
+{
+  "name": "Diet Coke Tracker",
+  "short_name": "Diet Coke",
+  "description": "Track your fizzy drink consumption with style! 🫧",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "health"],
+  "lang": "en-US"
+}

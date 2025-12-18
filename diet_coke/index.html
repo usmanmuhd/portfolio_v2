@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥤 Diet Coke Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Track your fizzy drink consumption with style! 🫧">
+    <meta name="theme-color" content="#dc2626">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Diet Coke">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    
+    <link rel="stylesheet" href="styles-1.1.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+<body>
+    <!-- PWA Update Banner -->
+    <div id="updateBanner" class="update-banner hidden">
+        <div class="update-content">
+            <span class="update-icon">✨</span>
+            <div class="update-text">
+                <strong>New bubbles available!</strong>
+                <span>Tap to refresh your fizz</span>
+            </div>
+        </div>
+        <button id="updateBtn" class="update-btn">Update Now</button>
+    </div>
+
+    <!-- PWA Install Banner -->
+    <div id="installBanner" class="install-banner hidden">
+        <div class="install-content">
+            <span class="install-icon">📲</span>
+            <div class="install-text">
+                <strong>Install Diet Coke Tracker</strong>
+                <span>Add to home screen for quick access</span>
+            </div>
+        </div>
+        <div class="install-actions">
+            <button id="installBtn" class="install-btn">Install</button>
+            <button id="installDismiss" class="install-dismiss" aria-label="Dismiss">✕</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🥤 Diet Coke Tracker</h1>
+            <p class="subtitle">Track your fizzy obsession! 🫧✨</p>
+        </header>
+
+        <!-- Today's Drinks -->
+        <section class="todays-drinks">
+            <div class="section-header">
+                <h2>📅 Today's Fizz</h2>
+                <span class="today-date" id="todayDate"></span>
+            </div>
+            <div class="drinks-grid" id="drinksGrid">
+                <!-- Populated by JS -->
+            </div>
+            <button class="add-drink-btn" id="addDrinkBtn">
+                ➕ Add New Drink Type
+            </button>
+        </section>
+
+        <!-- Stats Summary -->
+        <section class="stats-section">
+            <h2>📊 Your Fizzy Stats</h2>
+            <div class="stats-grid-3">
+                <div class="stat-card-expanded">
+                    <div class="stat-header">
+                        <span class="stat-icon">🥤</span>
+                        <span class="stat-label">Today</span>
+                    </div>
+                    <span class="stat-value" id="todayTotal">0</span>
+                    <div class="stat-breakdown" id="todayBreakdown"></div>
+                </div>
+                <div class="stat-card-expanded">
+                    <div class="stat-header">
+                        <span class="stat-icon">📅</span>
+                        <span class="stat-label">This Week</span>
+                    </div>
+                    <span class="stat-value" id="weekTotal">0</span>
+                    <div class="stat-breakdown" id="weekBreakdown"></div>
+                </div>
+                <div class="stat-card-expanded">
+                    <div class="stat-header">
+                        <span class="stat-icon">📆</span>
+                        <span class="stat-label">This Month</span>
+                    </div>
+                    <span class="stat-value" id="monthTotal">0</span>
+                    <div class="stat-breakdown" id="monthBreakdown"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="chart-section">
+            <h2>📈 Consumption History</h2>
+            <div class="date-range-controls">
+                <div class="preset-buttons">
+                    <button class="preset-btn active" data-range="week">7 Days</button>
+                    <button class="preset-btn" data-range="month">This Month</button>
+                    <button class="preset-btn" data-range="prevMonth">Last Month</button>
+                    <button class="preset-btn" data-range="year">This Year</button>
+                    <button class="preset-btn" data-range="prevYear">Last Year</button>
+                    <button class="preset-btn" data-range="custom">Custom 📅</button>
+                </div>
+                <div class="custom-date-range hidden" id="customDateRange">
+                    <div class="date-inputs">
+                        <div class="date-input-group">
+                            <label for="startDate">From</label>
+                            <input type="date" id="startDate">
+                        </div>
+                        <div class="date-input-group">
+                            <label for="endDate">To</label>
+                            <input type="date" id="endDate">
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-small" id="applyDateRange">Apply 🔍</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="drinksChart"></canvas>
+            </div>
+            <div class="max-day-info" id="maxDayInfo">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Manage Drinks -->
+        <section class="manage-section">
+            <h2>⚙️ Manage Drink Types</h2>
+            <div class="drinks-list" id="drinksList">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- App Info -->
+        <div class="app-version">
+            <span>Diet Coke Tracker v<span id="appVersion">--</span></span>
+            <button id="forceUpdateBtn" class="btn-small force-update-btn">🔄 Force Update</button>
+        </div>
+    </div>
+
+    <!-- Add Drink Modal -->
+    <div id="addDrinkModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>➕ Add New Drink</h2>
+                <button class="modal-close" id="closeAddModal">&times;</button>
+            </div>
+            <form id="addDrinkForm">
+                <div class="form-group">
+                    <label for="drinkName">🏷️ Drink Name</label>
+                    <input type="text" id="drinkName" placeholder="e.g., Diet Coke, Coke Zero..." required>
+                </div>
+                <div class="form-group">
+                    <label for="drinkEmoji">😊 Pick an Emoji</label>
+                    <div class="emoji-picker" id="emojiPicker">
+                        <button type="button" class="emoji-option" data-emoji="🥤">🥤</button>
+                        <button type="button" class="emoji-option" data-emoji="🫧">🫧</button>
+                        <button type="button" class="emoji-option" data-emoji="🥫">🥫</button>
+                        <button type="button" class="emoji-option" data-emoji="🧃">🧃</button>
+                        <button type="button" class="emoji-option" data-emoji="🍾">🍾</button>
+                        <button type="button" class="emoji-option" data-emoji="⚫">⚫</button>
+                        <button type="button" class="emoji-option" data-emoji="🔴">🔴</button>
+                        <button type="button" class="emoji-option" data-emoji="🟢">🟢</button>
+                        <button type="button" class="emoji-option" data-emoji="🟡">🟡</button>
+                        <button type="button" class="emoji-option" data-emoji="⚪">⚪</button>
+                        <button type="button" class="emoji-option" data-emoji="🍋">🍋</button>
+                        <button type="button" class="emoji-option" data-emoji="🍊">🍊</button>
+                    </div>
+                    <input type="hidden" id="drinkEmoji" value="🥤">
+                </div>
+                <div class="form-group">
+                    <label for="drinkColor">🎨 Chart Color</label>
+                    <input type="color" id="drinkColor" value="#dc2626">
+                </div>
+                <button type="submit" class="btn-primary">✨ Add Drink</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal-overlay confirm-modal">
+        <div class="confirm-dialog">
+            <div class="confirm-icon" id="confirmIcon">⚠️</div>
+            <h3 id="confirmTitle">Are you sure?</h3>
+            <p id="confirmMessage">This action cannot be undone.</p>
+            <div class="confirm-buttons">
+                <button id="confirmCancel" class="btn-secondary">Cancel</button>
+                <button id="confirmOk" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app-1.1.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        let newWorker;
+        const updateBanner = document.getElementById('updateBanner');
+        const updateBtn = document.getElementById('updateBtn');
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw-1.1.js')
+                    .then(reg => {
+                        console.log('🥤 Service Worker registered!');
+                        
+                        reg.addEventListener('updatefound', () => {
+                            newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    updateBanner.classList.remove('hidden');
+                                }
+                            });
+                        });
+                    })
+                    .catch(err => console.log('SW registration failed:', err));
+
+                // Handle controller change (when new SW takes over)
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    window.location.reload();
+                });
+            });
+        }
+
+        // Update button click handler
+        updateBtn?.addEventListener('click', () => {
+            if (newWorker) {
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+            updateBanner.classList.add('hidden');
+            window.location.reload();
+        });
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const installDismiss = document.getElementById('installDismiss');
+
+        // Check if already dismissed recently (24 hours)
+        const dismissedTime = localStorage.getItem('installDismissed');
+        const showBanner = !dismissedTime || (Date.now() - parseInt(dismissedTime)) > 24 * 60 * 60 * 1000;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install banner if not recently dismissed
+            if (showBanner && !window.matchMedia('(display-mode: standalone)').matches) {
+                installBanner.classList.remove('hidden');
+            }
+        });
+
+        installBtn?.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log('Install prompt outcome:', outcome);
+            deferredPrompt = null;
+            installBanner.classList.add('hidden');
+        });
+
+        installDismiss?.addEventListener('click', () => {
+            installBanner.classList.add('hidden');
+            localStorage.setItem('installDismissed', Date.now().toString());
+        });
+
+        // Hide banner if app is installed
+        window.addEventListener('appinstalled', () => {
+            installBanner.classList.add('hidden');
+            deferredPrompt = null;
+            console.log('🥤 PWA installed successfully');
+        });
+    </script>
+</body>
+</html>
