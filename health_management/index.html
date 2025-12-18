@@ -19,7 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="icons/icon-v2.svg">
     <link rel="apple-touch-icon" href="icons/icon-v2.svg">
     
-    <link rel="stylesheet" href="styles-3.0.css">
+    <link rel="stylesheet" href="styles-3.1.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
@@ -125,6 +125,14 @@
             <div class="todays-log-card">
                 <h3>📋 Today's Log</h3>
                 <div class="todays-log-content" id="todaysLogContent">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Streaks & Weekly Progress -->
+            <div class="streaks-card">
+                <h3>🔥 Streaks & Weekly Progress</h3>
+                <div class="streaks-content" id="streaksContent">
                     <!-- Will be populated by JS -->
                 </div>
             </div>
@@ -407,6 +415,49 @@
                 <button type="submit" class="btn-primary">💾 Save Profile</button>
             </form>
 
+            <!-- Weekly Goals Section -->
+            <div class="weekly-goals-section">
+                <h3>🎯 Weekly Goals</h3>
+                <p class="section-hint">Set how many days per week you want to achieve each habit</p>
+                <form id="weeklyGoalsForm" class="weekly-goals-form">
+                    <div class="goals-grid">
+                        <div class="goal-item">
+                            <label for="goalGym">🏋️ Gym</label>
+                            <div class="goal-input-wrapper">
+                                <input type="range" id="goalGym" min="0" max="7" value="3">
+                                <span class="goal-value" id="goalGymValue">3</span>
+                                <span class="goal-unit">days/week</span>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <label for="goalWalk">🚶 Walk/Run</label>
+                            <div class="goal-input-wrapper">
+                                <input type="range" id="goalWalk" min="0" max="7" value="5">
+                                <span class="goal-value" id="goalWalkValue">5</span>
+                                <span class="goal-unit">days/week</span>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <label for="goalNoJunk">🥗 No Junk Food</label>
+                            <div class="goal-input-wrapper">
+                                <input type="range" id="goalNoJunk" min="0" max="7" value="5">
+                                <span class="goal-value" id="goalNoJunkValue">5</span>
+                                <span class="goal-unit">days/week</span>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <label for="goalSleep">😴 Good Sleep</label>
+                            <div class="goal-input-wrapper">
+                                <input type="range" id="goalSleep" min="0" max="7" value="6">
+                                <span class="goal-value" id="goalSleepValue">6</span>
+                                <span class="goal-unit">days/week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">💾 Save Goals</button>
+                </form>
+            </div>
+
             <div class="profile-summary" id="profileSummary">
                 <!-- Profile summary will be displayed here -->
             </div>
@@ -524,7 +575,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="app-3.0.js"></script>
+    <script src="app-3.1.js"></script>
     
     <!-- Service Worker Registration & PWA Install -->
     <script>
@@ -535,7 +586,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw-3.0.js')
+                navigator.serviceWorker.register('./sw-3.1.js')
                     .then((registration) => {
                         console.log('ServiceWorker registered:', registration.scope);
 

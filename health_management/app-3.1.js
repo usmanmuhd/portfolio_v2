@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.0';
+const APP_VERSION = '3.1';
 
 class WeightTracker {
     constructor() {
@@ -20,6 +20,12 @@ class WeightTracker {
         this.profile = JSON.parse(localStorage.getItem('userProfile')) || {};
         this.target = JSON.parse(localStorage.getItem('weightTarget')) || {};
         this.pastTargets = JSON.parse(localStorage.getItem('pastTargets')) || [];
+        this.weeklyGoals = JSON.parse(localStorage.getItem('weeklyGoals')) || {
+            gym: 3,
+            walk: 5,
+            noJunk: 5,
+            sleep: 6
+        };
         this.charts = {};
         this.confirmCallback = null;
         
@@ -34,6 +40,7 @@ class WeightTracker {
         this.setupTargetButtons();
         this.setupQuickLog();
         this.setupConfirmModal();
+        this.setupWeeklyGoals();
         this.loadProfile();
         this.updateTargetPage();
         this.updateDashboard();
@@ -1038,6 +1045,7 @@ class WeightTracker {
         this.updateCurrentStats();
         this.updateHealthStats();
         this.updateTodaysLog();
+        this.updateStreaksAndProgress();
         this.updateCharts();
         this.updateWeeklySummary();
     }
@@ -1529,6 +1537,213 @@ class WeightTracker {
                 }
             }
         });
+    }
+
+    // ========== WEEKLY GOALS ==========
+    setupWeeklyGoals() {
+        // Update slider value displays
+        const sliders = ['goalGym', 'goalWalk', 'goalNoJunk', 'goalSleep'];
+        sliders.forEach(id => {
+            const slider = document.getElementById(id);
+            const valueDisplay = document.getElementById(id + 'Value');
+            if (slider && valueDisplay) {
+                slider.addEventListener('input', () => {
+                    valueDisplay.textContent = slider.value;
+                });
+            }
+        });
+
+        // Load saved goals
+        this.loadWeeklyGoals();
+
+        // Save goals form
+        document.getElementById('weeklyGoalsForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveWeeklyGoals();
+        });
+    }
+
+    loadWeeklyGoals() {
+        document.getElementById('goalGym').value = this.weeklyGoals.gym;
+        document.getElementById('goalGymValue').textContent = this.weeklyGoals.gym;
+        document.getElementById('goalWalk').value = this.weeklyGoals.walk;
+        document.getElementById('goalWalkValue').textContent = this.weeklyGoals.walk;
+        document.getElementById('goalNoJunk').value = this.weeklyGoals.noJunk;
+        document.getElementById('goalNoJunkValue').textContent = this.weeklyGoals.noJunk;
+        document.getElementById('goalSleep').value = this.weeklyGoals.sleep;
+        document.getElementById('goalSleepValue').textContent = this.weeklyGoals.sleep;
+    }
+
+    saveWeeklyGoals() {
+        this.weeklyGoals = {
+            gym: parseInt(document.getElementById('goalGym').value),
+            walk: parseInt(document.getElementById('goalWalk').value),
+            noJunk: parseInt(document.getElementById('goalNoJunk').value),
+            sleep: parseInt(document.getElementById('goalSleep').value)
+        };
+        localStorage.setItem('weeklyGoals', JSON.stringify(this.weeklyGoals));
+        this.showToast('Weekly goals saved! 🎯', 'success');
+        this.updateDashboard();
+    }
+
+    // ========== STREAKS & PROGRESS ==========
+    updateStreaksAndProgress() {
+        const container = document.getElementById('streaksContent');
+        const streaks = this.calculateStreaks();
+        const weeklyProgress = this.calculateWeeklyProgress();
+
+        container.innerHTML = `
+            <div class="streaks-grid">
+                <div class="streak-item">
+                    <span class="streak-icon">🏋️</span>
+                    <span class="streak-count">${streaks.gym.current}</span>
+                    <span class="streak-label">Gym Streak</span>
+                    <span class="streak-best">Best: ${streaks.gym.best}</span>
+                </div>
+                <div class="streak-item">
+                    <span class="streak-icon">🚶</span>
+                    <span class="streak-count">${streaks.walk.current}</span>
+                    <span class="streak-label">Walk Streak</span>
+                    <span class="streak-best">Best: ${streaks.walk.best}</span>
+                </div>
+                <div class="streak-item">
+                    <span class="streak-icon">🥗</span>
+                    <span class="streak-count">${streaks.noJunk.current}</span>
+                    <span class="streak-label">No Junk Streak</span>
+                    <span class="streak-best">Best: ${streaks.noJunk.best}</span>
+                </div>
+                <div class="streak-item">
+                    <span class="streak-icon">😴</span>
+                    <span class="streak-count">${streaks.sleep.current}</span>
+                    <span class="streak-label">Sleep Streak</span>
+                    <span class="streak-best">Best: ${streaks.sleep.best}</span>
+                </div>
+            </div>
+            <div class="weekly-progress-section">
+                <h4>📊 This Week vs Goals</h4>
+                <div class="weekly-progress-grid">
+                    ${this.renderProgressBar('🏋️', weeklyProgress.gym, this.weeklyGoals.gym)}
+                    ${this.renderProgressBar('🚶', weeklyProgress.walk, this.weeklyGoals.walk)}
+                    ${this.renderProgressBar('🥗', weeklyProgress.noJunk, this.weeklyGoals.noJunk)}
+                    ${this.renderProgressBar('😴', weeklyProgress.sleep, this.weeklyGoals.sleep)}
+                </div>
+            </div>
+        `;
+    }
+
+    renderProgressBar(icon, current, goal) {
+        const percent = goal > 0 ? Math.min(100, (current / goal) * 100) : 100;
+        let statusClass = 'in-progress';
+        if (percent >= 100) statusClass = 'complete';
+        else if (percent < 50) statusClass = 'behind';
+
+        return `
+            <div class="progress-item">
+                <span class="progress-icon">${icon}</span>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill ${statusClass}" style="width: ${percent}%"></div>
+                    </div>
+                    <span class="progress-text">${current}/${goal}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    calculateWeeklyProgress() {
+        const today = this.getLocalMidnight();
+        const dayOfWeek = today.getDay(); // 0 = Sunday
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - dayOfWeek);
+
+        const weekLogs = this.logs.filter(log => {
+            const logDate = this.parseLocalDate(log.date);
+            return logDate >= startOfWeek && logDate <= today;
+        });
+
+        return {
+            gym: weekLogs.filter(l => l.activity === 'gym' || l.activity === 'both').length,
+            walk: weekLogs.filter(l => l.activity === 'walk' || l.activity === 'both').length,
+            noJunk: weekLogs.filter(l => l.noJunk === 'yes').length,
+            sleep: weekLogs.filter(l => l.sleep === 'yes').length
+        };
+    }
+
+    calculateStreaks() {
+        // Sort logs by date descending (most recent first)
+        const sortedLogs = [...this.logs].sort((a, b) => 
+            this.parseLocalDate(b.date) - this.parseLocalDate(a.date)
+        );
+
+        const calculateHabitStreak = (checkFn) => {
+            let current = 0;
+            let best = 0;
+            let tempStreak = 0;
+            let expectedDate = this.getLocalMidnight();
+
+            // Calculate current streak (must include today or yesterday)
+            for (const log of sortedLogs) {
+                const logDate = this.parseLocalDate(log.date);
+                const diffDays = Math.round((expectedDate - logDate) / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 0 && checkFn(log)) {
+                    current++;
+                    expectedDate.setDate(expectedDate.getDate() - 1);
+                } else if (diffDays === 1 && checkFn(log)) {
+                    // Allow starting from yesterday
+                    if (current === 0) {
+                        current = 1;
+                        expectedDate = new Date(logDate);
+                        expectedDate.setDate(expectedDate.getDate() - 1);
+                    } else {
+                        break;
+                    }
+                } else if (diffDays > 1) {
+                    break;
+                } else if (!checkFn(log)) {
+                    break;
+                }
+            }
+
+            // Calculate best streak ever
+            expectedDate = null;
+            for (const log of sortedLogs.reverse()) {
+                const logDate = this.parseLocalDate(log.date);
+                
+                if (checkFn(log)) {
+                    if (expectedDate === null) {
+                        tempStreak = 1;
+                        expectedDate = new Date(logDate);
+                        expectedDate.setDate(expectedDate.getDate() + 1);
+                    } else {
+                        const diffDays = Math.round((logDate - expectedDate) / (1000 * 60 * 60 * 24));
+                        if (diffDays === 0) {
+                            tempStreak++;
+                            expectedDate.setDate(expectedDate.getDate() + 1);
+                        } else {
+                            best = Math.max(best, tempStreak);
+                            tempStreak = 1;
+                            expectedDate = new Date(logDate);
+                            expectedDate.setDate(expectedDate.getDate() + 1);
+                        }
+                    }
+                } else {
+                    best = Math.max(best, tempStreak);
+                    tempStreak = 0;
+                    expectedDate = null;
+                }
+            }
+            best = Math.max(best, tempStreak, current);
+
+            return { current, best };
+        };
+
+        return {
+            gym: calculateHabitStreak(log => log.activity === 'gym' || log.activity === 'both'),
+            walk: calculateHabitStreak(log => log.activity === 'walk' || log.activity === 'both'),
+            noJunk: calculateHabitStreak(log => log.noJunk === 'yes'),
+            sleep: calculateHabitStreak(log => log.sleep === 'yes')
+        };
     }
 
     updateWeeklySummary() {
