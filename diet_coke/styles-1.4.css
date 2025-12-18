@@ -488,6 +488,12 @@ section h2 {
     border-radius: 50%;
 }
 
+.drink-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.edit-drink-btn,
 .delete-drink-btn {
     background: transparent;
     border: none;
@@ -496,6 +502,10 @@ section h2 {
     padding: 4px 8px;
     border-radius: 4px;
     transition: all 0.2s ease;
+}
+
+.edit-drink-btn:hover {
+    background: var(--info-color);
 }
 
 .delete-drink-btn:hover {

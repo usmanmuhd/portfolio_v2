@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '1.3';
+const APP_VERSION = '1.4';
 
 class DietCokeTracker {
     constructor() {
@@ -272,9 +272,16 @@ class DietCokeTracker {
                     <span class="drink-name">${drink.name}</span>
                 </span>
                 <div class="drink-color" style="background: ${drink.color}"></div>
-                <button class="delete-drink-btn" data-id="${drink.id}" title="Delete">🗑️</button>
+                <div class="drink-actions">
+                    <button class="edit-drink-btn" data-id="${drink.id}" title="Edit">✏️</button>
+                    <button class="delete-drink-btn" data-id="${drink.id}" title="Delete">🗑️</button>
+                </div>
             </div>
         `).join('');
+
+        list.querySelectorAll('.edit-drink-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.openEditModal(btn.dataset.id));
+        });
 
         list.querySelectorAll('.delete-drink-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -642,7 +649,7 @@ class DietCokeTracker {
             }
         });
 
-        // Emoji picker
+        // Emoji picker for add modal
         emojiPicker?.querySelectorAll('.emoji-option').forEach(btn => {
             btn.addEventListener('click', () => {
                 emojiPicker.querySelectorAll('.emoji-option').forEach(b => b.classList.remove('selected'));
@@ -667,6 +674,46 @@ class DietCokeTracker {
             }
         });
 
+        // Edit modal setup
+        const editModal = document.getElementById('editDrinkModal');
+        const closeEditBtn = document.getElementById('closeEditModal');
+        const editForm = document.getElementById('editDrinkForm');
+        const editEmojiPicker = document.getElementById('editEmojiPicker');
+
+        closeEditBtn?.addEventListener('click', () => {
+            editModal.classList.remove('active');
+        });
+
+        editModal?.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                editModal.classList.remove('active');
+            }
+        });
+
+        // Emoji picker for edit modal
+        editEmojiPicker?.querySelectorAll('.emoji-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                editEmojiPicker.querySelectorAll('.emoji-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                document.getElementById('editDrinkEmoji').value = btn.dataset.emoji;
+            });
+        });
+
+        // Edit form submit
+        editForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editDrinkId').value;
+            const name = document.getElementById('editDrinkName').value.trim();
+            const emoji = document.getElementById('editDrinkEmoji').value;
+            const color = document.getElementById('editDrinkColor').value;
+
+            if (name && id) {
+                this.updateDrinkType(id, name, emoji, color);
+                editModal.classList.remove('active');
+                this.showToast(`${emoji} ${name} updated! ✨`, 'success');
+            }
+        });
+
         // Confirm modal
         const confirmModal = document.getElementById('confirmModal');
         document.getElementById('confirmCancel')?.addEventListener('click', () => {
@@ -681,6 +728,45 @@ class DietCokeTracker {
             confirmModal.classList.remove('active');
             this.confirmCallback = null;
         });
+    }
+
+    openEditModal(drinkId) {
+        const drink = this.drinkTypes.find(d => d.id === drinkId);
+        if (!drink) return;
+
+        document.getElementById('editDrinkId').value = drink.id;
+        document.getElementById('editDrinkName').value = drink.name;
+        document.getElementById('editDrinkEmoji').value = drink.emoji;
+        document.getElementById('editDrinkColor').value = drink.color;
+
+        // Select the correct emoji
+        const editEmojiPicker = document.getElementById('editEmojiPicker');
+        editEmojiPicker.querySelectorAll('.emoji-option').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.emoji === drink.emoji);
+        });
+
+        document.getElementById('editDrinkModal').classList.add('active');
+    }
+
+    updateDrinkType(id, name, emoji, color) {
+        const drink = this.drinkTypes.find(d => d.id === id);
+        if (drink) {
+            drink.name = name;
+            drink.emoji = emoji;
+            drink.color = color;
+            this.saveDrinkTypes();
+            
+            // Also update deletedDrinks if this drink was previously deleted and re-added
+            if (this.deletedDrinks[id]) {
+                this.deletedDrinks[id] = { name, emoji, color };
+                this.saveDeletedDrinks();
+            }
+            
+            this.renderDrinksGrid();
+            this.renderDrinksList();
+            this.updateStats();
+            this.updateChart();
+        }
     }
 
     showConfirm(title, message, callback) {
