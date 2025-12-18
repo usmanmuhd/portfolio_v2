@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '1.4';
+const APP_VERSION = '2.0';
 
 class DietCokeTracker {
     constructor() {

@@ -1,0 +1,1367 @@
+/* Diet Coke Tracker - Styles */
+/* ✨ Pinteresty fun vibes! 🫧 */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+    --primary-color: #e11d48;
+    --primary-dark: #be123c;
+    --primary-light: #ffe4e6;
+    --accent-coral: #fb7185;
+    --accent-peach: #fda4af;
+    --accent-orange: #fb923c;
+    --accent-yellow: #fbbf24;
+    --bg-primary: #18181b;
+    --bg-secondary: #27272a;
+    --bg-tertiary: #3f3f46;
+    --bg-card: rgba(63, 63, 70, 0.6);
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    --radius: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 40px rgba(225, 29, 72, 0.2);
+}
+
+/* Light Theme - Soft Pinterest vibes */
+[data-theme="light"] {
+    --bg-primary: #fef7f7;
+    --bg-secondary: #fff1f2;
+    --bg-tertiary: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --text-primary: #1f1f1f;
+    --text-secondary: #6b7280;
+    --border-color: rgba(0, 0, 0, 0.06);
+    --shadow: 0 4px 24px rgba(225, 29, 72, 0.08);
+    --shadow-lg: 0 12px 40px rgba(225, 29, 72, 0.12);
+    --shadow-glow: 0 0 60px rgba(225, 29, 72, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Animated background gradient */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(225, 29, 72, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(251, 113, 133, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(251, 146, 60, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 120px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 8px;
+}
+
+header h1 {
+    font-size: 2.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-coral) 50%, var(--accent-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    text-shadow: var(--shadow-glow);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Section Styling - Pinterest Cards */
+section {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+}
+
+.today-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    background: var(--bg-secondary);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Drinks Grid - Pinterest Pin style */
+.drinks-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.drink-card {
+    background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid color-mix(in srgb, var(--drink-color, var(--primary-color)) 25%, transparent);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--drink-color, var(--primary-color)) 15%, transparent);
+}
+
+.drink-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--drink-color, var(--primary-color)) 10%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.drink-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.drink-card:active {
+    transform: scale(0.98);
+}
+
+.drink-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 1;
+}
+
+.drink-emoji {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.drink-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.2px;
+}
+
+.drink-counter {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 1;
+}
+
+.counter-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.counter-btn.increment {
+    background: linear-gradient(135deg, var(--success-color), #34d399);
+    color: white;
+}
+
+.counter-btn.increment:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.counter-btn.decrement {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.counter-btn.decrement:hover:not(:disabled) {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+    transform: scale(1.1);
+}
+
+.counter-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.drink-count {
+    font-size: 2rem;
+    font-weight: 900;
+    min-width: 44px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Add Drink Button - Pinterest style */
+.add-drink-btn {
+    width: 100%;
+    padding: 18px;
+    margin-top: 16px;
+    background: linear-gradient(135deg, transparent, rgba(225, 29, 72, 0.05));
+    border: 2px dashed var(--accent-coral);
+    border-radius: var(--radius-md);
+    color: var(--accent-coral);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-drink-btn:hover {
+    background: linear-gradient(135deg, rgba(225, 29, 72, 0.1), rgba(251, 113, 133, 0.15));
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.15);
+}
+
+/* Stats Grid - Cute Pinterest cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.stats-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+@media (max-width: 500px) {
+    .stats-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat-card {
+    background: linear-gradient(145deg, var(--bg-tertiary), var(--bg-secondary));
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.stat-card-expanded {
+    background: linear-gradient(145deg, var(--bg-tertiary), var(--bg-secondary));
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid color-mix(in srgb, var(--primary-color) 20%, var(--border-color));
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(225, 29, 72, 0.08);
+}
+
+.stat-card-expanded:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.stat-header .stat-icon {
+    font-size: 1.3rem;
+}
+
+.stat-header .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    min-height: 26px;
+}
+
+.breakdown-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    background: color-mix(in srgb, var(--drink-color) 15%, transparent);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid color-mix(in srgb, var(--drink-color) 30%, transparent);
+    transition: all 0.2s ease;
+}
+
+.breakdown-item:hover {
+    transform: scale(1.05);
+    background: color-mix(in srgb, var(--drink-color) 25%, transparent);
+}
+
+.stat-breakdown .no-drinks {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: normal;
+    opacity: 0.7;
+}
+
+.stat-icon {
+    font-size: 1.6rem;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Chart Section - Fun and bouncy */
+.chart-section {
+    padding-bottom: 24px;
+}
+
+.date-range-controls {
+    margin-bottom: 20px;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.preset-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 12px 14px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.preset-btn:hover {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 113, 133, 0.2);
+}
+
+.preset-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral));
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+}
+
+/* Custom Date Range */
+.custom-date-range {
+    margin-top: 16px;
+    padding: 18px;
+    background: linear-gradient(145deg, var(--bg-tertiary), var(--bg-secondary));
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.custom-date-range.hidden {
+    display: none;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.date-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.date-input-group label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.date-input-group input[type="date"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.date-input-group input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+}
+
+/* Fix for date picker icon color in dark mode */
+.date-input-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.chart-container {
+    height: 300px;
+    margin-bottom: 20px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.max-day-info {
+    margin-top: 16px;
+}
+
+.max-day-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral), var(--accent-orange));
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.max-day-card::before {
+    content: '🏆';
+    position: absolute;
+    font-size: 80px;
+    opacity: 0.15;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.max-day-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+.max-day-date {
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.max-day-total {
+    font-size: 2rem;
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.max-day-breakdown {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+.no-data {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 24px;
+    font-weight: 600;
+}
+
+/* Manage Drinks List - Pinterest board style */
+.drinks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.drink-list-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.drink-list-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+}
+
+.drink-list-item .drink-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drink-list-item .drink-emoji {
+    font-size: 1.4rem;
+}
+
+.drink-list-item .drink-name {
+    font-weight: 700;
+}
+
+.drink-color {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.drink-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.edit-drink-btn,
+.delete-drink-btn {
+    background: var(--bg-secondary);
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.edit-drink-btn:hover {
+    background: var(--info-color);
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.delete-drink-btn:hover {
+    background: var(--danger-color);
+    transform: scale(1.1) rotate(5deg);
+}
+
+.no-drinks {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 24px;
+    font-weight: 600;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-secondary);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Modal - Pinterest overlay style */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-primary));
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    margin-bottom: 8px;
+}
+
+.modal-header h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.modal-close {
+    background: var(--bg-tertiary);
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+    background: var(--primary-light);
+    transform: rotate(90deg);
+}
+
+/* Form Styles - Pinterest input style */
+form {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="color"] {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
+}
+
+.form-group input[type="color"] {
+    height: 56px;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+}
+
+/* Emoji Picker - Pinterest grid */
+.emoji-picker {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+
+.emoji-option {
+    width: 100%;
+    aspect-ratio: 1;
+    font-size: 1.6rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.emoji-option:hover {
+    border-color: var(--accent-coral);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.emoji-option.selected {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral));
+    border-color: transparent;
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+}
+
+/* Buttons - Pinterest style */
+.btn-primary {
+    width: 100%;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral));
+    border: none;
+    border-radius: 28px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 28px rgba(225, 29, 72, 0.4);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    padding: 14px 28px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: 28px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--danger-color), #f87171);
+    border: none;
+    border-radius: 28px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+/* Confirm Modal - Cute dialog */
+.confirm-modal .confirm-dialog {
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-primary));
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.confirm-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    display: block;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+.confirm-dialog h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.confirm-dialog p {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    font-weight: 500;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.confirm-buttons button {
+    flex: 1;
+}
+
+/* Toast - Pinterest notification style */
+.toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px) scale(0.9);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 16px 28px;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2000;
+    border: 2px solid var(--border-color);
+    font-weight: 700;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.toast.success {
+    border-color: var(--success-color);
+    background: linear-gradient(135deg, var(--bg-tertiary), rgba(16, 185, 129, 0.1));
+}
+
+.toast.error {
+    border-color: var(--danger-color);
+    background: linear-gradient(135deg, var(--bg-tertiary), rgba(239, 68, 68, 0.1));
+}
+
+.toast.info {
+    border-color: var(--info-color);
+    background: linear-gradient(135deg, var(--bg-tertiary), rgba(59, 130, 246, 0.1));
+}
+
+/* Update Banner - Fun gradient */
+.update-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral), var(--accent-orange));
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.3);
+}
+
+.update-banner:not(.hidden) {
+    transform: translateY(0);
+}
+
+.update-banner.hidden {
+    display: none;
+}
+
+/* Install Banner */
+.install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-coral), var(--accent-orange));
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+}
+
+.install-banner.hidden {
+    display: none;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.install-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.install-icon {
+    font-size: 28px;
+}
+
+.install-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.install-text strong {
+    font-size: 14px;
+    color: white;
+}
+
+.install-text span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.install-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.install-btn {
+    background: white;
+    color: var(--primary-color);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.install-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.install-btn:active {
+    transform: scale(0.98);
+}
+
+.install-dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+}
+
+.install-dismiss:hover {
+    color: white;
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.update-icon {
+    font-size: 1.5rem;
+}
+
+.update-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-text strong {
+    font-weight: 600;
+}
+
+.update-text span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.update-btn {
+    padding: 8px 16px;
+    background: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* App Info - Cute footer */
+.app-info {
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Theme Toggle - Pinterest style switch */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg-secondary);
+    padding: 10px 18px;
+    border-radius: 28px;
+    border: 1px solid var(--border-color);
+}
+
+.theme-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.theme-switch {
+    position: relative;
+    width: 56px;
+    height: 30px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+    border: 2px solid var(--border-color);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 30px;
+}
+
+.theme-slider:before {
+    position: absolute;
+    content: "🌙";
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 1px;
+    background: var(--bg-primary);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-switch input:checked + .theme-slider {
+    background: linear-gradient(135deg, var(--primary-light), #fecdd3);
+    border-color: var(--accent-peach);
+}
+
+.theme-switch input:checked + .theme-slider:before {
+    transform: translateX(26px);
+    content: "☀️";
+}
+
+/* App Version */
+.app-version {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.force-update-btn {
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.force-update-btn:hover {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+    transform: translateY(-2px);
+}
+
+/* Light Theme Overrides - Pinterest light mode */
+[data-theme="light"] body {
+    background: var(--bg-primary);
+}
+
+[data-theme="light"] body::before {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(225, 29, 72, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(251, 113, 133, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(251, 146, 60, 0.04) 0%, transparent 50%);
+}
+
+[data-theme="light"] section {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 24px rgba(225, 29, 72, 0.06);
+}
+
+[data-theme="light"] .stat-card-expanded,
+[data-theme="light"] .drink-card,
+[data-theme="light"] .chart-container,
+[data-theme="light"] .modal-content,
+[data-theme="light"] .confirm-dialog {
+    box-shadow: 0 8px 32px rgba(225, 29, 72, 0.08);
+}
+
+[data-theme="light"] .drink-card {
+    background: linear-gradient(135deg, #ffffff, #fff1f2);
+}
+
+[data-theme="light"] .drink-list-item {
+    background: linear-gradient(135deg, #ffffff, #fef2f2);
+}
+
+[data-theme="light"] header h1 {
+    -webkit-text-fill-color: initial;
+    background: none;
+    color: var(--primary-color);
+}
+
+[data-theme="light"] .stat-value {
+    -webkit-text-fill-color: var(--primary-color);
+}
+
+[data-theme="light"] .drink-count {
+    -webkit-text-fill-color: var(--text-primary);
+}
+
+[data-theme="light"] .toast {
+    box-shadow: var(--shadow-lg);
+}
+
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
+}
+
+[data-theme="light"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container {
+        padding: 12px;
+    }
+
+    header {
+        padding: 32px 16px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .stats-grid-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .stat-card-expanded {
+        padding: 14px 10px;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+    }
+
+    .preset-buttons {
+        gap: 6px;
+    }
+
+    .preset-btn {
+        min-width: 45%;
+        flex: 1 1 45%;
+        padding: 10px 12px;
+        font-size: 0.75rem;
+    }
+
+    .chart-container {
+        height: 260px;
+        padding: 12px;
+    }
+
+    .emoji-picker {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .drink-card {
+        padding: 16px;
+    }
+
+    .drink-emoji {
+        font-size: 1.8rem;
+    }
+
+    .counter-btn {
+        width: 44px;
+        height: 44px;
+    }
+}

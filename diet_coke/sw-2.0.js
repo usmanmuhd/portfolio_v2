@@ -6,12 +6,12 @@
 //   3. Update STATIC_ASSETS file references
 //   4. See app-X.X.js for full checklist
 // =============================================================================
-const CACHE_NAME = 'diet-coke-tracker-v5';
+const CACHE_NAME = 'diet-coke-tracker-v6';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './styles-1.4.css',
-  './app-1.4.js',
+  './styles-2.0.css',
+  './app-2.0.js',
   './manifest.json',
   './icons/icon.svg'
 ];
