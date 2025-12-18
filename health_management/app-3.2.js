@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.2';
+const APP_VERSION = '3.3';
 
 class WeightTracker {
     constructor() {
@@ -1597,26 +1597,26 @@ class WeightTracker {
                 <div class="streak-item">
                     <span class="streak-icon">🏋️</span>
                     <span class="streak-count">${streaks.gym.current}</span>
-                    <span class="streak-label">Gym Streak</span>
-                    <span class="streak-best">Best: ${streaks.gym.best}</span>
+                    <span class="streak-label">Gym (weeks)</span>
+                    <span class="streak-best">Best: ${streaks.gym.best} wk</span>
                 </div>
                 <div class="streak-item">
                     <span class="streak-icon">🚶</span>
                     <span class="streak-count">${streaks.walk.current}</span>
-                    <span class="streak-label">Walk Streak</span>
-                    <span class="streak-best">Best: ${streaks.walk.best}</span>
+                    <span class="streak-label">Walk (weeks)</span>
+                    <span class="streak-best">Best: ${streaks.walk.best} wk</span>
                 </div>
                 <div class="streak-item">
                     <span class="streak-icon">🥗</span>
                     <span class="streak-count">${streaks.noJunk.current}</span>
-                    <span class="streak-label">No Junk Streak</span>
-                    <span class="streak-best">Best: ${streaks.noJunk.best}</span>
+                    <span class="streak-label">No Junk (weeks)</span>
+                    <span class="streak-best">Best: ${streaks.noJunk.best} wk</span>
                 </div>
                 <div class="streak-item">
                     <span class="streak-icon">😴</span>
                     <span class="streak-count">${streaks.sleep.current}</span>
-                    <span class="streak-label">Sleep Streak</span>
-                    <span class="streak-best">Best: ${streaks.sleep.best}</span>
+                    <span class="streak-label">Sleep (weeks)</span>
+                    <span class="streak-best">Best: ${streaks.sleep.best} wk</span>
                 </div>
             </div>
             <div class="weekly-progress-section">
@@ -1670,79 +1670,122 @@ class WeightTracker {
     }
 
     calculateStreaks() {
-        // Sort logs by date descending (most recent first)
-        const sortedLogs = [...this.logs].sort((a, b) => 
-            this.parseLocalDate(b.date) - this.parseLocalDate(a.date)
-        );
-
-        const calculateHabitStreak = (checkFn) => {
+        // Weekly-based streaks: consecutive weeks where weekly goal was met
+        const goals = this.weeklyGoals;
+        
+        // Helper: get Monday of a given date's week
+        const getWeekStart = (date) => {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+            d.setDate(diff);
+            d.setHours(0, 0, 0, 0);
+            return d;
+        };
+        
+        // Helper: format week start as string for grouping
+        const getWeekKey = (date) => {
+            const weekStart = getWeekStart(date);
+            return weekStart.toISOString().split('T')[0];
+        };
+        
+        // Group logs by week (Mon-Sun)
+        const weeklyData = {};
+        for (const log of this.logs) {
+            const weekKey = getWeekKey(this.parseLocalDate(log.date));
+            if (!weeklyData[weekKey]) {
+                weeklyData[weekKey] = { gym: 0, walk: 0, noJunk: 0, sleep: 0 };
+            }
+            if (log.activity === 'gym' || log.activity === 'both') weeklyData[weekKey].gym++;
+            if (log.activity === 'walk' || log.activity === 'both') weeklyData[weekKey].walk++;
+            if (log.noJunk === 'yes') weeklyData[weekKey].noJunk++;
+            if (log.sleep === 'yes') weeklyData[weekKey].sleep++;
+        }
+        
+        // Get all weeks sorted descending (most recent first)
+        const sortedWeeks = Object.keys(weeklyData).sort((a, b) => b.localeCompare(a));
+        
+        const calculateWeeklyStreak = (habit, goal) => {
+            if (goal === 0) return { current: 0, best: 0 }; // No goal set
+            
             let current = 0;
             let best = 0;
             let tempStreak = 0;
-            let expectedDate = this.getLocalMidnight();
-
-            // Calculate current streak (must include today or yesterday)
-            for (const log of sortedLogs) {
-                const logDate = this.parseLocalDate(log.date);
-                const diffDays = Math.round((expectedDate - logDate) / (1000 * 60 * 60 * 24));
-
-                if (diffDays === 0 && checkFn(log)) {
+            
+            const currentWeekKey = getWeekKey(new Date());
+            const lastWeekStart = getWeekStart(new Date());
+            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+            const lastWeekKey = lastWeekStart.toISOString().split('T')[0];
+            
+            // Calculate current streak (must include current or last week)
+            let expectedWeekStart = getWeekStart(new Date());
+            
+            for (const weekKey of sortedWeeks) {
+                const weekStart = new Date(weekKey);
+                const diffWeeks = Math.round((expectedWeekStart - weekStart) / (7 * 24 * 60 * 60 * 1000));
+                const count = weeklyData[weekKey][habit] || 0;
+                const metGoal = count >= goal;
+                
+                if (diffWeeks === 0 && metGoal) {
                     current++;
-                    expectedDate.setDate(expectedDate.getDate() - 1);
-                } else if (diffDays === 1 && checkFn(log)) {
-                    // Allow starting from yesterday
+                    expectedWeekStart.setDate(expectedWeekStart.getDate() - 7);
+                } else if (diffWeeks === 1 && metGoal) {
+                    // Allow starting from last week
                     if (current === 0) {
                         current = 1;
-                        expectedDate = new Date(logDate);
-                        expectedDate.setDate(expectedDate.getDate() - 1);
+                        expectedWeekStart = new Date(weekStart);
+                        expectedWeekStart.setDate(expectedWeekStart.getDate() - 7);
                     } else {
-                        break;
+                        current++;
+                        expectedWeekStart.setDate(expectedWeekStart.getDate() - 7);
                     }
-                } else if (diffDays > 1) {
-                    break;
-                } else if (!checkFn(log)) {
+                } else if (diffWeeks > 1 || !metGoal) {
                     break;
                 }
             }
-
-            // Calculate best streak ever
-            expectedDate = null;
-            for (const log of sortedLogs.reverse()) {
-                const logDate = this.parseLocalDate(log.date);
+            
+            // Calculate best streak ever (ascending order)
+            const sortedWeeksAsc = [...sortedWeeks].reverse();
+            let expectedWeek = null;
+            
+            for (const weekKey of sortedWeeksAsc) {
+                const count = weeklyData[weekKey][habit] || 0;
+                const metGoal = count >= goal;
                 
-                if (checkFn(log)) {
-                    if (expectedDate === null) {
+                if (metGoal) {
+                    if (expectedWeek === null) {
                         tempStreak = 1;
-                        expectedDate = new Date(logDate);
-                        expectedDate.setDate(expectedDate.getDate() + 1);
+                        expectedWeek = new Date(weekKey);
+                        expectedWeek.setDate(expectedWeek.getDate() + 7);
                     } else {
-                        const diffDays = Math.round((logDate - expectedDate) / (1000 * 60 * 60 * 24));
-                        if (diffDays === 0) {
+                        const weekStart = new Date(weekKey);
+                        const diffWeeks = Math.round((weekStart - expectedWeek) / (7 * 24 * 60 * 60 * 1000));
+                        if (diffWeeks === 0) {
                             tempStreak++;
-                            expectedDate.setDate(expectedDate.getDate() + 1);
+                            expectedWeek.setDate(expectedWeek.getDate() + 7);
                         } else {
                             best = Math.max(best, tempStreak);
                             tempStreak = 1;
-                            expectedDate = new Date(logDate);
-                            expectedDate.setDate(expectedDate.getDate() + 1);
+                            expectedWeek = new Date(weekKey);
+                            expectedWeek.setDate(expectedWeek.getDate() + 7);
                         }
                     }
                 } else {
                     best = Math.max(best, tempStreak);
                     tempStreak = 0;
-                    expectedDate = null;
+                    expectedWeek = null;
                 }
             }
             best = Math.max(best, tempStreak, current);
-
+            
             return { current, best };
         };
-
+        
         return {
-            gym: calculateHabitStreak(log => log.activity === 'gym' || log.activity === 'both'),
-            walk: calculateHabitStreak(log => log.activity === 'walk' || log.activity === 'both'),
-            noJunk: calculateHabitStreak(log => log.noJunk === 'yes'),
-            sleep: calculateHabitStreak(log => log.sleep === 'yes')
+            gym: calculateWeeklyStreak('gym', goals.gym),
+            walk: calculateWeeklyStreak('walk', goals.walk),
+            noJunk: calculateWeeklyStreak('noJunk', goals.noJunk),
+            sleep: calculateWeeklyStreak('sleep', goals.sleep)
         };
     }
 
