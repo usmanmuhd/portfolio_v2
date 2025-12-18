@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.5';
+const APP_VERSION = '3.6';
 
 class WeightTracker {
     constructor() {
@@ -1610,7 +1610,7 @@ class WeightTracker {
             return `${months[weekStart.getMonth()]} ${weekStart.getDate()} - ${months[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekEnd.getFullYear()}`;
         };
 
-        const currentWeekKey = this.getWeekStart(new Date()).toISOString().split('T')[0];
+        const currentWeekKey = this.formatDateKey(this.getWeekStart(new Date()));
 
         container.innerHTML = `
             <table class="goals-history-table">
@@ -1677,7 +1677,7 @@ class WeightTracker {
 
     // Save current goals to history (keyed by week start date)
     saveGoalsToHistory() {
-        const weekStart = this.getWeekStart(new Date()).toISOString().split('T')[0];
+        const weekStart = this.formatDateKey(this.getWeekStart(new Date()));
         
         // Remove any existing entry for this week
         this.goalsHistory = this.goalsHistory.filter(h => h.weekStart !== weekStart);
@@ -1693,6 +1693,14 @@ class WeightTracker {
 
     // Get the goals that were active for a specific week
     getGoalsForWeek(weekStartKey) {
+        const currentWeekKey = this.formatDateKey(this.getWeekStart(new Date()));
+        
+        // For current week, always return the latest (current) goals
+        if (weekStartKey === currentWeekKey) {
+            return this.weeklyGoals;
+        }
+        
+        // For past weeks, find the goals that were last saved for that week
         // Sort history by date descending
         const sorted = [...this.goalsHistory].sort((a, b) => b.weekStart.localeCompare(a.weekStart));
         
@@ -1715,6 +1723,15 @@ class WeightTracker {
         d.setDate(diff);
         d.setHours(0, 0, 0, 0);
         return d;
+    }
+
+    // Helper: format date as local YYYY-MM-DD (avoids timezone issues with toISOString)
+    formatDateKey(date) {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
     // ========== STREAKS & PROGRESS ==========
@@ -1783,9 +1800,7 @@ class WeightTracker {
 
     calculateWeeklyProgress() {
         const today = this.getLocalMidnight();
-        const dayOfWeek = today.getDay(); // 0 = Sunday
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - dayOfWeek);
+        const startOfWeek = this.getWeekStart(today);
 
         const weekLogs = this.logs.filter(log => {
             const logDate = this.parseLocalDate(log.date);
@@ -1807,7 +1822,7 @@ class WeightTracker {
         // Helper: format week start as string for grouping
         const getWeekKey = (date) => {
             const weekStart = this.getWeekStart(date);
-            return weekStart.toISOString().split('T')[0];
+            return this.formatDateKey(weekStart);
         };
         
         // Get current week date range for display
@@ -1920,7 +1935,7 @@ class WeightTracker {
         };
         
         // Get the goals for the current week
-        const currentWeekKey = this.getWeekStart(new Date()).toISOString().split('T')[0];
+        const currentWeekKey = this.formatDateKey(this.getWeekStart(new Date()));
         const currentWeekGoals = this.getGoalsForWeek(currentWeekKey);
         
         return {
