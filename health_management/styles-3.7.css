@@ -910,6 +910,34 @@ header h1 {
     color: var(--text-secondary);
 }
 
+/* Weekly Goals Form Buttons */
+.weekly-goals-form .btn-primary,
+.weekly-goals-form .btn-secondary {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.weekly-goals-form .btn-secondary {
+    margin-top: 12px;
+}
+
+/* Delete button in goals history */
+.delete-goal-btn {
+    background: transparent;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.delete-goal-btn:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
 /* Health Stats */
 .health-stats {
     display: grid;

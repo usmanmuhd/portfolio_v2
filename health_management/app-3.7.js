@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.6';
+const APP_VERSION = '3.7';
 
 class WeightTracker {
     constructor() {
@@ -1621,6 +1621,7 @@ class WeightTracker {
                         <th>🚶</th>
                         <th>🥗</th>
                         <th>😴</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1634,11 +1635,29 @@ class WeightTracker {
                             <td>${entry.goals.walk}</td>
                             <td>${entry.goals.noJunk}</td>
                             <td>${entry.goals.sleep}</td>
+                            <td>
+                                <button class="delete-goal-btn" data-week="${entry.weekStart}" title="Delete">🗑️</button>
+                            </td>
                         </tr>
                     `).join('')}
                 </tbody>
             </table>
         `;
+
+        // Add delete handlers
+        container.querySelectorAll('.delete-goal-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const weekKey = e.target.closest('.delete-goal-btn').dataset.week;
+                this.deleteGoalHistory(weekKey);
+            });
+        });
+    }
+
+    deleteGoalHistory(weekKey) {
+        this.goalsHistory = this.goalsHistory.filter(h => h.weekStart !== weekKey);
+        localStorage.setItem('goalsHistory', JSON.stringify(this.goalsHistory));
+        this.renderGoalsHistory();
+        this.showToast('Goal entry deleted', 'success');
     }
 
     loadWeeklyGoals() {
