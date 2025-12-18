@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.3';
+const APP_VERSION = '3.4';
 
 class WeightTracker {
     constructor() {
@@ -26,6 +26,9 @@ class WeightTracker {
             noJunk: 5,
             sleep: 6
         };
+        // Track goals history so streak doesn't reset when goals change
+        this.goalsHistory = JSON.parse(localStorage.getItem('goalsHistory')) || [];
+        this.ensureGoalsHistory();
         this.charts = {};
         this.confirmCallback = null;
         
@@ -1582,8 +1585,61 @@ class WeightTracker {
             sleep: parseInt(document.getElementById('goalSleep').value)
         };
         localStorage.setItem('weeklyGoals', JSON.stringify(this.weeklyGoals));
+        
+        // Save to goals history with current week start date
+        this.saveGoalsToHistory();
+        
         this.showToast('Weekly goals saved! 🎯', 'success');
         this.updateDashboard();
+    }
+
+    // Ensure we have at least one entry in goals history
+    ensureGoalsHistory() {
+        if (this.goalsHistory.length === 0) {
+            this.saveGoalsToHistory();
+        }
+    }
+
+    // Save current goals to history (keyed by week start date)
+    saveGoalsToHistory() {
+        const weekStart = this.getWeekStart(new Date()).toISOString().split('T')[0];
+        
+        // Remove any existing entry for this week
+        this.goalsHistory = this.goalsHistory.filter(h => h.weekStart !== weekStart);
+        
+        // Add new entry
+        this.goalsHistory.push({
+            weekStart,
+            goals: { ...this.weeklyGoals }
+        });
+        
+        localStorage.setItem('goalsHistory', JSON.stringify(this.goalsHistory));
+    }
+
+    // Get the goals that were active for a specific week
+    getGoalsForWeek(weekStartKey) {
+        // Sort history by date descending
+        const sorted = [...this.goalsHistory].sort((a, b) => b.weekStart.localeCompare(a.weekStart));
+        
+        // Find the most recent goals that were set on or before this week
+        for (const entry of sorted) {
+            if (entry.weekStart <= weekStartKey) {
+                return entry.goals;
+            }
+        }
+        
+        // Fallback to current goals if no history found
+        return this.weeklyGoals;
+    }
+
+    // Helper: get Monday of a given date's week
+    getWeekStart(date) {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+        d.setDate(diff);
+        d.setHours(0, 0, 0, 0);
+        return d;
     }
 
     // ========== STREAKS & PROGRESS ==========
@@ -1620,7 +1676,7 @@ class WeightTracker {
                 </div>
             </div>
             <div class="weekly-progress-section">
-                <h4>📊 This Week vs Goals</h4>
+                <h4>📊 This Week: ${streaks.weekRange}</h4>
                 <div class="weekly-progress-grid">
                     ${this.renderProgressBar('🏋️', weeklyProgress.gym, this.weeklyGoals.gym)}
                     ${this.renderProgressBar('🚶', weeklyProgress.walk, this.weeklyGoals.walk)}
@@ -1671,23 +1727,25 @@ class WeightTracker {
 
     calculateStreaks() {
         // Weekly-based streaks: consecutive weeks where weekly goal was met
-        const goals = this.weeklyGoals;
-        
-        // Helper: get Monday of a given date's week
-        const getWeekStart = (date) => {
-            const d = new Date(date);
-            const day = d.getDay();
-            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
-            d.setDate(diff);
-            d.setHours(0, 0, 0, 0);
-            return d;
-        };
+        // Uses historical goals so changing goals doesn't reset streak
         
         // Helper: format week start as string for grouping
         const getWeekKey = (date) => {
-            const weekStart = getWeekStart(date);
+            const weekStart = this.getWeekStart(date);
             return weekStart.toISOString().split('T')[0];
         };
+        
+        // Get current week date range for display
+        const currentWeekStart = this.getWeekStart(new Date());
+        const currentWeekEnd = new Date(currentWeekStart);
+        currentWeekEnd.setDate(currentWeekEnd.getDate() + 6);
+        
+        const formatDate = (d) => {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[d.getMonth()]} ${d.getDate()}`;
+        };
+        
+        const weekRange = `${formatDate(currentWeekStart)} - ${formatDate(currentWeekEnd)}`;
         
         // Group logs by week (Mon-Sun)
         const weeklyData = {};
@@ -1705,25 +1763,24 @@ class WeightTracker {
         // Get all weeks sorted descending (most recent first)
         const sortedWeeks = Object.keys(weeklyData).sort((a, b) => b.localeCompare(a));
         
-        const calculateWeeklyStreak = (habit, goal) => {
-            if (goal === 0) return { current: 0, best: 0 }; // No goal set
-            
+        const calculateWeeklyStreak = (habit) => {
             let current = 0;
             let best = 0;
             let tempStreak = 0;
             
-            const currentWeekKey = getWeekKey(new Date());
-            const lastWeekStart = getWeekStart(new Date());
-            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-            const lastWeekKey = lastWeekStart.toISOString().split('T')[0];
-            
             // Calculate current streak (must include current or last week)
-            let expectedWeekStart = getWeekStart(new Date());
+            let expectedWeekStart = this.getWeekStart(new Date());
             
             for (const weekKey of sortedWeeks) {
                 const weekStart = new Date(weekKey);
                 const diffWeeks = Math.round((expectedWeekStart - weekStart) / (7 * 24 * 60 * 60 * 1000));
                 const count = weeklyData[weekKey][habit] || 0;
+                
+                // Get the goal that was active for this week
+                const weekGoals = this.getGoalsForWeek(weekKey);
+                const goal = weekGoals[habit] || 0;
+                if (goal === 0) continue; // Skip weeks with no goal set
+                
                 const metGoal = count >= goal;
                 
                 if (diffWeeks === 0 && metGoal) {
@@ -1750,6 +1807,12 @@ class WeightTracker {
             
             for (const weekKey of sortedWeeksAsc) {
                 const count = weeklyData[weekKey][habit] || 0;
+                
+                // Get the goal that was active for this week
+                const weekGoals = this.getGoalsForWeek(weekKey);
+                const goal = weekGoals[habit] || 0;
+                if (goal === 0) continue; // Skip weeks with no goal set
+                
                 const metGoal = count >= goal;
                 
                 if (metGoal) {
@@ -1782,10 +1845,11 @@ class WeightTracker {
         };
         
         return {
-            gym: calculateWeeklyStreak('gym', goals.gym),
-            walk: calculateWeeklyStreak('walk', goals.walk),
-            noJunk: calculateWeeklyStreak('noJunk', goals.noJunk),
-            sleep: calculateWeeklyStreak('sleep', goals.sleep)
+            weekRange,
+            gym: calculateWeeklyStreak('gym'),
+            walk: calculateWeeklyStreak('walk'),
+            noJunk: calculateWeeklyStreak('noJunk'),
+            sleep: calculateWeeklyStreak('sleep')
         };
     }
 
