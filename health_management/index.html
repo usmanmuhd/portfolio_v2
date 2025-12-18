@@ -19,7 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="icons/icon-v2.svg">
     <link rel="apple-touch-icon" href="icons/icon-v2.svg">
     
-    <link rel="stylesheet" href="styles-3.4.css">
+    <link rel="stylesheet" href="styles-3.5.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
@@ -455,6 +455,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn-primary">💾 Save Goals</button>
+                    <button type="button" id="viewGoalsHistoryBtn" class="btn-secondary">📜 View Goals History</button>
                 </form>
             </div>
 
@@ -572,10 +573,23 @@
         </div>
     </div>
 
+    <!-- Goals History Modal -->
+    <div id="goalsHistoryModal" class="modal-overlay">
+        <div class="modal-content goals-history-modal">
+            <div class="modal-header">
+                <h2>📜 Goals History</h2>
+                <button id="closeGoalsHistoryModal" class="modal-close">&times;</button>
+            </div>
+            <div class="goals-history-content" id="goalsHistoryContent">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="app-3.4.js"></script>
+    <script src="app-3.5.js"></script>
     
     <!-- Service Worker Registration & PWA Install -->
     <script>
@@ -586,7 +600,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw-3.4.js')
+                navigator.serviceWorker.register('./sw-3.5.js')
                     .then((registration) => {
                         console.log('ServiceWorker registered:', registration.scope);
 

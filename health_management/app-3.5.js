@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.4';
+const APP_VERSION = '3.5';
 
 class WeightTracker {
     constructor() {
@@ -1564,6 +1564,81 @@ class WeightTracker {
             e.preventDefault();
             this.saveWeeklyGoals();
         });
+
+        // Goals history modal
+        this.setupGoalsHistoryModal();
+    }
+
+    setupGoalsHistoryModal() {
+        const modal = document.getElementById('goalsHistoryModal');
+        const viewBtn = document.getElementById('viewGoalsHistoryBtn');
+        const closeBtn = document.getElementById('closeGoalsHistoryModal');
+
+        viewBtn?.addEventListener('click', () => {
+            this.renderGoalsHistory();
+            modal.classList.add('active');
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    }
+
+    renderGoalsHistory() {
+        const container = document.getElementById('goalsHistoryContent');
+        
+        if (this.goalsHistory.length === 0) {
+            container.innerHTML = '<p class="no-history">No goals history yet. Save your first goals!</p>';
+            return;
+        }
+
+        // Sort by week start date descending (most recent first)
+        const sorted = [...this.goalsHistory].sort((a, b) => b.weekStart.localeCompare(a.weekStart));
+
+        const formatWeekRange = (weekStartKey) => {
+            const weekStart = new Date(weekStartKey);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[weekStart.getMonth()]} ${weekStart.getDate()} - ${months[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekEnd.getFullYear()}`;
+        };
+
+        const currentWeekKey = this.getWeekStart(new Date()).toISOString().split('T')[0];
+
+        container.innerHTML = `
+            <table class="goals-history-table">
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>🏋️</th>
+                        <th>🚶</th>
+                        <th>🥗</th>
+                        <th>😴</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${sorted.map(entry => `
+                        <tr class="${entry.weekStart === currentWeekKey ? 'current-week' : ''}">
+                            <td class="week-cell">
+                                ${formatWeekRange(entry.weekStart)}
+                                ${entry.weekStart === currentWeekKey ? '<span class="current-badge">Current</span>' : ''}
+                            </td>
+                            <td>${entry.goals.gym}</td>
+                            <td>${entry.goals.walk}</td>
+                            <td>${entry.goals.noJunk}</td>
+                            <td>${entry.goals.sleep}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
     }
 
     loadWeeklyGoals() {
@@ -1678,10 +1753,10 @@ class WeightTracker {
             <div class="weekly-progress-section">
                 <h4>📊 This Week: ${streaks.weekRange}</h4>
                 <div class="weekly-progress-grid">
-                    ${this.renderProgressBar('🏋️', weeklyProgress.gym, this.weeklyGoals.gym)}
-                    ${this.renderProgressBar('🚶', weeklyProgress.walk, this.weeklyGoals.walk)}
-                    ${this.renderProgressBar('🥗', weeklyProgress.noJunk, this.weeklyGoals.noJunk)}
-                    ${this.renderProgressBar('😴', weeklyProgress.sleep, this.weeklyGoals.sleep)}
+                    ${this.renderProgressBar('🏋️', weeklyProgress.gym, streaks.currentWeekGoals.gym)}
+                    ${this.renderProgressBar('🚶', weeklyProgress.walk, streaks.currentWeekGoals.walk)}
+                    ${this.renderProgressBar('🥗', weeklyProgress.noJunk, streaks.currentWeekGoals.noJunk)}
+                    ${this.renderProgressBar('😴', weeklyProgress.sleep, streaks.currentWeekGoals.sleep)}
                 </div>
             </div>
         `;
@@ -1844,8 +1919,13 @@ class WeightTracker {
             return { current, best };
         };
         
+        // Get the goals for the current week
+        const currentWeekKey = this.getWeekStart(new Date()).toISOString().split('T')[0];
+        const currentWeekGoals = this.getGoalsForWeek(currentWeekKey);
+        
         return {
             weekRange,
+            currentWeekGoals,
             gym: calculateWeeklyStreak('gym'),
             walk: calculateWeeklyStreak('walk'),
             noJunk: calculateWeeklyStreak('noJunk'),
