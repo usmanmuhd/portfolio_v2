@@ -19,7 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="icons/icon-v2.svg">
     <link rel="apple-touch-icon" href="icons/icon-v2.svg">
     
-    <link rel="stylesheet" href="styles-3.8.css">
+    <link rel="stylesheet" href="styles-3.9.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
@@ -589,7 +589,7 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="app-3.8.js"></script>
+    <script src="app-3.9.js"></script>
     
     <!-- Service Worker Registration & PWA Install -->
     <script>
@@ -600,7 +600,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw-3.8.js')
+                navigator.serviceWorker.register('./sw-3.9.js')
                     .then((registration) => {
                         console.log('ServiceWorker registered:', registration.scope);
 

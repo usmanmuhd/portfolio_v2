@@ -12,7 +12,7 @@
 //      - navigator.serviceWorker.register('./sw-X.X.js')
 //   6. git add -A && git commit -m "vX.X: <message>" && git push
 // =============================================================================
-const APP_VERSION = '3.8';
+const APP_VERSION = '3.9';
 
 class WeightTracker {
     constructor() {
@@ -1251,9 +1251,60 @@ class WeightTracker {
             .sort((a, b) => new Date(a.date) - new Date(b.date));
     }
 
+    // Get last 30 days with missing days filled using last known weight
+    getLast30DaysLogsWithFill() {
+        const result = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        // Get all logs sorted by date
+        const sortedLogs = [...this.logs].sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // Create a map of date -> log for quick lookup
+        const logMap = new Map();
+        sortedLogs.forEach(log => {
+            logMap.set(log.date, log);
+        });
+        
+        // Find the last weight before the 30-day window (for initial fill)
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        let lastKnownWeight = null;
+        for (const log of sortedLogs) {
+            if (new Date(log.date) < thirtyDaysAgo) {
+                lastKnownWeight = log.weight;
+            } else {
+                break;
+            }
+        }
+        
+        // Iterate through each day in the last 30 days
+        for (let i = 30; i >= 0; i--) {
+            const date = new Date(today);
+            date.setDate(date.getDate() - i);
+            const dateStr = date.toISOString().split('T')[0];
+            
+            if (logMap.has(dateStr)) {
+                const log = logMap.get(dateStr);
+                lastKnownWeight = log.weight;
+                result.push(log);
+            } else if (lastKnownWeight !== null) {
+                // Fill with last known weight
+                result.push({
+                    date: dateStr,
+                    weight: lastKnownWeight,
+                    isFilled: true // Mark as filled for styling if needed
+                });
+            }
+        }
+        
+        return result;
+    }
+
     updateWeightChart() {
         const ctx = document.getElementById('weightChart').getContext('2d');
-        const logs = this.getLast30DaysLogs();
+        const logs = this.getLast30DaysLogsWithFill();
         const colors = this.getChartColors();
 
         if (this.charts.weight) {
@@ -1271,6 +1322,10 @@ class WeightTracker {
         const labels = logs.map(log => this.formatDate(log.date));
         const data = logs.map(log => log.weight);
         
+        // Point radius: show dots for actual entries, none for filled
+        const pointRadii = logs.map(log => log.isFilled ? 0 : 4);
+        const pointHoverRadii = logs.map(log => log.isFilled ? 2 : 6);
+        
         // Calculate expected weight for each date (linear reduction)
         const expectedData = logs.map(log => this.calculateExpectedWeightForDate(log.date));
 
@@ -1281,8 +1336,8 @@ class WeightTracker {
             backgroundColor: 'rgba(99, 102, 241, 0.1)',
             fill: true,
             tension: 0.4,
-            pointRadius: 4,
-            pointHoverRadius: 6
+            pointRadius: pointRadii,
+            pointHoverRadius: pointHoverRadii
         }];
         
         // Add expected weight line if target is set
@@ -1354,7 +1409,7 @@ class WeightTracker {
 
     updateBMIChart() {
         const ctx = document.getElementById('bmiChart').getContext('2d');
-        const logs = this.getLast30DaysLogs();
+        const logs = this.getLast30DaysLogsWithFill();
         const colors = this.getChartColors();
 
         if (this.charts.bmi) {
@@ -1371,6 +1426,10 @@ class WeightTracker {
 
         const labels = logs.map(log => this.formatDate(log.date));
         const data = logs.map(log => this.calculateBMI(log.weight));
+        
+        // Point radius: show dots for actual entries, none for filled
+        const pointRadii = logs.map(log => log.isFilled ? 0 : 4);
+        const pointHoverRadii = logs.map(log => log.isFilled ? 2 : 6);
 
         this.charts.bmi = new Chart(ctx, {
             type: 'line',
@@ -1383,8 +1442,8 @@ class WeightTracker {
                     backgroundColor: 'rgba(245, 158, 11, 0.1)',
                     fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: pointRadii,
+                    pointHoverRadius: pointHoverRadii
                 }, {
                     label: 'Normal Range',
                     data: Array(labels.length).fill(24.9),
